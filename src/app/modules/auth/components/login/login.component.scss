@@ -6,7 +6,8 @@
     background: $background-theme;
 
     .app-logo {
-        @include size(100px, 100px);
+        @include size(150px, 150px);
+        margin-top: -150px;
         margin-bottom: $margin-m;
     }
 
