@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule, InputTextModule } from 'primeng/primeng';
 
-const primeNGModules = [];
+const primeNGModules = [
+    InputTextModule,
+    ToastModule,
+    ButtonModule,
+];
 
 @NgModule({
     imports: [

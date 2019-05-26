@@ -1,0 +1,20 @@
+$light-input-border-color: #a6a6a6;
+$dark-input-border-color: #191919;
+
+$light-add-on-background: #EAEAEA;
+$dark-add-on-background: #252525;
+
+$light-input-background: #ffffff;
+$dark-input-background: #585858;
+
+$prime-ng-input-border-radius: 3px;
+$prime-ng-input-border-width: 1px;
+
+.input-group {
+    @include flex(flex, flex-start, center, row);
+
+    input {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+}

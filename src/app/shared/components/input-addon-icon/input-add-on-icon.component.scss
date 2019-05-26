@@ -1,0 +1,18 @@
+@import "base.scss";
+
+.add-on-icon {
+    @include flex(flex, center, center, row);
+    @include size(40px, 40px);
+    border-top-left-radius: $prime-ng-input-border-radius;
+    border-bottom-left-radius: $prime-ng-input-border-radius;
+
+    &.light {
+        background: $light-add-on-background;
+        border: $prime-ng-input-border-width solid $light-input-border-color;
+    }
+
+    &.dark {
+        background: $dark-add-on-background;
+        border: $prime-ng-input-border-width solid $dark-input-border-color;
+    }
+}

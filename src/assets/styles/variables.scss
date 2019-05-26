@@ -1,8 +1,8 @@
 // border radius
-$border-radius-xs: 5px;
-$border-radius-sm: 10px;
-$border-radius-md: 15px;
-$border-radius-xl: 20px;
+$border-radius-s: 5px;
+$border-radius-m: 10px;
+$border-radius-l: 15px;
+$border-radius-xl: 30px;
 
 $border-radius-25: 25%;
 $border-radius-50: 50%;
@@ -17,3 +17,5 @@ $padding-s: 5px;
 $padding-m: 10px;
 $padding-l: 15px;
 $padding-xl: 30px;
+
+$box-shadow-base: 0px 0px 5px 0px rgba(0,0,0,0.75);

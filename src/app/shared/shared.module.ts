@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
-import { IconComponent } from 'src/app/shared/components';
+import { FormControlErrorComponent, IconComponent, InputAddOnIconComponent } from 'src/app/shared/components';
 
 const entryComponents = [];
 
 const components = [
     ...entryComponents,
     IconComponent,
+    FormControlErrorComponent,
+    InputAddOnIconComponent,
 ];
 
 const directives = [];

@@ -1,0 +1,16 @@
+@import "base.scss";
+
+p {
+    @include font('ultra-small');
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+
+    &.ng-valid {
+        color: $success;
+    }
+
+    &.ng-invalid {
+        color: $danger;
+    }
+}
