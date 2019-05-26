@@ -1,18 +1,18 @@
 <div class="login-container">
-    <img class="app-logo" src="../../../../../assets/images/app-logo.svg" alt="logo">
+    <img alt="logo" class="app-logo" src="../../../../../assets/images/app-logo.svg">
     <form [formGroup]="loginForm">
         <h1>Logowanie</h1>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon theme="light"><lm-icon>person</lm-icon></lm-input-add-on-icon>
-                <input formControlName="username" pInputText spellcheck="false" type="text" placeholder="Nazwa użytkownika">
+                <input formControlName="username" pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text">
             </span>
             <lm-form-control-error [control]="usernameControl"></lm-form-control-error>
         </label>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon theme="light"><lm-icon>lock</lm-icon></lm-input-add-on-icon>
-                <input formControlName="password" pInputText spellcheck="false" type="password" placeholder="Hasło">
+                <input formControlName="password" pInputText placeholder="Hasło" spellcheck="false" type="password">
             </span>
             <lm-form-control-error [control]="passwordControl"></lm-form-control-error>
         </label>

@@ -19,12 +19,11 @@
 
         h1 {
             @include font('medium', 700);
-            margin-bottom: $margin-xl;
+            margin-bottom: $margin-xxl;
         }
 
         label {
-            @include flex(flex, center, center, column);
-            width: 100%;
+            @include flex(flex, center, center, column, relative);
             margin-bottom: $margin-l;
         }
 

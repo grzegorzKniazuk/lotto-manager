@@ -15,22 +15,22 @@ export class LoginComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
-        this.buildForm();
-    }
-
-    private buildForm(): void {
-        this.loginForm = this.formBuilder.group({
-            username: ['', [ Validators.required ]],
-            password: ['', [ Validators.required ]],
-        });
-    }
-
     public get usernameControl(): AbstractControl {
         return this.loginForm.controls['username'];
     }
 
     public get passwordControl(): AbstractControl {
         return this.loginForm.controls['password'];
+    }
+
+    ngOnInit() {
+        this.buildForm();
+    }
+
+    private buildForm(): void {
+        this.loginForm = this.formBuilder.group({
+            username: [ '', [ Validators.required ] ],
+            password: [ '', [ Validators.required ] ],
+        });
     }
 }
