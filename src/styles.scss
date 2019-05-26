@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+// reset
+@import '../node_modules/reset-css/reset.css';
+// base
+@import "base.scss";
+
+* {
+    font-size: 1rem;
+    line-height: 1.625rem;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+html, body {
+    @include size(100%, 100%);
+    @include font('small', 400, 'Roboto');
+    text-rendering: optimizeLegibility;
+    min-width: 100%;
+    min-height: 100%;
+
+    strong {
+        font-weight: 700;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+    }
+}
