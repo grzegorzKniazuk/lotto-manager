@@ -33,6 +33,7 @@
                         background: $light-input-background;
                         color: $light-input-color;
                         border-color: $light-input-border-color;
+                        width: 200px;
                     }
                 }
             }
@@ -43,7 +44,7 @@
             width: 100%;
 
             button {
-                width: 80%;
+                width: 240px;
 
                 &:first-of-type {
                     margin-bottom: $margin-l;

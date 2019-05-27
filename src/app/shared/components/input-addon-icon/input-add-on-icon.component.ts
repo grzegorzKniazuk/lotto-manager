@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { InputAddOnTheme } from 'src/app/shared/enums/input-add-on-theme.enum';
+import { InputAddOnTheme } from 'src/app/shared/enums';
 
 @Component({
     selector: 'lm-input-add-on-icon',

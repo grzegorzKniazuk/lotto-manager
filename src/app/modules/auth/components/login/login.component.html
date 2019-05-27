@@ -5,13 +5,13 @@
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon theme="light"><lm-icon>person</lm-icon></lm-input-add-on-icon>
-                <input formControlName="username" pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text">
+                <input formControlName="username" pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text" autocomplete="username" lmFormControlErrorTooltip>
             </span>
         </label>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon theme="light"><lm-icon>lock</lm-icon></lm-input-add-on-icon>
-                <input formControlName="password" pInputText placeholder="Hasło" spellcheck="false" type="password">
+                <input formControlName="password" pInputText placeholder="Hasło" spellcheck="false" type="password" autocomplete="password" lmFormControlErrorTooltip>
             </span>
         </label>
         <div class="form-actions">

@@ -1,0 +1,26 @@
+@import "base.scss";
+
+.control-tooltip-error {
+    @include flex(flex, flex-start, center, row);
+    @include size(auto, 40px);
+    padding: 0 $padding-m;
+    color: $white;
+    border-top-right-radius: $border-radius-s;
+    border-bottom-right-radius: $border-radius-s;
+    background: $danger;
+
+    span {
+        z-index: 1;
+    }
+
+    .arrow {
+        @include size(28px, 28px);
+        position: absolute;
+        top: 6px;
+        left: -14px;
+        transform: rotate(45deg);
+        background: $danger;
+    }
+}
+
+

@@ -1,0 +1,8 @@
+input {
+    &.ng-dirty.ng-invalid {
+        border-color: $danger !important;
+    }
+    &.ng-dirty.ng-valid {
+        border-color: $success !important;
+    }
+}

@@ -3,18 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
-import { FormControlErrorComponent, IconComponent, InputAddOnIconComponent } from 'src/app/shared/components';
+import { FormControlErrorTooltipComponent, IconComponent, InputAddOnIconComponent } from 'src/app/shared/components';
+import { FormControlErrorTooltipDirective } from 'src/app/shared/directives';
 
-const entryComponents = [];
+const entryComponents = [
+    FormControlErrorTooltipComponent,
+];
 
 const components = [
     ...entryComponents,
     IconComponent,
-    FormControlErrorComponent,
     InputAddOnIconComponent,
 ];
 
-const directives = [];
+const directives = [
+    FormControlErrorTooltipDirective,
+];
 
 const pipes = [];
 
