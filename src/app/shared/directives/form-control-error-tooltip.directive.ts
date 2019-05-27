@@ -23,15 +23,15 @@ export class FormControlErrorTooltipDirective implements OnInit, OnDestroy {
     ) {
     }
 
-    public ngOnInit(): void {
+    ngOnInit() {
         this.watchOnControlErrors();
     }
 
-    public ngOnDestroy(): void {
+    ngOnDestroy() {
         this.subscriptions.unsubscribe();
     }
 
-    public get form(): FormGroup {
+    private get form(): FormGroup {
         return this.controlContainer.formDirective ? (this.controlContainer.formDirective as FormGroupDirective).form : null;
     }
 

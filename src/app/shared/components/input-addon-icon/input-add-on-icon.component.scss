@@ -11,6 +11,11 @@
         border: $prime-ng-input-border-width solid $light-input-border-color;
     }
 
+    &.invalid {
+        background: $danger;
+        border: $prime-ng-input-border-width solid $danger;
+    }
+
     &.dark {
         background: $dark-add-on-background;
         border: $prime-ng-input-border-width solid $dark-input-border-color;
