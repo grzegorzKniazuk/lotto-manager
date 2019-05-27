@@ -26,6 +26,16 @@
         label {
             @include flex(flex, center, center, column, relative);
             margin-bottom: $margin-l;
+
+            span {
+                &.input-group {
+                    input {
+                        background: $light-input-background;
+                        color: $light-input-color;
+                        border-color: $light-input-border-color;
+                    }
+                }
+            }
         }
 
         .form-actions {

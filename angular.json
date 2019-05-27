@@ -54,7 +54,7 @@
                         "styles": [
                             "src/assets/fonts/roboto/roboto.css",
                             "src/assets/material-icons/material-icons.css",
-                            "node_modules/primeng/resources/themes/nova-light/theme.css",
+                            "node_modules/primeng/resources/themes/luna-green/theme.css",
                             "node_modules/primeng/resources/primeng.min.css",
                             "src/styles.scss"
                         ],

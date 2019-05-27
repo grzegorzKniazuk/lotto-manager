@@ -7,14 +7,12 @@
                 <lm-input-add-on-icon theme="light"><lm-icon>person</lm-icon></lm-input-add-on-icon>
                 <input formControlName="username" pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text">
             </span>
-            <lm-form-control-error [control]="usernameControl"></lm-form-control-error>
         </label>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon theme="light"><lm-icon>lock</lm-icon></lm-input-add-on-icon>
                 <input formControlName="password" pInputText placeholder="Hasło" spellcheck="false" type="password">
             </span>
-            <lm-form-control-error [control]="passwordControl"></lm-form-control-error>
         </label>
         <div class="form-actions">
             <button [disabled]="loginForm.invalid" class="ui-button-raised ui-button" icon="pi pi-save" label="Zaloguj" pButton type="submit"></button>
