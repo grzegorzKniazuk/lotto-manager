@@ -13,7 +13,7 @@
 
     form {
         @include flex(flex, center, center, column);
-        @include size(300px, 250px);
+        @include size(300px, 275px);
         background: $white;
         border-radius: $border-radius-s;
         box-shadow: $box-shadow-base;
@@ -48,6 +48,21 @@
 
                 &:first-of-type {
                     margin-bottom: $margin-l;
+                }
+            }
+        }
+
+        .register-link {
+            color: $light-input-color;
+            @include font('ultra-small');
+
+            span {
+                @include color-transition();
+                cursor: pointer;
+
+                &:hover {
+                    @include color-transition();
+                    color: $success;
                 }
             }
         }

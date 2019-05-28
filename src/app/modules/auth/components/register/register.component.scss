@@ -1,0 +1,70 @@
+@import "base.scss";
+
+.register-container {
+    @include flex(flex, center, center, column);
+    @include size(100%, 100%);
+    background: $background-theme;
+
+    .app-logo {
+        @include size(150px, 150px);
+        margin-top: -150px;
+        margin-bottom: $margin-m;
+    }
+
+    form {
+        @include flex(flex, center, center, column);
+        @include size(300px, 350px);
+        background: $white;
+        border-radius: $border-radius-s;
+        box-shadow: $box-shadow-base;
+
+        h1 {
+            @include font('medium', 700);
+            margin-bottom: $margin-xxl;
+        }
+
+        label {
+            @include flex(flex, center, center, column, relative);
+            margin-bottom: $margin-l;
+
+            span {
+                &.input-group {
+                    input {
+                        background: $light-input-background;
+                        color: $light-input-color;
+                        border-color: $light-input-border-color;
+                        width: 200px;
+                    }
+                }
+            }
+        }
+
+        .form-actions {
+            @include flex(flex, center, center, column);
+            width: 100%;
+
+            button {
+                width: 240px;
+
+                &:first-of-type {
+                    margin-bottom: $margin-l;
+                }
+            }
+        }
+
+        .register-link {
+            color: $light-input-color;
+            @include font('ultra-small');
+
+            span {
+                @include color-transition();
+                cursor: pointer;
+
+                &:hover {
+                    @include color-transition();
+                    color: $success;
+                }
+            }
+        }
+    }
+}

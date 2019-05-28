@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FormControlStatus } from 'src/app/shared/enums';
 
 @Component({
     selector: 'lm-input-add-on-icon',
@@ -33,8 +34,8 @@ export class InputAddOnIconComponent implements OnInit {
     }
 
     private watchControlErrors(): void {
-        this.isControlInvalid$ = this.control.valueChanges.pipe(
-            map(() => this.control.dirty && this.control.invalid),
+        this.isControlInvalid$ = this.control.statusChanges.pipe(
+            map((status: FormControlStatus) => status === FormControlStatus.INVALID),
         );
     }
 }

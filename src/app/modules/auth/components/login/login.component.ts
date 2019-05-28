@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'lm-login',
     templateUrl: './login.component.html',
     styleUrls: [ './login.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
 
@@ -13,14 +14,6 @@ export class LoginComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
     ) {
-    }
-
-    public get usernameControl(): AbstractControl {
-        return this.loginForm.controls['username'];
-    }
-
-    public get passwordControl(): AbstractControl {
-        return this.loginForm.controls['password'];
     }
 
     ngOnInit() {
