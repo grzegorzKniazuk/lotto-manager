@@ -7,6 +7,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
     styleUrls: [ './form-control-error-tooltip.component.scss' ],
 })
 export class FormControlErrorTooltipComponent {
+
     public inputWidth: number;
     public errorText: string;
 
@@ -17,6 +18,6 @@ export class FormControlErrorTooltipComponent {
 
     @HostBinding('style')
     public get style(): SafeStyle {
-        return this.domSanitizer.bypassSecurityTrustStyle(`right: -${this.inputWidth}px; top: 0; position: absolute;`);
+        return this.domSanitizer.bypassSecurityTrustStyle(`left: ${60 + this.inputWidth}px; top: 0; position: absolute;`);
     }
 }
