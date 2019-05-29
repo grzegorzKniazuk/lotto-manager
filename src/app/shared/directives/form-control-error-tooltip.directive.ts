@@ -62,12 +62,7 @@ export class FormControlErrorTooltipDirective implements OnInit, OnDestroy {
 
     private watchOnFormErrors(): void { // TODO obsluga bledow dla walidatorow formularza
         const formStatusChanges$ = this.form.statusChanges.pipe(
-            tap((status: FormControlStatus) => console.log(status)),
-            distinctUntilChanged(),
-            filter((status: FormControlStatus) => status === FormControlStatus.INVALID && !!this.form.errors),
         ).subscribe(() => {
-            console.log(this.form.errors[0]);
-            this.control.setErrors(this.form.errors[0]);
         });
 
         this.subscriptions.add(formStatusChanges$);

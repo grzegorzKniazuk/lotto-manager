@@ -1,1 +1,1 @@
-export * from './password-match.validator';
+export * from 'src/app/shared/validators/controls-values-match.validator';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { passwordMatchValidator } from 'src/app/shared/validators';
+import { controlsValuesMatchValidator } from 'src/app/shared/validators';
 
 @Component({
     selector: 'lm-register',
@@ -26,6 +26,6 @@ export class RegisterComponent implements OnInit {
             username: [ '', [ Validators.required ] ],
             password: [ '', [ Validators.required ] ],
             repeatPassword: [ '', [ Validators.required ] ],
-        }, { validators: [ passwordMatchValidator() ] });
+        }, { validators: [ controlsValuesMatchValidator('password', 'repeatPassword') ] });
     }
 }
