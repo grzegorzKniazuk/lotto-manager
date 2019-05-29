@@ -1,32 +1,29 @@
-import { ComponentFactory, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, Directive, ElementRef, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
-import { FormControlErrorTooltipComponent } from 'src/app/shared/components';
 import { ValidationErrors } from 'src/app/shared/constants';
 import { FormControlStatus } from 'src/app/shared/enums';
+import { BaseErrorTooltip } from 'src/app/shared/directives/base-error-tooltip';
+import { Bind } from 'lodash-decorators';
 
 @Directive({
     selector: '[lmFormControlErrorTooltip]',
 })
-export class FormControlErrorTooltipDirective implements OnInit, OnDestroy {
+export class FormControlErrorTooltipDirective extends BaseErrorTooltip implements OnInit, OnDestroy {
 
-    @Input() public formControlName: string;
-    private subscriptions: Subscription = new Subscription();
-    private componentFactory: ComponentFactory<FormControlErrorTooltipComponent> = this.componentFactoryResolver.resolveComponentFactory(FormControlErrorTooltipComponent);
-    private componentRef: ComponentRef<FormControlErrorTooltipComponent>;
+    @Input() public readonly formControlName: string;
 
     constructor(
         private controlContainer: ControlContainer,
-        private componentFactoryResolver: ComponentFactoryResolver,
+        componentFactoryResolver: ComponentFactoryResolver,
         private elementRef: ElementRef,
-        private viewContainerRef: ViewContainerRef,
+        viewContainerRef: ViewContainerRef,
     ) {
+        super(viewContainerRef, componentFactoryResolver);
     }
 
     ngOnInit() {
         this.watchOnControlErrors();
-        this.watchOnFormErrors();
     }
 
     ngOnDestroy() {
@@ -41,16 +38,13 @@ export class FormControlErrorTooltipDirective implements OnInit, OnDestroy {
         return this.form.controls[this.formControlName];
     }
 
-    @HostBinding('style.position')
-    public get style(): string {
-        return 'relative';
-    }
-
     private watchOnControlErrors(): void {
         const controlStatusChanges$ = this.control.statusChanges.pipe(
-            distinctUntilChanged(),
+            tap((status) => {
+                console.log(status);
+            }),
             tap(() => this.viewContainerRef.clear()),
-            filter((status: FormControlStatus) => status === FormControlStatus.INVALID),
+            filter(this.isControlStatusInvalid),
         ).subscribe(() => {
             this.componentRef = this.viewContainerRef.createComponent(this.componentFactory);
             this.componentRef.instance.inputWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
@@ -60,15 +54,12 @@ export class FormControlErrorTooltipDirective implements OnInit, OnDestroy {
         this.subscriptions.add(controlStatusChanges$);
     }
 
-    private watchOnFormErrors(): void { // TODO obsluga bledow dla walidatorow formularza
-        const formStatusChanges$ = this.form.statusChanges.pipe(
-        ).subscribe(() => {
-        });
-
-        this.subscriptions.add(formStatusChanges$);
+    @Bind()
+    private isControlStatusInvalid(status: FormControlStatus): boolean {
+        return status === FormControlStatus.INVALID;
     }
 
-    private get errorText(): string {
+    protected get errorText(): string {
         return ValidationErrors[Object.keys(this.control.errors)[0]];
     }
 }

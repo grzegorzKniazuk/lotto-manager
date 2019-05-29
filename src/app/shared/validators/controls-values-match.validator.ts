@@ -10,7 +10,7 @@ export function controlsValuesMatchValidator(...controlsNames: string[]): Valida
                 for (const key in group.controls) {
                     if (error) {
                         break;
-                    } else if (formControlValuesIdentity(key, controlName, controlsNames, group)) {
+                    } else if (formControlValuesNotEquals(key, controlName, controlsNames, group)) {
                         error = {
                             passwordNotMatch: true,
                         };
@@ -29,6 +29,6 @@ function isExpectedControlsDirty(group: FormGroup, controlsNames: string[]): boo
     });
 }
 
-function formControlValuesIdentity(key: string, controlName: string, controlsNames: string[], group: FormGroup): boolean {
+function formControlValuesNotEquals(key: string, controlName: string, controlsNames: string[], group: FormGroup): boolean {
     return controlsNames.includes(key) && group.controls[controlName].value !== group.controls[key].value;
 }

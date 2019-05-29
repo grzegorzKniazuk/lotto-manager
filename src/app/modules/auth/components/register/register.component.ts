@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { controlsValuesMatchValidator } from 'src/app/shared/validators';
+import { FormGroupErrorTooltipConfig } from 'src/app/shared/interfaces';
 
 @Component({
     selector: 'lm-register',
     templateUrl: './register.component.html',
     styleUrls: [ './register.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent implements OnInit {
 
     public registerForm: FormGroup;
+    public formGroupErrorTooltipConfig: FormGroupErrorTooltipConfig[] = [];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.buildForm();
+        this.buildFormGroupValidationRules();
     }
 
     private buildForm(): void {
@@ -27,5 +29,13 @@ export class RegisterComponent implements OnInit {
             password: [ '', [ Validators.required ] ],
             repeatPassword: [ '', [ Validators.required ] ],
         }, { validators: [ controlsValuesMatchValidator('password', 'repeatPassword') ] });
+    }
+
+    private buildFormGroupValidationRules(): void {
+        this.formGroupErrorTooltipConfig.push({
+                formGroupErrorName: 'passwordNotMatch',
+                addictedFormGroupControlsNames: [ 'password', 'repeatPassword' ],
+            },
+        );
     }
 }

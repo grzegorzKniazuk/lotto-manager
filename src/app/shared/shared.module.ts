@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
 import { FormControlErrorTooltipComponent, IconComponent, InputAddOnIconComponent } from 'src/app/shared/components';
-import { FormControlErrorTooltipDirective } from 'src/app/shared/directives';
+import { FormControlErrorTooltipDirective, FormGroupErrorTooltipDirective } from 'src/app/shared/directives';
 
 const entryComponents = [
     FormControlErrorTooltipComponent,
@@ -18,6 +18,7 @@ const components = [
 
 const directives = [
     FormControlErrorTooltipDirective,
+    FormGroupErrorTooltipDirective,
 ];
 
 const pipes = [];
