@@ -1,10 +1,8 @@
-import { ComponentFactoryResolver, Directive, ElementRef, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, Directive, ElementRef, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { ValidationErrors } from 'src/app/shared/constants';
-import { FormControlStatus } from 'src/app/shared/enums';
 import { BaseErrorTooltip } from 'src/app/shared/directives/base-error-tooltip';
-import { Bind } from 'lodash-decorators';
 
 @Directive({
     selector: '[lmFormControlErrorTooltip]',
@@ -17,6 +15,7 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
         private controlContainer: ControlContainer,
         componentFactoryResolver: ComponentFactoryResolver,
         private elementRef: ElementRef,
+        private applicationRef: ApplicationRef,
         viewContainerRef: ViewContainerRef,
     ) {
         super(viewContainerRef, componentFactoryResolver);
@@ -39,12 +38,11 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
     }
 
     private watchOnControlErrors(): void {
-        const controlStatusChanges$ = this.control.statusChanges.pipe(
-            tap((status) => {
-                console.log(status);
-            }),
+        const controlStatusChanges$ = this.control.valueChanges.pipe(
+            distinctUntilChanged(),
+            tap(() => this.form.updateValueAndValidity()),
             tap(() => this.viewContainerRef.clear()),
-            filter(this.isControlStatusInvalid),
+            filter(() => this.control.errors !== null),
         ).subscribe(() => {
             this.componentRef = this.viewContainerRef.createComponent(this.componentFactory);
             this.componentRef.instance.inputWidth = this.elementRef.nativeElement.getBoundingClientRect().width;
@@ -54,10 +52,7 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
         this.subscriptions.add(controlStatusChanges$);
     }
 
-    @Bind()
-    private isControlStatusInvalid(status: FormControlStatus): boolean {
-        return status === FormControlStatus.INVALID;
-    }
+    // todo dodac nasluchiwanie na statusChanges dla calego formularza w celu odswiezania statusu wielu kontrolek
 
     protected get errorText(): string {
         return ValidationErrors[Object.keys(this.control.errors)[0]];
