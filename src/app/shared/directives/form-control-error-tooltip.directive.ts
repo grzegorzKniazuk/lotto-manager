@@ -52,8 +52,6 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
         this.subscriptions.add(controlStatusChanges$);
     }
 
-    // todo dodac nasluchiwanie na statusChanges dla calego formularza w celu odswiezania statusu wielu kontrolek
-
     protected get errorText(): string {
         return ValidationErrors[Object.keys(this.control.errors)[0]];
     }

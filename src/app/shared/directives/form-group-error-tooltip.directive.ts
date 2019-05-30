@@ -2,7 +2,7 @@ import { ComponentFactoryResolver, Directive, Input, OnDestroy, OnInit, ViewCont
 import { FormGroup } from '@angular/forms';
 import { FormGroupErrorTooltipConfig } from 'src/app/shared/interfaces';
 import { isArray, isEmpty } from 'lodash';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { FormControlStatus } from 'src/app/shared/enums';
 import { BaseErrorTooltip } from 'src/app/shared/directives/base-error-tooltip';
 
