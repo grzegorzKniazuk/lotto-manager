@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { controlsValuesMatchValidator } from 'src/app/shared/validators';
 import { FormGroupErrorTooltipConfig } from 'src/app/shared/interfaces';
+import { UserService } from 'src/app/shared/services';
 
 @Component({
     selector: 'lm-register',
@@ -15,6 +16,7 @@ export class RegisterComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
+        private userService: UserService,
     ) {
     }
 
@@ -37,5 +39,14 @@ export class RegisterComponent implements OnInit {
                 addictedFormGroupControlsNames: [ 'password', 'repeatPassword' ],
             },
         );
+    }
+
+    private onSubmit(): void {
+        if (this.registerForm.valid) {
+            this.userService.createUser({
+                username: this.registerForm.value.username,
+                password: this.registerForm.value.password,
+            });
+        }
     }
 }

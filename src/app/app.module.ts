@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from 'src/app/store';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { metaReducers, reducers } from 'src/app/store';
         AppRoutingModule,
         AuthModule,
         BrowserAnimationsModule,
+        HttpClientModule,
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot([]),
         environment.production ? [] : [ StoreDevtoolsModule.instrument() ],

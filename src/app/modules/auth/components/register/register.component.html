@@ -21,9 +21,8 @@
             </span>
         </label>
         <div class="form-actions">
-            <button [disabled]="registerForm.invalid" class="ui-button-raised" icon="pi pi-save" label="Załóż konto" pButton type="submit"></button>
+            <button [disabled]="registerForm.invalid" class="ui-button-raised" icon="pi pi-save" label="Załóż konto" pButton type="submit" (click)="onSubmit()"></button>
             <button routerLink="../login" class="ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton></button>
         </div>
-        {{ registerForm.errors | json }}
     </form>
 </div>
