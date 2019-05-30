@@ -17,7 +17,7 @@ export class UserService {
     }
 
     public createUser(user: Partial<User>): void {
-        this.httpClient.post(`${API_URL}/users`, { user }).subscribe((response) => {
+        this.httpClient.post(`${API_URL}/users`, user).subscribe((response) => {
             console.log(response);
         });
     }
