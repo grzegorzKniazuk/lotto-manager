@@ -1,28 +1,28 @@
 <div class="register-container">
     <img alt="logo" class="app-logo" src="../../../../../assets/images/app-logo.svg">
-    <form [formGroup]="registerForm" lmFormGroupErrorTooltip [formGroupErrorTooltipConfig]="formGroupErrorTooltipConfig">
+    <form [formGroupErrorTooltipConfig]="formGroupErrorTooltipConfig" [formGroup]="registerForm" lmFormGroupErrorTooltip>
         <h1>Rejestracja</h1>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon controlName="username"><lm-icon>person</lm-icon></lm-input-add-on-icon>
-                <input formControlName="username" pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text" lmFormControlErrorTooltip>
+                <input formControlName="username" lmFormControlErrorTooltip pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text">
             </span>
         </label>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon controlName="password"><lm-icon>lock</lm-icon></lm-input-add-on-icon>
-                <input formControlName="password" pInputText placeholder="Hasło" spellcheck="false" type="password" lmFormControlErrorTooltip>
+                <input formControlName="password" lmFormControlErrorTooltip pInputText placeholder="Hasło" spellcheck="false" type="password">
             </span>
         </label>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon controlName="repeatPassword"><lm-icon>lock</lm-icon></lm-input-add-on-icon>
-                <input formControlName="repeatPassword" pInputText placeholder="Powtórz hasło" spellcheck="false" type="password" lmFormControlErrorTooltip>
+                <input formControlName="repeatPassword" lmFormControlErrorTooltip pInputText placeholder="Powtórz hasło" spellcheck="false" type="password">
             </span>
         </label>
         <div class="form-actions">
-            <button [disabled]="registerForm.invalid" class="ui-button-raised" icon="pi pi-save" label="Załóż konto" pButton type="submit" (click)="onSubmit()"></button>
-            <button routerLink="../login" class="ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton></button>
+            <button (click)="onSubmit()" [disabled]="registerForm.invalid" class="ui-button-raised" icon="pi pi-save" label="Załóż konto" pButton type="submit"></button>
+            <button class="ui-button-secondary" icon="pi pi-times" label="Anuluj" pButton routerLink="../login"></button>
         </div>
     </form>
 </div>

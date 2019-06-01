@@ -1,16 +1,7 @@
-import { ApiResponseCodes } from 'src/app/shared/enums';
-
 interface IErrorApiResponse {
-    code: ApiResponseCodes;
-    errno: number;
-    index: number;
+    code: string;
     message: string;
-    name: string;
-    parameters: string[];
-    query: string;
-    sql: string;
-    sqlMessage: string;
-    sqlState: number;
+    statusCode: number;
 }
 
 export type ErrorApiResponse = Readonly<IErrorApiResponse>;

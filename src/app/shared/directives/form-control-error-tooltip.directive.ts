@@ -12,21 +12,17 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
     @Input() public readonly formControlName: string;
 
     constructor(
-        private controlContainer: ControlContainer,
+        private readonly controlContainer: ControlContainer,
         componentFactoryResolver: ComponentFactoryResolver,
-        private elementRef: ElementRef,
-        private applicationRef: ApplicationRef,
+        private readonly elementRef: ElementRef,
+        private readonly applicationRef: ApplicationRef,
         viewContainerRef: ViewContainerRef,
     ) {
         super(viewContainerRef, componentFactoryResolver);
     }
 
-    ngOnInit() {
-        this.watchOnControlErrors();
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
+    protected get errorText(): string {
+        return ValidationErrors[Object.keys(this.control.errors)[0]];
     }
 
     private get form(): FormGroup {
@@ -35,6 +31,14 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
 
     private get control(): AbstractControl {
         return this.form.controls[this.formControlName];
+    }
+
+    ngOnInit() {
+        this.watchOnControlErrors();
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
     }
 
     private watchOnControlErrors(): void {
@@ -50,9 +54,5 @@ export class FormControlErrorTooltipDirective extends BaseErrorTooltip implement
         });
 
         this.subscriptions.add(controlStatusChanges$);
-    }
-
-    protected get errorText(): string {
-        return ValidationErrors[Object.keys(this.control.errors)[0]];
     }
 }

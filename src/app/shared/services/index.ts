@@ -1,1 +1,1 @@
-export * from './user.service';
+export * from 'src/app/shared/services/auth.service';

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { controlsValuesMatchValidator } from 'src/app/shared/validators';
 import { FormGroupErrorTooltipConfig } from 'src/app/shared/interfaces';
-import { UserService } from 'src/app/shared/services';
+import { AuthService } from 'src/app/shared/services';
 
 @Component({
     selector: 'lm-register',
@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit {
     public formGroupErrorTooltipConfig: FormGroupErrorTooltipConfig[] = [];
 
     constructor(
-        private formBuilder: FormBuilder,
-        private userService: UserService,
+        private readonly formBuilder: FormBuilder,
+        private readonly userService: AuthService,
     ) {
     }
 
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
 
     private onSubmit(): void {
         if (this.registerForm.valid) {
-            this.userService.createUser({
+            this.userService.register({
                 username: this.registerForm.value.username,
                 password: this.registerForm.value.password,
             });

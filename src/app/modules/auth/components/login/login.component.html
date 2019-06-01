@@ -5,17 +5,17 @@
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon controlName="username"><lm-icon>person</lm-icon></lm-input-add-on-icon>
-                <input formControlName="username" pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text" autocomplete="username" lmFormControlErrorTooltip>
+                <input autocomplete="username" formControlName="username" lmFormControlErrorTooltip pInputText placeholder="Nazwa użytkownika" spellcheck="false" type="text">
             </span>
         </label>
         <label>
             <span class="input-group">
                 <lm-input-add-on-icon controlName="password"><lm-icon>lock</lm-icon></lm-input-add-on-icon>
-                <input formControlName="password" pInputText placeholder="Hasło" spellcheck="false" type="password" autocomplete="password" lmFormControlErrorTooltip>
+                <input autocomplete="password" formControlName="password" lmFormControlErrorTooltip pInputText placeholder="Hasło" spellcheck="false" type="password">
             </span>
         </label>
         <div class="form-actions">
-            <button [disabled]="loginForm.invalid" class="ui-button-raised ui-button" icon="pi pi-save" label="Zaloguj" pButton type="submit"></button>
+            <button [disabled]="loginForm.invalid" class="ui-button-raised ui-button" icon="pi pi-save" label="Zaloguj" pButton type="submit" (click)="onLogin()"></button>
         </div>
         <div class="register-link">
             Nie masz konta? <span routerLink="../register">Zarejestruj się</span>

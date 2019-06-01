@@ -20,7 +20,7 @@ export function controlsValuesMatchValidator(...controlsNames: string[]): Valida
         }
 
         return error;
-    }
+    };
 }
 
 function isExpectedControlsDirty(group: FormGroup, controlsNames: string[]): boolean {

@@ -8,8 +8,8 @@ export abstract class BaseErrorTooltip {
     protected componentRef: ComponentRef<FormControlErrorTooltipComponent>;
 
     protected constructor(
-        protected viewContainerRef: ViewContainerRef,
-        protected componentFactoryResolver: ComponentFactoryResolver,
+        protected readonly viewContainerRef: ViewContainerRef,
+        protected readonly componentFactoryResolver: ComponentFactoryResolver,
     ) {
     }
 

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/shared/services';
 
 @Component({
     selector: 'lm-login',
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
     public loginForm: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder,
+        private readonly formBuilder: FormBuilder,
+        private readonly userService: AuthService,
     ) {
     }
 
@@ -25,5 +27,11 @@ export class LoginComponent implements OnInit {
             username: [ '', [ Validators.required ] ],
             password: [ '', [ Validators.required ] ],
         });
+    }
+
+    private onLogin(): void {
+        if (this.loginForm.valid) {
+            this.userService.login(this.loginForm.value);
+        }
     }
 }

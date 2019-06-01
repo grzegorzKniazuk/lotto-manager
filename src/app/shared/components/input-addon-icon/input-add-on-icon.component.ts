@@ -15,14 +15,8 @@ export class InputAddOnIconComponent implements OnInit {
     public isControlInvalid$: Observable<boolean>;
 
     constructor(
-        private controlContainer: ControlContainer,
+        private readonly controlContainer: ControlContainer,
     ) {
-    }
-
-    ngOnInit() {
-        if (this.controlName) {
-            this.watchControlErrors();
-        }
     }
 
     private get control(): AbstractControl {
@@ -31,6 +25,12 @@ export class InputAddOnIconComponent implements OnInit {
 
     private get form(): FormGroup {
         return this.controlContainer.formDirective ? (this.controlContainer.formDirective as FormGroupDirective).form : null;
+    }
+
+    ngOnInit() {
+        if (this.controlName) {
+            this.watchControlErrors();
+        }
     }
 
     private watchControlErrors(): void {

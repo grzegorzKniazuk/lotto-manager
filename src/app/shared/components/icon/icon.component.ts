@@ -14,7 +14,7 @@ export class IconComponent {
     @Input() public iconColor: MaterialIconColor | string = MaterialIconColor.MD_DARK;
 
     constructor(
-        private domSanitizer: DomSanitizer,
+        private readonly domSanitizer: DomSanitizer,
     ) {
     }
 

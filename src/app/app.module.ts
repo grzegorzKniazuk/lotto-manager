@@ -12,6 +12,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from 'src/app/store';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpErrorInterceptor } from 'src/app/shared/interceptors';
+import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from 'src/app/shared/interceptors/auth.interceptor';
+import { NgProgressInterceptor, NgProgressModule } from 'ngx-progressbar';
 
 @NgModule({
     declarations: [
@@ -23,16 +26,16 @@ import { HttpErrorInterceptor } from 'src/app/shared/interceptors';
         AuthModule,
         BrowserAnimationsModule,
         HttpClientModule,
+        NgProgressModule,
+        ToastrModule.forRoot(),
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot([]),
         environment.production ? [] : [ StoreDevtoolsModule.instrument() ],
     ],
     providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpErrorInterceptor,
-            multi: true,
-        },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     ],
     bootstrap: [ AppComponent ],
 })
