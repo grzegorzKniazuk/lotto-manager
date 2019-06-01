@@ -21,7 +21,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 const { message, statusCode }: ErrorApiResponse = error.error;
 
-                this.showErrorToast(message);
+                this.showErrorToast(message || error.message);
+
                 this.redirectOnUnauthorized(statusCode);
 
                 return throwError(error);

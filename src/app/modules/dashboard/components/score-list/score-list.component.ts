@@ -10,6 +10,7 @@ export class ScoreListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }
