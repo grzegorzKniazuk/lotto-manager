@@ -26,16 +26,16 @@ export class IconComponent {
     public get style(): SafeStyle {
         switch (this.iconSize) {
             case MaterialIconSize.MD_18: {
-                return this.domSanitizer.bypassSecurityTrustStyle(`height: 18px;`);
+                return this.domSanitizer.bypassSecurityTrustStyle(`height: 18px; width: 18px;`);
             }
             case MaterialIconSize.MD_24: {
-                return this.domSanitizer.bypassSecurityTrustStyle(`height: 24px;`);
+                return this.domSanitizer.bypassSecurityTrustStyle(`height: 24px; width: 24px;`);
             }
             case MaterialIconSize.MD_36: {
-                return this.domSanitizer.bypassSecurityTrustStyle(`height: 36px;`);
+                return this.domSanitizer.bypassSecurityTrustStyle(`height: 36px; width: 36px;`);
             }
             case MaterialIconSize.MD_48: {
-                return this.domSanitizer.bypassSecurityTrustStyle(`height: 48px;`);
+                return this.domSanitizer.bypassSecurityTrustStyle(`height: 48px; width: 48px;`);
             }
         }
 

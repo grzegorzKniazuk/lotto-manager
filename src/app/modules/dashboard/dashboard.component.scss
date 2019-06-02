@@ -6,7 +6,7 @@
 
     .side-menu {
         position: fixed;
-        @include size(250px, 100%);
+        @include size(275px, 100%);
         top: 0;
         left: 0;
         background: $prime-ng-table-header-color;
@@ -15,7 +15,7 @@
     .content {
         @include flex(inline-flex, center, flex-start, row, relative);
         @include size(100%, 100%);
-        margin-left: 250px;
+        margin-left: 275px;
         background: $prime-ng-table-header-color;
     }
 }

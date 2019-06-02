@@ -9,7 +9,7 @@
         @include size(100%, 57px);
 
         img {
-            @include size(50px, 50px);
+            @include size(45px, 45px);
             margin-left: $margin-m;
         }
 
@@ -17,6 +17,28 @@
             @include font('medium');
             margin-left: $margin-m;
             color: $white;
+        }
+    }
+
+    .router-menu {
+        @include flex(flex, flex-start, flex-start, column, relative);
+        @include size(100%);
+
+        li {
+            @include flex(flex, flex-start, center, row, relative);
+            @include size(100%, 44.6833px);
+            padding-left: $padding-m;
+            color: $white;
+            user-select: none;
+            cursor: pointer;
+
+            &.active {
+                background: $primary;
+            }
+
+            span {
+                margin-left: $margin-m;
+            }
         }
     }
 }
