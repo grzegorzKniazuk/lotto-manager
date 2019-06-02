@@ -9,3 +9,8 @@ export const selectScores = createSelector(
     selectScoreState,
     scoreEntitySelectors.selectAll,
 );
+
+export const selectTotalScores = createSelector(
+    selectScoreState,
+    scoreEntitySelectors.selectTotal,
+);

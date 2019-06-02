@@ -1,5 +1,16 @@
-<p-table #table [columns]="columns" [value]="scoresList$ | async" [globalFilterFields]="['date']" [rowTrackBy]="rowTrackBy">
+<p-table #table
+         [columns]="columns"
+         [value]="scoresList$ | async"
+         [globalFilterFields]="['date']"
+         [rowTrackBy]="rowTrackBy"
+         stateStorage="session"
+         stateKey="scores-session"
+         sortField="date"
+         [paginator]="true"
+         [rows]="20"
+         sortOrder="-1">
     <ng-template pTemplate="caption">
+        <button type="button" pButton icon="pi pi-save" iconPos="left" label="Eksport do pliku CSV" (click)="table.exportCSV()" style="float:left"></button>
         <div style="text-align: right">
             <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
             <input #globalSearchElement
@@ -12,8 +23,9 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
                 {{ col.header }}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
         </tr>
         <tr>

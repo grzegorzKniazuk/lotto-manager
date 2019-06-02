@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Score } from 'src/app/shared/interfaces/score';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { selectScores } from 'src/app/modules/dashboard/store/selectors/score.selectors';
+import { selectScores, selectTotalScores } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { TableColumn } from 'src/app/shared/interfaces';
 import { Table } from 'primeng/table';
 import { TableFilterMatchModeEnum } from 'src/app/shared/enums';
@@ -18,10 +18,11 @@ export class ScoreListComponent implements OnInit {
 
     @ViewChild('table', { static: true }) private table: Table;
     public readonly scoresList$: Observable<Score[]> = this.store.pipe(select(selectScores));
+    public readonly totalScores$: Observable<number> = this.store.pipe(select(selectTotalScores));
     public readonly columns: TableColumn[] = this.columnArray;
     public dateRangeFilter: Date[];
-    public bonusNumbers: SelectItem[] = this.bonusNumbersArray;
-    public numbers: SelectItem[] = this.numbersArray;
+    public readonly bonusNumbers: SelectItem[] = this.bonusNumbersArray;
+    public readonly numbers: SelectItem[] = this.numbersArray;
 
     constructor(
         private store: Store<AppState>,
