@@ -6,19 +6,21 @@ import * as moment from 'moment';
 })
 export class TimeService {
 
-    private readonly now = moment().locale('pl');
-
     public get currentDate(): string {
-        return this.now.format('YYYY-MM-DD');
+        return moment().format('YYYY-MM-DD');
     }
 
     public get currentTime(): string {
-        return this.now.format('HH:mm:ss');
+        return moment().format('HH:mm:ss');
     }
 
     public get timeToDrawLeft(): string {
-        const drawTime = this.now.clone().hour(21).minute(40).second(0);
+        let drawTime = moment().locale('pl').clone().hour(21).minute(40).second(0);
 
-        return drawTime.from(this.now);
+        if (moment().isAfter(drawTime)) {
+            drawTime = drawTime.add(1, 'day');
+        }
+
+        return drawTime.from(moment());
     }
 }

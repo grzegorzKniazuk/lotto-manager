@@ -3,3 +3,31 @@
 :host {
     @include size(100%, 100%);
 }
+
+.container {
+    @include flex(flex, flex-start, flex-start, column);
+    @include size(100%);
+    background: $prime-ng-table-header-color;
+    padding: $padding-l;
+
+
+    .chart {
+        @include size(100%);
+    }
+
+    .input-container {
+        @include flex(flex, flex-start, center, row);
+        @include size(100%);
+
+        .date-range-input {
+            width: 300px;
+            margin: $margin-m;
+        }
+
+        .select-button-input {
+            margin-left: $margin-m;
+        }
+    }
+}
+
+
