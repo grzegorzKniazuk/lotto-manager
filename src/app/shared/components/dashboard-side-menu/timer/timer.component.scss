@@ -1,0 +1,11 @@
+@import "base.scss";
+
+p {
+    width: 100%;
+    text-align: center;
+    color: $white;
+
+    &.current-date-time {
+        @include font('medium');
+    }
+}

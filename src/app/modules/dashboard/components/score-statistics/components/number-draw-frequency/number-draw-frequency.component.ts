@@ -6,7 +6,7 @@ import { ChartData, NumberDrawFrequencyStatistics } from 'src/app/shared/interfa
 import { BAR_CHART_BACKGROUND_COLOR } from 'src/app/shared/constants';
 
 @Component({
-    selector: 'lm-number-draw-frequency-by-date',
+    selector: 'lm-number-draw-frequency',
     templateUrl: './number-draw-frequency.component.html',
     styleUrls: [ './number-draw-frequency.component.scss' ],
 })
@@ -61,10 +61,9 @@ export class NumberDrawFrequencyComponent implements OnInit {
             labels: Object.keys(this.statisticsData),
             datasets: [
                 {
-                    label: 'Procentowa częstotliwość losowania danej liczby w wybranym okresie',
+                    label: 'Procentowa częstotliwość losowania liczby w wybranym okresie',
                     data: this.percentages,
                     backgroundColor: BAR_CHART_BACKGROUND_COLOR,
-                    pointBackgroundColor: "#fff",
                 },
             ],
         };

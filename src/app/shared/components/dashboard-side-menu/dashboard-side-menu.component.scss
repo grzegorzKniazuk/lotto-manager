@@ -41,4 +41,10 @@
             }
         }
     }
+
+    .timer-container {
+        @include size(100%, 100px);
+        position: absolute;
+        bottom: 0;
+    }
 }
