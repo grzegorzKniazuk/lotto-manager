@@ -1,0 +1,163 @@
+@import "base.scss";
+
+:host {
+    margin-right: 10px;
+}
+
+.lotto-ball {
+    @include flex(inline-flex, center, center, column);
+    @include size(50px, 50px);
+
+    border-radius: $border-radius-50;
+
+    .number {
+        @include flex(inline-flex, center, center, column);
+        @include size(25px, 25px);
+        color: $black;
+        background: $white;
+        border-radius: $border-radius-50;
+    }
+
+    &.ball-1 {
+        background-image: radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%);
+    }
+
+    &.ball-2 {
+        background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    &.ball-3 {
+        background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%);
+    }
+
+    &.ball-4 {
+        background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+    }
+
+    &.ball-5 {
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.40) 0%, rgba(0, 0, 0, 0.40) 120%) #989898;
+        background-blend-mode: multiply, multiply;
+    }
+
+    &.ball-6 {
+        background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+    }
+
+    &.ball-7 {
+        background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+    }
+
+    &.ball-8 {
+        background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
+    }
+
+    &.ball-9 {
+        background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%);
+    }
+
+    &.ball-10 {
+        background-image: linear-gradient(to top, #7028e4 0%, #e5b2ca 100%);
+    }
+
+    &.ball-11 {
+        background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+    }
+
+    &.ball-12 {
+        background-image: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+    }
+
+    &.ball-13 {
+        background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
+    }
+
+    &.ball-14 {
+        background-image: linear-gradient(to top, #5f72bd 0%, #9b23ea 100%);
+    }
+
+    &.ball-15 {
+        background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
+    }
+
+    &.ball-16 {
+        background-image: linear-gradient(-225deg, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
+    }
+
+    &.ball-17 {
+        background-image: linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%);
+    }
+
+    &.ball-18 {
+        background-image: linear-gradient(-225deg, #AC32E4 0%, #7918F2 48%, #4801FF 100%);
+    }
+
+    &.ball-19 {
+        background-image: linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%);
+    }
+
+    &.ball-20 {
+        background-image: linear-gradient(-225deg, #DFFFCD 0%, #90F9C4 48%, #39F3BB 100%);
+    }
+
+    &.ball-21 {
+        background-image: linear-gradient(to right, #c1c161 0%, #c1c161 0%, #d4d4b1 100%);
+    }
+
+    &.ball-22 {
+        background-image: linear-gradient(to top, #e14fad 0%, #f9d423 100%);
+    }
+
+    &.ball-23 {
+        background-image: linear-gradient(to right, #d7d2cc 0%, #304352 100%);
+    }
+
+    &.ball-24 {
+        background-image: linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%);
+    }
+
+    &.ball-25 {
+        background-image: linear-gradient(-20deg, #616161 0%, #9bc5c3 100%);
+    }
+
+    &.ball-26 {
+        background-image: linear-gradient(to right, #f9d423 0%, #ff4e50 100%);
+    }
+
+    &.ball-27 {
+        background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
+    }
+
+    &.ball-28 {
+        background-image: linear-gradient(to top, #0fd850 0%, #f9f047 100%);
+    }
+
+    &.ball-29 {
+        background-image: linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%);
+    }
+
+    &.ball-30 {
+        background-image: linear-gradient(to top, #cc208e 0%, #6713d2 100%);
+    }
+
+    &.ball-31 {
+        background-image: linear-gradient(to top, #b3ffab 0%, #12fff7 100%);
+    }
+
+    &.ball-32 {
+        background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+    }
+
+    &.ball-33 {
+        background-image: linear-gradient(to top, #bdc2e8 0%, #bdc2e8 1%, #e6dee9 100%);
+    }
+
+    &.ball-34 {
+        background-image: linear-gradient(to top, #e6b980 0%, #eacda3 100%);
+    }
+
+    &.ball-35 {
+        background-color: #CDDCDC;
+        background-image: radial-gradient(at 50% 100%, rgba(255, 255, 255, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.25) 100%);
+        background-blend-mode: screen, overlay;
+    }
+}

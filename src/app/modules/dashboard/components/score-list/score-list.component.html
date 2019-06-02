@@ -18,7 +18,8 @@
         </tr>
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="col.field">
-                <p-spinner *ngSwitchCase="'id'" #idInputElement [step]="1" [min]="1"
+                <p-spinner *ngSwitchCase="'id'"
+                           #idInputElement [step]="1" [min]="1"
                            (onChange)="table.filter(idInputElement.value, col.field, col.filterMatchMode)">
 
                 </p-spinner>
@@ -26,26 +27,37 @@
                             [showIcon]="true"
                             [(ngModel)]="dateRangeFilter"
                             selectionMode="range"
-                            [readonlyInput]="false" dateFormat="yy/mm/dd" (onSelect)="table.filter($event, col.field, col.filterMatchMode)">
+                            [readonlyInput]="false"
+                            dateFormat="yy/mm/dd"
+                            (onSelect)="table.filter($event, col.field, col.filterMatchMode)">
                 </p-calendar>
-                <p-multiSelect *ngSwitchCase="'numbers'" [options]="numbers" defaultLabel="Filtruj liczby" (onChange)="table.filter($event.value, col.field, col.filterMatchMode)"></p-multiSelect>
-                <p-dropdown *ngSwitchCase="'bonus_number'" placeholder="Liczba z plusem" [options]="bonusNumbers" [style]="{'width':'100%'}"
+                <p-multiSelect *ngSwitchCase="'numbers'"
+                               [options]="numbers"
+                               defaultLabel="Filtruj liczby"
+                               (onChange)="table.filter($event.value, col.field, col.filterMatchMode)"></p-multiSelect>
+                <p-dropdown *ngSwitchCase="'bonus_number'"
+                            placeholder="Liczba z plusem"
+                            [options]="bonusNumbers" [style]="{'width':'100%'}"
                             (onChange)="table.filter($event.value, col.field, col.filterMatchMode)"></p-dropdown>
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
-            <td *ngFor="let col of columns">
-                {{ rowData[col.field]}}
+            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <span *ngSwitchCase="'numbers'">
+                    <lm-lotto-ball *ngFor="let number of rowData[col.field]" [value]="number"></lm-lotto-ball>
+                </span>
+                <span *ngSwitchCase="'bonus_number'">
+                    <lm-lotto-ball [value]="rowData[col.field]"></lm-lotto-ball>
+                </span>
+                <span *ngSwitchDefault>{{ rowData[col.field]}}</span>
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td [attr.colspan]="4" style="text-align: center">
-                Brak danych
-            </td>
+            <td [attr.colspan]="4" style="text-align: center">Brak danych</td>
         </tr>
     </ng-template>
 </p-table>

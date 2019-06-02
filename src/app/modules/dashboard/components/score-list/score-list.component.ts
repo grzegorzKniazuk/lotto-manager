@@ -73,13 +73,13 @@ export class ScoreListComponent implements OnInit {
             const startDate = this.dateRangeFilter[0].getTime();
             let endDate;
 
-            if ( this.dateRangeFilter[1]) {
+            if (this.dateRangeFilter[1]) {
                 endDate = this.dateRangeFilter[1].getTime() + 86400000;
             } else {
                 endDate = startDate + 86400000;
             }
 
             return value.getTime() >= startDate && value.getTime() <= endDate;
-        }
+        };
     }
 }
