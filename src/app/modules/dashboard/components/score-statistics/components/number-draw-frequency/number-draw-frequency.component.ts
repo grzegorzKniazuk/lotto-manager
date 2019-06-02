@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectScoresNumbers } from 'src/app/modules/dashboard/store/selectors/score.selectors';
-import { NumberDrawFrequencyStatistics } from 'src/app/shared/interfaces';
+import { ChartData, NumberDrawFrequencyStatistics } from 'src/app/shared/interfaces';
+import { BAR_CHART_BACKGROUND_COLOR } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-number-draw-frequency-by-date',
@@ -12,7 +13,8 @@ import { NumberDrawFrequencyStatistics } from 'src/app/shared/interfaces';
 export class NumberDrawFrequencyComponent implements OnInit {
 
     private readonly scoresNumbers: number[][] = [];
-    private readonly statisticsData: { [key: number]: NumberDrawFrequencyStatistics } = {};
+    public readonly statisticsData: { [key: number]: NumberDrawFrequencyStatistics } = {};
+    public chartData: ChartData;
 
     constructor(
         private store: Store<AppState>,
@@ -28,7 +30,9 @@ export class NumberDrawFrequencyComponent implements OnInit {
             select(selectScoresNumbers),
         ).subscribe((scoresNumbers: number[][]) => {
             this.scoresNumbers.push(...scoresNumbers);
+
             this.calculateStatisticsData();
+            this.buildChartData();
         });
     }
 
@@ -48,6 +52,33 @@ export class NumberDrawFrequencyComponent implements OnInit {
         // procent wystepowania
         for (const scoreNumberStatistic of Object.values(this.statisticsData)) {
             scoreNumberStatistic['percentage'] = (scoreNumberStatistic['count'] / this.scoresNumbers.length) * 100;
+            this.percentages.push(scoreNumberStatistic['percentage']);
         }
+    }
+
+    private buildChartData(): void {
+        this.chartData = {
+            labels: Object.keys(this.statisticsData),
+            datasets: [
+                {
+                    label: 'Procentowa częstotliwość losowania danej liczby w wybranym okresie',
+                    data: this.percentages,
+                    backgroundColor: BAR_CHART_BACKGROUND_COLOR,
+                    pointBackgroundColor: "#fff",
+                },
+            ],
+        };
+    }
+
+    private get percentages(): number[] {
+        return Object.values(this.statisticsData).map((data: NumberDrawFrequencyStatistics) => {
+            return data.percentage;
+        });
+    }
+
+    private get numberTotalCount(): number[] {
+        return Object.values(this.statisticsData).map((data: NumberDrawFrequencyStatistics) => {
+            return data.count;
+        });
     }
 }

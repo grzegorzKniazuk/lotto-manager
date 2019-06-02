@@ -1,7 +1,8 @@
 @import "base.scss";
 
 ul {
-    @include flex(flex, flex-start, flex-start, row, relative);
+    @include flex(flex, flex-start, flex-start, row, relative, wrap);
+    @include size(100%);
 
     li {
         @include flex(flex, center, center, row, relative);

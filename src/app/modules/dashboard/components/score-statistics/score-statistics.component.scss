@@ -1,0 +1,6 @@
+@import "base.scss";
+
+:host {
+    @include size(100%, 100%);
+}
+

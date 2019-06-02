@@ -3,3 +3,8 @@ export * from './user';
 export * from './api-response';
 export * from './table-column';
 export * from './number-draw-frequency-statistics';
+export * from './chart-data';
+export * from './chart-dataset';
+export * from './chart-options';
+export * from './chart-title-options';
+export * from './chart-legend-options';
