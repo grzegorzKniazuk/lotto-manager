@@ -4,3 +4,4 @@ export * from './input-add-on-theme.enum';
 export * from './form-control-status.enum';
 export * from './store-feature-names.enum';
 export * from './api-status-code.enum';
+export * from './table-filter-match-mode.enum';

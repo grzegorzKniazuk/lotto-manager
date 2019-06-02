@@ -22,3 +22,32 @@ $prime-ng-table-header-color: #191919;
         border-bottom-left-radius: 0 !important;
     }
 }
+
+.ui-multiselect {
+    width: 100% !important;
+    vertical-align: middle;
+}
+
+.ui-spinner {
+    width: 100% !important;
+
+    input {
+        width: 100% !important;
+    }
+}
+
+::ng-deep {
+    .ui-calendar {
+        width: 100% !important;
+
+        input {
+            width: calc(100% - 40px) !important;
+        }
+
+        button {
+            width: 40px !important;
+            height: 40px !important;
+        }
+    }
+}
+
