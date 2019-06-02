@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
-import { FormControlErrorTooltipComponent, IconComponent, InputAddOnIconComponent } from 'src/app/shared/components';
+import { DashboardSideMenuComponent, FormControlErrorTooltipComponent, IconComponent, InputAddOnIconComponent } from 'src/app/shared/components';
 import { FormControlErrorTooltipDirective, FormGroupErrorTooltipDirective } from 'src/app/shared/directives';
 
 const entryComponents = [
@@ -14,6 +14,7 @@ const components = [
     ...entryComponents,
     IconComponent,
     InputAddOnIconComponent,
+    DashboardSideMenuComponent,
 ];
 
 const directives = [

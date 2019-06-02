@@ -1,0 +1,18 @@
+@import "base.scss";
+
+.container {
+    @include flex(flex, center, center, row);
+    @include size(100%, 100%);
+
+    .side-menu {
+        @include flex(inline-flex, flex-start, center, column, relative);
+        @include size(250px);
+        min-height: 100%;
+        background: #17a2b8;
+    }
+
+    .content {
+        @include flex(inline-flex, center, flex-start, row, relative);
+        @include size(calc(100% - 250px), 100%);
+    }
+}

@@ -1,3 +1,18 @@
-<p>
-  score-list works!
-</p>
+<p-table [value]="scoresList$ | async">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Numer losowania</th>
+            <th>Data losowania</th>
+            <th>Wylosowane liczby</th>
+            <th>Liczba z plusem</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-score>
+        <tr>
+            <td>{{ score.id }}</td>
+            <td>{{ score.date }}</td>
+            <td>{{ score.numbers }}</td>
+            <td>0{{ score.bonus_number }}</td>
+        </tr>
+    </ng-template>
+</p-table>
