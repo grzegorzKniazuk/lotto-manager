@@ -1,0 +1,22 @@
+@import "base.scss";
+
+.side-menu-container {
+    @include flex(flex, flex-start, center, column, relative);
+    @include size(100%, 100%);
+
+    .logo {
+        @include flex(flex, flex-start, center, row, relative);
+        @include size(100%, 57px);
+
+        img {
+            @include size(50px, 50px);
+            margin-left: $margin-m;
+        }
+
+        span {
+            @include font('medium');
+            margin-left: $margin-m;
+            color: $white;
+        }
+    }
+}

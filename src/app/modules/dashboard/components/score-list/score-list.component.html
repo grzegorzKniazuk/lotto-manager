@@ -10,7 +10,6 @@
          [rows]="20"
          sortOrder="-1">
     <ng-template pTemplate="caption">
-        <button type="button" pButton icon="pi pi-save" iconPos="left" label="Eksport do pliku CSV" (click)="table.exportCSV()" style="float:left"></button>
         <div style="text-align: right">
             <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
             <input #globalSearchElement
@@ -71,5 +70,8 @@
         <tr>
             <td [attr.colspan]="4" style="text-align: center">Brak danych</td>
         </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        Tabela zawiera wyniki {{ totalScores$ | async }} losowań.
     </ng-template>
 </p-table>
