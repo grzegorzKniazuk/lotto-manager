@@ -12,6 +12,8 @@ $light-input-color: #333333;
 $prime-ng-input-border-radius: 3px;
 $prime-ng-input-border-width: 1px;
 
+$prime-ng-table-header-color: #191919;
+
 .input-group {
     @include flex(flex, flex-start, center, row);
 

@@ -5,14 +5,18 @@
     @include size(100%, 100%);
 
     .side-menu {
-        @include flex(inline-flex, flex-start, center, column, relative);
-        @include size(250px);
-        min-height: 100%;
+        @include flex(flex, flex-start, center, column, fixed);
+        @include size(250px, 100%);
+        z-index: 1;
+        top: 0;
+        left: 0;
         background: #17a2b8;
     }
 
     .content {
         @include flex(inline-flex, center, flex-start, row, relative);
-        @include size(calc(100% - 250px), 100%);
+        @include size(100%, 100%);
+        margin-left: 250px;
+        background: $prime-ng-table-header-color;
     }
 }
