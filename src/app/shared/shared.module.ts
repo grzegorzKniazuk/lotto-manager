@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
-import { DashboardSideMenuComponent, FormControlErrorTooltipComponent, IconComponent, InputAddOnIconComponent, LottoBallComponent } from 'src/app/shared/components';
+import { DashboardSideMenuComponent, FormControlErrorTooltipComponent, IconComponent, InputAddOnIconComponent, LottoBallComponent, StatisticsBarMenuComponent } from 'src/app/shared/components';
 import { FormControlErrorTooltipDirective, FormGroupErrorTooltipDirective } from 'src/app/shared/directives';
 import { ScoreNumberPipe } from 'src/app/shared/pipes';
 
@@ -17,6 +17,7 @@ const components = [
     InputAddOnIconComponent,
     DashboardSideMenuComponent,
     LottoBallComponent,
+    StatisticsBarMenuComponent,
 ];
 
 const directives = [
