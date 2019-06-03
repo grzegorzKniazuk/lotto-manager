@@ -1,18 +1,32 @@
 <div class="lottery-numbers-set-generator-container">
+    <div class="headers">
+        <div class="numbers-header">Wybierz 5 liczb z zakresu 1-35</div>
+        <div class="divider"></div>
+        <div class="bonus-number-header">Wybierz 1 liczbę z zakresu 1-4</div>
+    </div>
     <div class="numbers-container">
         <div class="numbers">
-            <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
-            <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
-            <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
-            <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
-            <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
+            <lm-lotto-ball *ngFor="let number of generatedNumbersSet; let i = index"
+                           [value]="number"
+                           ballSize="big"
+                           [clickable]="true"
+                           [ballIndex]="i"
+                           [selectedBallIndex]="selectedBallIndex"></lm-lotto-ball>
         </div>
         <div class="bonus-number">
             <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
         </div>
     </div>
+    <div class="numbers-chevrons">
+        <ng-container *ngFor="let number of generatedNumbersSet; let i = index">
+            <lm-ball-chevron *ngIf="selectedBallIndex === i"></lm-ball-chevron>
+        </ng-container>
+    </div>
     <div class="number-tips">
-        number-tips
+        Zakres liczb dla tego miejsca
+        Najczęściej spotykane na tym miejscu
+        Najczesciej spotykane w ten dzien tygodnia
+        Najczesciej spotykane po poprzedniej liczbie
     </div>
     <div class="actions">
         actions

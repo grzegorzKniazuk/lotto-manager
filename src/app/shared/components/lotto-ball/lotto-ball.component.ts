@@ -9,6 +9,8 @@ export class LottoBallComponent {
     @Input() public value: number;
     @Input() public ballSize: string;
     @Input() public clickable: boolean;
+    @Input() public ballIndex: number;
+    @Input() public selectedBallIndex: number;
 
     @HostBinding('style.cursor')
     public get style(): string {

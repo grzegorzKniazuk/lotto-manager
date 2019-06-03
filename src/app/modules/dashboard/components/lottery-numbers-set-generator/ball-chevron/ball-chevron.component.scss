@@ -1,0 +1,15 @@
+@import "base.scss";
+
+:host {
+    margin-right: 10px;
+}
+
+.chevron-container {
+    @include flex(flex, center, center, row);
+    @include size(150px, 50px);
+
+    img {
+        @include size(50px);
+        transform: scale(1.5);
+    }
+}

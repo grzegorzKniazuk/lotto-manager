@@ -57,6 +57,10 @@
             @include size(150px, 150px);
             @include font('big', 700);
             background: radial-gradient(circle at 45px 45px, $ball-color, $black);
+
+            &.not-selected {
+                background: radial-gradient(circle at 45px 45px, $secondary, $black);
+            }
         }
     }
 }
