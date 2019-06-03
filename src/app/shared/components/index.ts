@@ -5,3 +5,4 @@ export * from './dashboard-side-menu/dashboard-side-menu.component';
 export * from './lotto-ball/lotto-ball.component';
 export * from './statistics-bar-menu/statistics-bar-menu.component';
 export * from './dashboard-side-menu/timer/timer.component';
+export * from './number-pool-control/number-pool-control.component';

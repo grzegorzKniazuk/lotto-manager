@@ -9,6 +9,7 @@ import {
     IconComponent,
     InputAddOnIconComponent,
     LottoBallComponent,
+    NumberPoolControlComponent,
     StatisticsBarMenuComponent,
     TimerComponent,
 } from 'src/app/shared/components';
@@ -27,6 +28,7 @@ const components = [
     LottoBallComponent,
     StatisticsBarMenuComponent,
     TimerComponent,
+    NumberPoolControlComponent,
 ];
 
 const directives = [

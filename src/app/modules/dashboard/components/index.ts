@@ -1,2 +1,2 @@
 export * from './score-list/score-list.component';
-export * from './number-set-generator/number-set-generator.component';
+export * from './lottery-numbers-set-generator/lottery-numbers-set-generator.component';

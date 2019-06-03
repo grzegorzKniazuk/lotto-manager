@@ -1,0 +1,43 @@
+@import "base.scss";
+
+:host {
+    @include size(100%, 100%);
+    overflow-x: hidden;
+}
+
+.lottery-numbers-set-generator-container {
+    @include flex(flex, center, center, column);
+    @include size(100%, 100%);
+    background: #17a2b8;
+
+    .numbers-container {
+        @include flex(inline-flex, center, flex-start, row);
+        @include size(90%, 150px);
+        background: #56ab2f;
+
+        .numbers {
+            @include flex(inline-flex, flex-start, center, row);
+            @include size(calc(100% - 150px));
+            padding: 0 $padding-s;
+        }
+
+        .bonus-number {
+            @include flex(inline-flex, flex-end, center, row);
+            @include size(160px);
+        }
+    }
+
+    .number-tips {
+        @include flex(flex, flex-start, flex-start, column);
+        @include size(90%, calc(90% - 250px));
+        padding: $padding-l;
+        background: #5cabff;
+    }
+
+    .actions {
+        @include flex(flex, flex-start, flex-start, row);
+        @include size(90%, 100px);
+        padding: $padding-l;
+        background: #dc3545;
+    }
+}

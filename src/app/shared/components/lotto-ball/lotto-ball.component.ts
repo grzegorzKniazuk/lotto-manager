@@ -1,19 +1,23 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
     selector: 'lm-lotto-ball',
     templateUrl: './lotto-ball.component.html',
     styleUrls: [ './lotto-ball.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LottoBallComponent implements OnInit {
-
+export class LottoBallComponent {
     @Input() public value: number;
+    @Input() public ballSize: string;
+    @Input() public clickable: boolean;
 
-    constructor() {
+    @HostBinding('style.cursor')
+    public get style(): string {
+        return this.clickable ? 'pointer' : 'default';
     }
 
-    ngOnInit() {
-    }
+    public clickAction(): void {
+        if (this.clickable) {
 
+        }
+    }
 }

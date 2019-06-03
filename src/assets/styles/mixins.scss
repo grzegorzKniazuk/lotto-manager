@@ -75,6 +75,10 @@
     }
 }
 
-@mixin color-transition() {
-    transition: color 150ms ease-in-out;
+@mixin color-transition($speed: 150ms) {
+    transition: color $speed ease-in-out;
+}
+
+@mixin background-color-transition($speed: 150ms) {
+    transition: background-color $speed ease-in-out;
 }
