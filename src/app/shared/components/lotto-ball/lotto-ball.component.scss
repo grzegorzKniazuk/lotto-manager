@@ -61,6 +61,11 @@
             &.not-selected {
                 background: radial-gradient(circle at 45px 45px, $secondary, $black);
             }
+
+            &.clickable {
+                cursor: pointer;
+                user-select: none;
+            }
         }
     }
 }

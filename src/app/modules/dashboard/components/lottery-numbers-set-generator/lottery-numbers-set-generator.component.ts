@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LotteryNumbersSetGeneratorComponent implements OnInit {
 
-    public readonly generatedNumbersSet: number[] = [ null, null, null, null, null ];
+    public readonly generatedNumbersSet: number[] = [ null, null, null, null, null, null ];
     public selectedBallIndex = 0;
 
     constructor() {
@@ -16,4 +16,8 @@ export class LotteryNumbersSetGeneratorComponent implements OnInit {
     ngOnInit() {
     }
 
+    public onBallClick(clickedBallIndex: number): void {
+        this.selectedBallIndex = clickedBallIndex;
+        console.log(this.selectedBallIndex);
+    }
 }

@@ -5,21 +5,26 @@
         <div class="bonus-number-header">Wybierz 1 liczbę z zakresu 1-4</div>
     </div>
     <div class="numbers-container">
-        <div class="numbers">
-            <lm-lotto-ball *ngFor="let number of generatedNumbersSet; let i = index"
-                           [value]="number"
-                           ballSize="big"
-                           [clickable]="true"
-                           [ballIndex]="i"
-                           [selectedBallIndex]="selectedBallIndex"></lm-lotto-ball>
-        </div>
-        <div class="bonus-number">
-            <lm-lotto-ball [value]="" ballSize="big" [clickable]="true"></lm-lotto-ball>
-        </div>
+        <ng-container *ngFor="let number of generatedNumbersSet; let i = index">
+            <ng-container *ngIf="i <= 4">
+                <lm-lotto-ball [number]="number" ballSize="big" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex" (onBallClick)="onBallClick($event)"></lm-lotto-ball>
+            </ng-container>
+            <div class="divider" *ngIf="i === 4"></div>
+            <ng-container *ngIf="i > 4">
+                <div class="bonus-number">
+                    <lm-lotto-ball [number]="number" ballSize="big" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex" (onBallClick)="onBallClick($event)"></lm-lotto-ball>
+                </div>
+            </ng-container>
+        </ng-container>
     </div>
     <div class="numbers-chevrons">
         <ng-container *ngFor="let number of generatedNumbersSet; let i = index">
-            <lm-ball-chevron *ngIf="selectedBallIndex === i"></lm-ball-chevron>
+            <div class="divider" *ngIf="selectedBallIndex !== i && i < 5"></div>
+            <lm-ball-chevron *ngIf="selectedBallIndex === i && i < 5"></lm-ball-chevron>
+            <div class="bonus-divider" *ngIf="selectedBallIndex === 5 && i === 5"></div>
+            <div class="bonus-chevron" *ngIf="selectedBallIndex === 5 && i === 5">
+                <lm-ball-chevron></lm-ball-chevron>
+            </div>
         </ng-container>
     </div>
     <div class="number-tips">

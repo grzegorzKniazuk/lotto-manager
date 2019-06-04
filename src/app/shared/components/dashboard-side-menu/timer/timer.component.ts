@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { TimeService } from 'src/app/shared/services/time.service';
+import { Bind } from 'lodash-decorators';
 
 @Component({
     selector: 'lm-timer',
     templateUrl: './timer.component.html',
     styleUrls: [ './timer.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit, OnDestroy {
 
@@ -34,11 +36,14 @@ export class TimerComponent implements OnInit, OnDestroy {
     }
 
     private startClock(): void {
-        this.clock = setInterval(() => {
-            this.currentDate = this.timeService.currentDate;
-            this.currentTime = this.timeService.currentTime;
-            this.timeLeft = this.timeService.timeToDrawLeft;
-        }, 1000);
+        this.clock = setInterval(this.updateClock, 1000);
+    }
+
+    @Bind
+    private updateClock(): void {
+        this.currentDate = this.timeService.currentDate;
+        this.currentTime = this.timeService.currentTime;
+        this.timeLeft = this.timeService.timeToDrawLeft;
     }
 
 }

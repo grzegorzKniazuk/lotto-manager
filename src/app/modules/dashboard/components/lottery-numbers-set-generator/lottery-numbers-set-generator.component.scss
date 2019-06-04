@@ -17,37 +17,49 @@
 
         .numbers-header {
             @include flex(inline-flex, center, center, row);
-            @include size(800px);
+            @include size(800px, 50px);
         }
 
         .divider {
-            @include size(calc(100% - 1300px));
+            @include size(calc(100% - 1300px), 50px);
         }
 
         .bonus-number-header {
             @include flex(inline-flex, center, center, row);
-            @include size(500px);
+            @include size(500px, 50px);
         }
     }
 
     .numbers-container {
-        @include flex(inline-flex, center, flex-start, row);
+        @include flex(inline-flex, flex-start, flex-start, row);
         @include size(90%, 150px);
 
-        .numbers {
-            @include flex(inline-flex, flex-start, center, row);
-            @include size(calc(100% - 500px));
+        .divider {
+            @include size(calc(100% - 1300px), 150px);
         }
 
         .bonus-number {
             @include flex(inline-flex, center, center, row);
-            @include size(500px);
+            @include size(500px, 150px);
         }
     }
 
     .numbers-chevrons {
         @include flex(flex, flex-start, flex-start, row);
         @include size(90%, 50px);
+
+        .divider {
+            @include size(160px, 150px);
+        }
+
+        .bonus-divider {
+            @include size(calc(100% - 1300px), 150px);
+        }
+
+        .bonus-chevron {
+            @include flex(inline-flex, center, flex-start, row);
+            @include size(500px, 150px);
+        }
     }
 
     .number-tips {

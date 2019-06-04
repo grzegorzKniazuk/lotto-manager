@@ -1,6 +1,6 @@
 <section class="stage" [ngClass]="ballSize" (click)="clickAction()">
-    <figure class="ball" [ngClass]="{ 'not-selected': selectedBallIndex !== ballIndex }">
-        {{ value | scoreNumber }}
+    <figure class="ball" [ngClass]="{ 'not-selected': !isSelected, 'clickable': clickable }">
+        {{ number | scoreNumber }}
         <span class="shadow"></span>
     </figure>
 </section>
