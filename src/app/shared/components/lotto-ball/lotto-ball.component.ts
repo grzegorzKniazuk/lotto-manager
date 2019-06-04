@@ -7,11 +7,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class LottoBallComponent {
 
-    @Input() public number: number;
-    @Input() public ballSize: string;
-    @Input() public clickable: boolean;
-    @Input() public ballIndex: number;
-    @Input() public selectedBallIndex: number;
+    @Input() public readonly ballNumber: number;
+    @Input() public readonly ballSize: string;
+    @Input() public readonly clickable: boolean;
+    @Input() public readonly ballIndex: number;
+    @Input() public readonly selectedBallIndex: number;
     @Output() public readonly onBallClick: EventEmitter<number> = new EventEmitter<number>();
 
     public get isSelected(): boolean {

@@ -57,10 +57,10 @@
         <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns" [ngSwitch]="col.field">
                 <span *ngSwitchCase="'numbers'">
-                    <lm-lotto-ball *ngFor="let number of rowData[col.field]" [number]="number" ballSize="small" [clickable]="false"></lm-lotto-ball>
+                    <lm-lotto-ball *ngFor="let number of rowData[col.field]" [ballNumber]="number" ballSize="small" [clickable]="false"></lm-lotto-ball>
                 </span>
                 <span *ngSwitchCase="'bonus_number'">
-                    <lm-lotto-ball [number]="rowData[col.field]" ballSize="small" [clickable]="false"></lm-lotto-ball>
+                    <lm-lotto-ball [ballNumber]="rowData[col.field]" ballSize="small" [clickable]="false"></lm-lotto-ball>
                 </span>
                 <span *ngSwitchDefault>{{ rowData[col.field]}}</span>
             </td>

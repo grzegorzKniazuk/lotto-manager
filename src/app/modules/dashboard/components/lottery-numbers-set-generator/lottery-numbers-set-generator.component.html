@@ -7,12 +7,12 @@
     <div class="numbers-container">
         <ng-container *ngFor="let number of generatedNumbersSet; let i = index">
             <ng-container *ngIf="i <= 4">
-                <lm-lotto-ball [number]="number" ballSize="big" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex" (onBallClick)="onBallClick($event)"></lm-lotto-ball>
+                <lm-lotto-ball [ballNumber]="number" ballSize="big" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex" (onBallClick)="onBallClick($event)"></lm-lotto-ball>
             </ng-container>
             <div class="divider" *ngIf="i === 4"></div>
             <ng-container *ngIf="i > 4">
                 <div class="bonus-number">
-                    <lm-lotto-ball [number]="number" ballSize="big" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex" (onBallClick)="onBallClick($event)"></lm-lotto-ball>
+                    <lm-lotto-ball [ballNumber]="number" ballSize="big" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex" (onBallClick)="onBallClick($event)"></lm-lotto-ball>
                 </div>
             </ng-container>
         </ng-container>
@@ -28,10 +28,7 @@
         </ng-container>
     </div>
     <div class="number-tips">
-        Zakres liczb dla tego miejsca
-        Najczęściej spotykane na tym miejscu
-        Najczesciej spotykane w ten dzien tygodnia
-        Najczesciej spotykane po poprzedniej liczbie
+        <lm-generator-tips [index]="selectedBallIndex"></lm-generator-tips>
     </div>
     <div class="actions">
         actions

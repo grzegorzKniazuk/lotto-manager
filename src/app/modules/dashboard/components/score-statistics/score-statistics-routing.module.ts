@@ -6,8 +6,8 @@ import { ScoreStatisticsComponent } from 'src/app/modules/dashboard/components/s
 const routes: Routes = [
     {
         path: '', component: ScoreStatisticsComponent, children: [
-            { path: '', redirectTo: 'number-draw-frequency', pathMatch: 'full' },
-            { path: 'number-draw-frequency', component: NumberDrawFrequencyComponent },
+            { path: '', redirectTo: 'ballNumber-draw-frequency', pathMatch: 'full' },
+            { path: 'ballNumber-draw-frequency', component: NumberDrawFrequencyComponent },
         ],
     },
 ];

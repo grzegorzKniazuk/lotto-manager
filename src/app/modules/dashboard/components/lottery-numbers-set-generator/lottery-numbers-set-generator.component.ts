@@ -18,6 +18,5 @@ export class LotteryNumbersSetGeneratorComponent implements OnInit {
 
     public onBallClick(clickedBallIndex: number): void {
         this.selectedBallIndex = clickedBallIndex;
-        console.log(this.selectedBallIndex);
     }
 }

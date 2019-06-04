@@ -6,3 +6,4 @@ export * from './store-feature-names.enum';
 export * from './api-status-code.enum';
 export * from './table-filter-match-mode.enum';
 export * from 'src/app/shared/enums/chart-data.type';
+export * from './date-range.enum';

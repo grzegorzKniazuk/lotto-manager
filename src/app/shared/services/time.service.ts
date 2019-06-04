@@ -23,4 +23,28 @@ export class TimeService {
 
         return drawTime.from(moment());
     }
+
+    public static isSameOrAfter(date: string, compareTo: string): boolean {
+        return moment(date).isSameOrAfter(compareTo);
+    }
+
+    public static isSameOrBefore(date: string, compareTo: string): boolean {
+        return moment(date).isSameOrBefore(compareTo);
+    }
+
+    public static isSame(date: string, compareTo: string): boolean {
+        return moment(date).isSame(compareTo);
+    }
+
+    public static get subtractYearFromNow(): string {
+        return moment().subtract('1', 'year').format('YYYY-MM-DD');
+    }
+
+    public static get subtractMonthFromNow(): string {
+        return moment().subtract('1', 'month').format('YYYY-MM-DD');
+    }
+
+    public static get subtractWeekFromNow(): string {
+        return moment().subtract('1', 'week').format('YYYY-MM-DD');
+    }
 }

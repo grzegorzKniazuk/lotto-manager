@@ -1,0 +1,11 @@
+<div class="container">
+    <form [formGroup]="selectButtonsForm">
+        <p-selectButton [options]="numbersRangeOnIndexSelectButtonOptions" formControlName="numbersRangeOnIndexSelectButton"></p-selectButton>
+    </form>
+    <div class="tips-container">
+        <p>Liczby na tym indeksie występowały w zakresie od&nbsp;<strong>{{ numbersRangeOnIndex[0] }} do {{ numbersRangeOnIndex[1]}}</strong></p>
+    </div>
+</div>
+
+
+
