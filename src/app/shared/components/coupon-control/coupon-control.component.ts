@@ -16,9 +16,14 @@ export class CouponControlComponent implements ControlValueAccessor {
     @Input() public max: number = 35;
     @Input() public bonusMin: number = 1;
     @Input() public bonusMax: number = 4;
+
     public value: number[] = [];
+    private numbersValue: number[] = [];
+    private bonusNumberValue: number;
+
     public numbers: number[] = this.numbersArray;
     public bonusNumbers: number[] = this.bonusNumbersArray;
+
     private readonly numbersToDraw: number = 6;
     private readonly bonusNumberIndex: number = 5;
 
@@ -42,21 +47,23 @@ export class CouponControlComponent implements ControlValueAccessor {
     }
 
     public isSelected(n: number): boolean {
-        return this.valueArrayWithoutBonusNumber.includes(n);
+        return this.numbersValue.includes(n);
     }
 
     public isBonusNumberSelected(bonusNumber: number): boolean {
-        return this.value[this.bonusNumberIndex] === bonusNumber;
+        return this.bonusNumberValue === bonusNumber;
     }
 
     public selectNumber(n: number): void {
-        if (!this.valueArrayWithoutBonusNumber.includes(n) && this.valueArrayWithoutBonusNumber.length < 5) {
-            this.value.push(n);
-        } else if (this.valueArrayWithoutBonusNumber.includes(n)) {
-            this.value.splice(this.value.indexOf(n), 1);
+        if (!this.numbersValue.includes(n) && this.numbersValue.length < this.bonusNumberIndex) {
+            this.numbersValue.push(n);
+        } else if (this.numbersValue.includes(n)) {
+            this.numbersValue.splice(this.numbersValue.indexOf(n), 1);
         }
 
-        this.value = this.sortValuesAscending(this.value);
+        this.numbersValue = this.sortValuesAscending(this.numbersValue);
+        this.value = [ ...this.numbersValue, this.bonusNumberValue ];
+
 
         this.propagateChange(this.value);
     }
@@ -66,16 +73,15 @@ export class CouponControlComponent implements ControlValueAccessor {
     }
 
     public selectBonusNumber(bonusNumber: number): void {
-        if (this.value[this.bonusNumberIndex] !== bonusNumber) {
-            this.value[this.bonusNumberIndex] = bonusNumber;
+        if (this.bonusNumberValue !== bonusNumber) {
+            this.bonusNumberValue = bonusNumber;
         } else {
-            this.value[this.bonusNumberIndex] = null;
+            this.bonusNumberValue = undefined;
         }
-        this.propagateChange(this.value);
-    }
 
-    private get valueArrayWithoutBonusNumber(): number[] {
-        return this.value.filter((v, i) => i !== this.bonusNumberIndex);
+        this.value = [ ...this.numbersValue, this.bonusNumberValue ];
+
+        this.propagateChange(this.value);
     }
 
     public registerOnTouched(fn: any): void {
