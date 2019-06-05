@@ -1,7 +1,7 @@
 <div class="lottery-numbers-set-generator-container">
-    <div class="coupon-container">
-        <lm-coupon-control></lm-coupon-control>
-    </div>
+    <form class="coupon-container" [formGroup]="generatorForm">
+        <lm-coupon-control formControlName="lotteryNumbers"></lm-coupon-control>
+    </form>
     <!--<div class="advices-container">
         <div class="numbers-container">
             <lm-lotto-ball *ngFor="let number of generatedNumbersSet; let i = index" [ballNumber]="number" ballSize="medium" [clickable]="true" [ballIndex]="i" [selectedBallIndex]="selectedBallIndex"

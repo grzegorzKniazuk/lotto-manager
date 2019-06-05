@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { lotteryCouponValidity } from 'src/app/shared/validators/lottery-coupon-validity.validator';
 
 @Component({
     selector: 'lm-lottery-numbers-set-generator',
@@ -7,16 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LotteryNumbersSetGeneratorComponent implements OnInit {
 
-    public readonly generatedNumbersSet: number[] = [ null, null, null, null, null, null ];
-    public selectedBallIndex = 0;
+    public generatorForm: FormGroup = this.form;
 
-    constructor() {
+    constructor(
+        private formBuilder: FormBuilder,
+    ) {
     }
 
     ngOnInit() {
     }
 
-    public onBallClick(clickedBallIndex: number): void {
-        this.selectedBallIndex = clickedBallIndex;
+    private get form(): FormGroup {
+        return this.formBuilder.group({
+            lotteryNumbers: [ [], [ Validators.required, lotteryCouponValidity ] ],
+        });
     }
 }
