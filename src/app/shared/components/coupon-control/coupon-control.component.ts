@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -9,20 +9,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CouponControlComponent), multi: true },
     ],
 })
-export class CouponControlComponent implements OnInit, ControlValueAccessor {
+export class CouponControlComponent implements ControlValueAccessor {
 
     @Input() public disabled: boolean = false;
     @Input() public min: number = 1;
     @Input() public max: number = 35;
     @Input() public bonusMin: number = 1;
     @Input() public bonusMax: number = 4;
-    public value: [ number, number, number, number, number, number ];
+    public value: number[] = [];
     public numbers: number[] = this.numbersArray;
     public bonusNumbers: number[] = this.bonusNumbersArray;
+    private readonly numbersToDraw: number = 6;
+    private readonly bonusNumberIndex: number = 5;
 
-    public ngOnInit(): void {
-
-    }
+    public propagateChange: any = () => {
+    };
 
     private get numbersArray(): number[] {
         return this.createNumberFilledArray(this.min, this.max);
@@ -40,8 +41,42 @@ export class CouponControlComponent implements OnInit, ControlValueAccessor {
         }).filter((number) => number);
     }
 
-    public propagateChange: any = () => {
-    };
+    public isSelected(n: number): boolean {
+        return this.valueArrayWithoutBonusNumber.includes(n);
+    }
+
+    public isBonusNumberSelected(bonusNumber: number): boolean {
+        return this.value[this.bonusNumberIndex] === bonusNumber;
+    }
+
+    public selectNumber(n: number): void {
+        if (!this.valueArrayWithoutBonusNumber.includes(n) && this.valueArrayWithoutBonusNumber.length < 5) {
+            this.value.push(n);
+        } else if (this.valueArrayWithoutBonusNumber.includes(n)) {
+            this.value.splice(this.value.indexOf(n), 1);
+        }
+
+        this.value = this.sortValuesAscending(this.value);
+
+        this.propagateChange(this.value);
+    }
+
+    private sortValuesAscending(numbers): number[] {
+        return numbers.sort((a, b) => a - b);
+    }
+
+    public selectBonusNumber(bonusNumber: number): void {
+        if (this.value[this.bonusNumberIndex] !== bonusNumber) {
+            this.value[this.bonusNumberIndex] = bonusNumber;
+        } else {
+            this.value[this.bonusNumberIndex] = null;
+        }
+        this.propagateChange(this.value);
+    }
+
+    private get valueArrayWithoutBonusNumber(): number[] {
+        return this.value.filter((v, i) => i !== this.bonusNumberIndex);
+    }
 
     public registerOnTouched(fn: any): void {
     }
@@ -54,7 +89,11 @@ export class CouponControlComponent implements OnInit, ControlValueAccessor {
         this.disabled = isDisabled;
     }
 
-    public writeValue(answer: any): void {
-        this.value = Object.assign({}, answer);
+    public writeValue(numbers: number[]): void {
+        numbers.forEach((number, index) => {
+            if (index < this.numbersToDraw) {
+                this.value.push(number);
+            }
+        });
     }
 }

@@ -21,6 +21,7 @@
             @include font('big', 700);
             text-align: right;
             padding-right: $padding-xl;
+            user-select: none;
         }
 
         .number {
@@ -29,6 +30,11 @@
             margin: $margin-s;
             width: 75px;
             cursor: pointer;
+            user-select: none;
+
+            &.selected {
+                background: lighten($danger, .25);
+            }
         }
     }
 
@@ -46,6 +52,7 @@
             @include font('big', 700);
             text-align: center;
             padding-right: $padding-s;
+            user-select: none;
         }
 
         .bonus-number {
@@ -55,6 +62,11 @@
             width: 75px;
             cursor: pointer;
             float: right;
+            user-select: none;
+
+            &.selected {
+                background: lighten($danger, .25);
+            }
         }
     }
 }
