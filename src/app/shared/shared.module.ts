@@ -9,8 +9,6 @@ import {
     IconComponent,
     InputAddOnIconComponent,
     LottoBallComponent,
-    NumberPoolControlComponent,
-    StatisticsBarMenuComponent,
     TimerComponent,
 } from 'src/app/shared/components';
 import { FormControlErrorTooltipDirective, FormGroupErrorTooltipDirective } from 'src/app/shared/directives';
@@ -26,9 +24,7 @@ const components = [
     InputAddOnIconComponent,
     DashboardSideMenuComponent,
     LottoBallComponent,
-    StatisticsBarMenuComponent,
     TimerComponent,
-    NumberPoolControlComponent,
 ];
 
 const directives = [
