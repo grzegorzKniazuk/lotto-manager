@@ -1,0 +1,14 @@
+<div class="coupon-container">
+    <div class="numbers-container">
+        <div class="numbers-caption">5 z 35</div>
+        <div class="number" *ngFor="let number of numbers">
+            <span>[</span><span>{{ number }}</span><span>]</span>
+        </div>
+    </div>
+    <div class="bonus-numbers-container">
+        <div class="bonus-number-caption">1 z 4</div>
+        <div class="bonus-number" *ngFor="let bonusNumber of bonusNumbers">
+            <span>[</span><span>{{ bonusNumber }}</span><span>]</span>
+        </div>
+    </div>
+</div>

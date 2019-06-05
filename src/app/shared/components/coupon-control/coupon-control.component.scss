@@ -1,0 +1,60 @@
+@import "base.scss";
+
+:host {
+    @include size(100%, 100%);
+}
+
+.coupon-container {
+    @include flex(flex, center, flex-start, row);
+    @include size(100%);
+    color: lighten($danger, .25);
+
+    .numbers-container {
+        width: calc(750px + 120px);
+        background: darken($prime-ng-table-header-color, .15);
+        border: 2px solid lighten($danger, .25);
+        border-top-left-radius: $border-radius-m;
+        border-bottom-left-radius: $border-radius-m;
+
+        .numbers-caption {
+            width: calc(750px + 120px);
+            @include font('big', 700);
+            text-align: right;
+            padding-right: $padding-xl;
+        }
+
+        .number {
+            @include flex(inline-flex, space-between, center, row);
+            @include font('medium');
+            margin: $margin-s;
+            width: 75px;
+            cursor: pointer;
+        }
+    }
+
+    .bonus-numbers-container {
+        width: 150px;
+        background: darken($prime-ng-table-header-color, .15);
+        border-top: 2px solid lighten($danger, .25);
+        border-right: 2px solid lighten($danger, .25);
+        border-bottom: 2px solid lighten($danger, .25);
+        border-top-right-radius: $border-radius-m;
+        border-bottom-right-radius: $border-radius-m;
+
+        .bonus-number-caption {
+            width: 150px;
+            @include font('big', 700);
+            text-align: center;
+            padding-right: $padding-s;
+        }
+
+        .bonus-number {
+            @include flex(inline-flex, space-between, center, row);
+            @include font('medium');
+            margin: $margin-s;
+            width: 75px;
+            cursor: pointer;
+            float: right;
+        }
+    }
+}

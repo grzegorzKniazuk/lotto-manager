@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
-import { BallChevronComponent, GeneratorTipsComponent, LotteryNumbersSetGeneratorComponent, ScoreListComponent } from 'src/app/modules/dashboard/components';
+import { GeneratorTipsComponent, LotteryNumbersSetGeneratorComponent, ScoreListComponent } from 'src/app/modules/dashboard/components';
 import { StoreModule } from '@ngrx/store';
 import { StoreFeatureNames } from 'src/app/shared/enums';
 import { scoreReducer } from 'src/app/modules/dashboard/store/reducers/score.reducer';
@@ -12,7 +12,6 @@ const components = [
     DashboardComponent,
     ScoreListComponent,
     LotteryNumbersSetGeneratorComponent,
-    BallChevronComponent,
     GeneratorTipsComponent,
 ];
 

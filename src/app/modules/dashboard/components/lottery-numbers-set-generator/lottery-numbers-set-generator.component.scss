@@ -6,71 +6,24 @@
 }
 
 .lottery-numbers-set-generator-container {
-    @include flex(flex, center, center, column);
+    @include flex(flex, center, center, row);
     @include size(100%, 100%);
+    padding: $padding-l;
     color: $white;
 
-    .headers {
-        @include flex(inline-flex, flex-start, flex-start, row);
-        @include size(90%, 50px);
-        @include font('medium', 700);
-
-        .numbers-header {
-            @include flex(inline-flex, center, center, row);
-            @include size(800px, 50px);
-        }
-
-        .divider {
-            @include size(calc(100% - 1300px), 50px);
-        }
-
-        .bonus-number-header {
-            @include flex(inline-flex, center, center, row);
-            @include size(500px, 50px);
-        }
-    }
-
-    .numbers-container {
-        @include flex(inline-flex, flex-start, flex-start, row);
-        @include size(90%, 150px);
-
-        .divider {
-            @include size(calc(100% - 1300px), 150px);
-        }
-
-        .bonus-number {
-            @include flex(inline-flex, center, center, row);
-            @include size(500px, 150px);
-        }
-    }
-
-    .numbers-chevrons {
-        @include flex(flex, flex-start, flex-start, row);
-        @include size(90%, 50px);
-
-        .divider {
-            @include size(160px, 150px);
-        }
-
-        .bonus-divider {
-            @include size(calc(100% - 1300px), 150px);
-        }
-
-        .bonus-chevron {
-            @include flex(inline-flex, center, flex-start, row);
-            @include size(500px, 150px);
-        }
-    }
-
-    .number-tips {
+    .coupon-container {
         @include flex(flex, flex-start, flex-start, column);
-        @include size(90%, calc(90% - 300px));
-        padding: $padding-l;
+        @include size(100%, 100%);
     }
 
-    .actions {
-        @include flex(flex, flex-start, flex-start, row);
-        @include size(90%, 100px);
-        padding: $padding-l;
+    .advices-container {
+        @include flex(flex, flex-start, flex-start, column);
+        @include size(50%, 100%);
+
+        .numbers-container {
+            @include flex(inline-flex, center, center, row);
+            @include size(100%, 100px);
+        }
     }
+
 }
