@@ -6,3 +6,4 @@ export * from './number-draw-frequency-statistics';
 export * from './chart-data';
 export * from './chart-dataset';
 export * from './select-button-config';
+export * from './numbers-analytics-data';

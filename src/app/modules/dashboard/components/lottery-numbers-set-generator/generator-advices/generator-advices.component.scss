@@ -1,0 +1,18 @@
+@import "base.scss";
+
+:host {
+    @include size(100%, 100%);
+    color: $base-font-color;
+}
+
+.select-container {
+    @include flex(flex, space-between, center, row);
+    @include size(100%);
+    padding: $padding-l 0;
+}
+
+.tips-container {
+    padding: $padding-l 0;
+}
+
+

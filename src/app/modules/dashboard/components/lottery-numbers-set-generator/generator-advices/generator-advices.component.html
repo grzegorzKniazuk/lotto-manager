@@ -1,0 +1,12 @@
+<div class="select-container">
+    <form [formGroup]="adviceTypeForm">
+        <p-selectButton [options]="adviceTypeSelectOptions" formControlName="adviceType"></p-selectButton>
+    </form>
+    <form [formGroup]="dateRangeForm">
+        <p-selectButton [options]="dateRangeSelectOptions" formControlName="dateRange"></p-selectButton>
+    </form>
+</div>
+<div class="tips-container">
+    <p>{{ adviceTypeForm.value | json }}</p>
+    <p>{{ dateRangeForm.value | json }}</p>
+</div>

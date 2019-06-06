@@ -7,7 +7,8 @@
 .coupon-container {
     @include flex(flex, center, flex-start, row);
     @include size(100%);
-    color: lighten($danger, .25);
+    // color: lighten($danger, .25);
+    color: $base-font-color;
 
     .numbers-container {
         width: calc(750px + 120px);
@@ -33,7 +34,8 @@
             user-select: none;
 
             &.selected {
-                background: lighten($danger, .25);
+                // background: lighten($danger, .25);
+                background: $base-font-color;
             }
         }
     }
@@ -65,7 +67,8 @@
             user-select: none;
 
             &.selected {
-                background: lighten($danger, .25);
+                // background: lighten($danger, .25);
+                background: $base-font-color;
             }
         }
     }

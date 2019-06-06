@@ -7,3 +7,4 @@ export * from './api-status-code.enum';
 export * from './table-filter-match-mode.enum';
 export * from 'src/app/shared/enums/chart-data.type';
 export * from './date-range.enum';
+export * from 'src/app/shared/enums/advice.type';

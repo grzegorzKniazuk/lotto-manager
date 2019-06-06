@@ -47,4 +47,8 @@ export class TimeService {
     public static get subtractWeekFromNow(): string {
         return moment().subtract('1', 'week').format('YYYY-MM-DD');
     }
+
+    public static isSameWeekDayAsToday(date: string): boolean {
+        return moment(date).format('dddd') === moment().format('dddd');
+    }
 }
