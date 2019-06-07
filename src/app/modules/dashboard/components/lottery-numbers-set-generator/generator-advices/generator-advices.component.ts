@@ -3,9 +3,10 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectMostPopularBonusNumberByDayOfTheWeek } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { AdviceType, DateRange } from 'src/app/shared/enums';
-import { first } from 'rxjs/operators';
-import { NumbersAnalyticsData } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { NumbersData } from 'src/app/shared/interfaces';
+import { isObject } from 'lodash';
 
 @Component({
     selector: 'lm-generator-advices',
@@ -27,6 +28,8 @@ export class GeneratorAdvicesComponent implements OnInit {
 
     private numbers: number[];
     private bonusNumber: number;
+
+    public mostPopularBonusNumbersByDayOfTheWeek$: Observable<NumbersData>;
 
     constructor(
         private readonly store: Store<AppState>,
@@ -65,14 +68,13 @@ export class GeneratorAdvicesComponent implements OnInit {
                 break;
             }
             case AdviceType.BONUS_NUMBER: {
-
+                this.calculateBonusNumberAdvices(dateRange);
                 break;
             }
         }
     }
 
     private calculateGeneralAdvices(dateRange): void {
-        this.calculateBonusNumberAdvices(dateRange);
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
@@ -80,11 +82,14 @@ export class GeneratorAdvicesComponent implements OnInit {
     }
 
     private calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
-        this.store.pipe(
-            select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }),
-            first(),
-        ).subscribe((bonusNumbers: NumbersAnalyticsData) => {
-            console.log(bonusNumbers);
-        });
+        this.mostPopularBonusNumbersByDayOfTheWeek$ = this.store.pipe(select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }));
+    }
+
+    public values(obj: NumbersData): any[] {
+        return Object.values(obj).filter(v => isObject(v));
+    }
+
+    public keys(obj: NumbersData): any[] {
+        return Object.keys(obj);
     }
 }

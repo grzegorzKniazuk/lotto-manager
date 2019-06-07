@@ -10,6 +10,14 @@
 
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
-
+        <p *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek">
+            Statystyka losowania liczb bonusowych w
+            <span *ngIf="dateRange === 'entire range'">całym okresie czasu</span>
+            <span *ngIf="dateRange === 'last year'">ostatnim roku</span>
+            <span *ngIf="dateRange === 'last month'">ostatnim miesiącu</span>
+            <span *ngIf="dateRange === 'last week'">ostatnim tygodniu</span>
+            to:
+            <span *ngFor="let bonusNumber of values(mostPopularBonusNumbersByDayOfTheWeek)">{{ bonusNumber.value }} ({{ bonusNumber.percentage | toFixed:2 }}%) </span>
+        </p>
     </ng-container>
 </div>

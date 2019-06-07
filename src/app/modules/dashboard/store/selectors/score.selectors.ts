@@ -4,8 +4,8 @@ import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reduc
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
 import { TimeService } from 'src/app/shared/services/time.service';
-import { NumbersAnalyticsData } from 'src/app/shared/interfaces';
 import * as R from 'ramda';
+import { NumbersData } from 'src/app/shared/interfaces';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -42,7 +42,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
                 break;
             }
         }
-        return R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores)));
+        return R.sort(sortNumbersDataDESC, R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores))));
     },
 );
 
@@ -65,6 +65,14 @@ function mapToValueAndPercentage(value: number, key: string, sourceMapObject: Ob
             percentage: (value / sourceMapObject['length']) * 100,
         };
     }
+}
+
+function sortNumbersDataASC(last: { value: number, percentage: number }, next: { value: number, percentage: number }): number {
+    return last.value - next.value;
+}
+
+function sortNumbersDataDESC(last: { value: number, percentage: number }, next: { value: number, percentage: number }): number {
+    return next.value - last.value;
 }
 
 function reduceObjectValues(obj: Object): number {

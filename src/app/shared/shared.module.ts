@@ -13,7 +13,7 @@ import {
     TimerComponent,
 } from 'src/app/shared/components';
 import { FormControlErrorTooltipDirective, FormGroupErrorTooltipDirective } from 'src/app/shared/directives';
-import { ScoreNumberPipe } from 'src/app/shared/pipes';
+import { ScoreNumberPipe, ToFixedPipe } from 'src/app/shared/pipes';
 
 const entryComponents = [
     FormControlErrorTooltipComponent,
@@ -36,6 +36,7 @@ const directives = [
 
 const pipes = [
     ScoreNumberPipe,
+    ToFixedPipe,
 ];
 
 const modules = [
