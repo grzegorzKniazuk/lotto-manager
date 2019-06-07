@@ -1,12 +1,15 @@
 <div class="select-container">
-    <form [formGroup]="adviceTypeForm">
-        <p-selectButton [options]="adviceTypeSelectOptions" formControlName="adviceType"></p-selectButton>
-    </form>
-    <form [formGroup]="dateRangeForm">
-        <p-selectButton [options]="dateRangeSelectOptions" formControlName="dateRange"></p-selectButton>
-    </form>
+    <p-selectButton #adviceTypeValue [options]="adviceTypes" [(ngModel)]="adviceType" (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)"></p-selectButton>
+    <p-selectButton #dateRangeValue [options]="dateRangeTypes" [(ngModel)]="dateRange" (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)"></p-selectButton>
 </div>
 <div class="tips-container">
-    <p>{{ adviceTypeForm.value | json }}</p>
-    <p>{{ dateRangeForm.value | json }}</p>
+    <ng-container *ngIf="adviceType === 'general'">
+
+    </ng-container>
+    <ng-container *ngIf="adviceType === 'numbers'">
+
+    </ng-container>
+    <ng-container *ngIf="adviceType === 'bonus_number'">
+
+    </ng-container>
 </div>

@@ -5,6 +5,7 @@ import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { NumbersAnalyticsData } from 'src/app/shared/interfaces';
+import * as R from 'ramda';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -21,41 +22,67 @@ export const selectTotalScores = createSelector(
 export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
     selectScores,
     (scores: Score[], props: { dateRange: DateRange }) => {
-        const mostPopularBonusNumber: NumbersAnalyticsData = {};
+        let counter;
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                scores
-                .filter(score => !!TimeService.isSameWeekDayAsToday(score.date))
-                .map(score => {
-                    mostPopularBonusNumber.length = mostPopularBonusNumber.length ? mostPopularBonusNumber.length + 1 : 1;
-                    return score.bonus_number;
-                })
-                .forEach(bonusNumber => {
-                    if (mostPopularBonusNumber.hasOwnProperty(bonusNumber)) {
-                        mostPopularBonusNumber[bonusNumber].value = mostPopularBonusNumber[bonusNumber].value + 1;
-                        mostPopularBonusNumber[bonusNumber].percentage = (mostPopularBonusNumber[bonusNumber].value / mostPopularBonusNumber.length) * 100;
-                    } else {
-                        Object.defineProperty(mostPopularBonusNumber, bonusNumber, { value: { value: 1, percentage: 0 }, enumerable: true, writable: true, configurable: true });
-                    }
-                });
+                counter = countNumbersBy('bonus_number')(isSameWeekDayAsToday);
                 break;
             }
             case DateRange.LAST_YEAR: {
-
+                counter = countNumbersBy('bonus_number')(isSameWeekDayAsTodayInLastYear);
                 break;
             }
             case DateRange.LAST_MONTH: {
-
+                counter = countNumbersBy('bonus_number')(isSameWeekDayAsTodayInLastMonth);
                 break;
             }
             case DateRange.LAST_WEEK: {
-
+                counter = countNumbersBy('bonus_number')(isSameWeekDayAsTodayInLastWeek);
                 break;
             }
         }
-
-        return mostPopularBonusNumber;
+        return R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores)));
     },
 );
-// TimeService.isSameOrAfter(score.date, TimeService.subtractMonthFromNow)
+
+function countNumbersBy(countByKey: string): R.compose {
+    return function (filter: (score: Score) => boolean = () => true) {
+        return R.compose(
+            R.countBy((n: number) => n),
+            R.map((score: Score) => score[countByKey]),
+            R.filter(filter)
+        );
+    }
+}
+
+function mapToValueAndPercentage(value: number, key: string, sourceMapObject: Object): Object  {
+    if (isNaN(+key)) {
+        return value;
+    } else {
+        return {
+            value,
+            percentage: (value / sourceMapObject['length']) * 100,
+        };
+    }
+}
+
+function reduceObjectValues(obj: Object): number {
+    return Object.values(obj).reduce((acc, val) => acc + val, 0);
+}
+
+function isSameWeekDayAsToday(score: Score): boolean {
+    return TimeService.isSameWeekDayAsToday(score.date);
+}
+
+function isSameWeekDayAsTodayInLastYear(score: Score): boolean {
+    return isSameWeekDayAsToday(score) && TimeService.isSameOrAfter(score.date, TimeService.subtractYearFromNow);
+}
+
+function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
+    return isSameWeekDayAsToday(score) && TimeService.isSameOrAfter(score.date, TimeService.subtractMonthFromNow);
+}
+
+function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
+    return isSameWeekDayAsToday(score) && TimeService.isSameOrAfter(score.date, TimeService.subtractWeekFromNow);
+}

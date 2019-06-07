@@ -1,22 +1,23 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { merge, zip } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { selectMostPopularBonusNumberByDayOfTheWeek } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { AdviceType, DateRange } from 'src/app/shared/enums';
-import { first, startWith } from 'rxjs/operators';
-import { NumbersAnalyticsData, SelectButtonConfig } from 'src/app/shared/interfaces';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { first } from 'rxjs/operators';
+import { NumbersAnalyticsData } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
-import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
-@AutoUnsubscribe()
 @Component({
     selector: 'lm-generator-advices',
     templateUrl: './generator-advices.component.html',
     styleUrls: [ './generator-advices.component.scss' ],
 })
-export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
+export class GeneratorAdvicesComponent implements OnInit {
+
+    public readonly adviceTypes = this.adviceTypeSelectOptions;
+    public readonly dateRangeTypes = this.dateRangeSelectOptions;
+    public adviceType: AdviceType = AdviceType.GENERAL;
+    public dateRange: DateRange = DateRange.ENTIRE_RANGE;
 
     @Input()
     public set couponNumbers({ lotteryNumbers }: { lotteryNumbers: number[] }) {
@@ -27,78 +28,16 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     private numbers: number[];
     private bonusNumber: number;
 
-    public readonly dateRangeForm: FormGroup = this.buildDateRangeForm;
-    public readonly adviceTypeForm: FormGroup = this.buildAdviceTypeForm;
-
     constructor(
-        private formBuilder: FormBuilder,
-        private store: Store<AppState>,
+        private readonly store: Store<AppState>,
     ) {
     }
 
     ngOnInit() {
-        this.watchOnFormSelectChanges();
+        this.calculateGeneralAdvices(DateRange.ENTIRE_RANGE);
     }
 
-    ngOnDestroy() {
-    }
-
-    private get buildDateRangeForm(): FormGroup {
-        return this.formBuilder.group({
-            dateRange: [ DateRange.ENTIRE_RANGE ],
-        });
-    }
-
-    private get buildAdviceTypeForm(): FormGroup {
-        return this.formBuilder.group({
-            adviceType: [ AdviceType.GENERAL ],
-        });
-    }
-
-    private get dateRangeControl(): AbstractControl {
-        return this.dateRangeForm.controls['dateRange'];
-    }
-
-    private get adviceTypeControl(): AbstractControl {
-        return this.adviceTypeForm.controls['adviceType'];
-    }
-
-    private watchOnFormSelectChanges(): void {
-        merge(
-            this.dateRangeControl.valueChanges,
-            this.adviceTypeControl.valueChanges,
-        ).pipe(
-            startWith([ DateRange.ENTIRE_RANGE, AdviceType.GENERAL ]),
-        ).subscribe((([ dateRange, adviceType ]: [ DateRange, AdviceType ]) => {
-            console.log(dateRange);
-            console.log(adviceType);
-
-            switch (adviceType) {
-                case AdviceType.GENERAL: {
-                    this.calculateMostPopularNumbersByDayOfTheWeek(dateRange);
-                    break;
-                }
-                case AdviceType.NUMBERS: {
-
-                    break;
-                }
-                case AdviceType.BONUS_NUMBER: {
-
-                }
-            }
-        }));
-    }
-
-    private calculateMostPopularNumbersByDayOfTheWeek(dateRange: DateRange): void {
-        this.store.pipe(
-            select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }),
-            first(),
-        ).subscribe((bonusNumbers: NumbersAnalyticsData) => {
-            console.log(bonusNumbers);
-        });
-    }
-
-    public get dateRangeSelectOptions(): SelectButtonConfig[] {
+    private get dateRangeSelectOptions(): SelectItem[] {
         return [
             { label: 'Wszystkie losowania', value: DateRange.ENTIRE_RANGE },
             { label: 'Ostatni rok', value: DateRange.LAST_YEAR },
@@ -107,11 +46,45 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         ];
     }
 
-    public get adviceTypeSelectOptions(): SelectButtonConfig[] {
+    private get adviceTypeSelectOptions(): SelectItem[] {
         return [
             { label: 'Ogólne', value: AdviceType.GENERAL },
             { label: 'Liczby 5-35', value: AdviceType.NUMBERS },
             { label: 'Liczba bonusowa', value: AdviceType.BONUS_NUMBER },
         ];
+    }
+
+    private onOptionClick(adviceType: AdviceType, dateRange: DateRange): void {
+        switch (adviceType) {
+            case AdviceType.GENERAL: {
+                this.calculateGeneralAdvices(dateRange);
+                break;
+            }
+            case AdviceType.NUMBERS: {
+
+                break;
+            }
+            case AdviceType.BONUS_NUMBER: {
+
+                break;
+            }
+        }
+    }
+
+    private calculateGeneralAdvices(dateRange): void {
+        this.calculateBonusNumberAdvices(dateRange);
+    }
+
+    private calculateBonusNumberAdvices(dateRange: DateRange): void {
+        this.calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange);
+    }
+
+    private calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
+        this.store.pipe(
+            select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }),
+            first(),
+        ).subscribe((bonusNumbers: NumbersAnalyticsData) => {
+            console.log(bonusNumbers);
+        });
     }
 }
