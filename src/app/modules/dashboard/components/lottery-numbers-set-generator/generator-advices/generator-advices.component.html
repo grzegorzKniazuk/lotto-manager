@@ -10,9 +10,14 @@
 
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
-        <lm-advice-paragraph pTitle="Liczby bonusowe w dniu tygodnia" [dateRange]="this.dateRange" [todayDayName]="todayDayName"
-                             [pData]="mostPopularBonusNumbersByDayOfTheWeek$ | async"></lm-advice-paragraph>
-        <lm-advice-paragraph pTitle="Liczby bonusowe" [dateRange]="this.dateRange"
-                             [pData]="bonusNumberFrequency$ | async"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
+                             title="Częstotliwość losowania liczb bonusowych w dniu tygodnia"
+                             [dateRange]="this.dateRange"
+                             [todayDayName]="todayDayName"
+                             [pData]="mostPopularBonusNumbersByDayOfTheWeek"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
+                             title="Częstotliwość losowania liczb bonusowych"
+                             [dateRange]="this.dateRange"
+                             [pData]="bonusNumberFrequency"></lm-advice-paragraph>
     </ng-container>
 </div>

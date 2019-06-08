@@ -1,0 +1,14 @@
+@import "base.scss";
+
+.ball-data-container {
+    @include flex(inline-flex, center, center, column);
+
+    .ball-data {
+        @include flex(inline-flex, center, center, column);
+        margin-right: $margin-m;
+
+        span {
+            text-align: center;
+        }
+    }
+}

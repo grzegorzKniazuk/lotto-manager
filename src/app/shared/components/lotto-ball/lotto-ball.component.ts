@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'lm-lotto-ball',
@@ -7,22 +7,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class LottoBallComponent {
 
-    @Input() public readonly ballNumber: number;
+    @Input() public readonly ballNumber: number | string;
     @Input() public readonly ballSize: string;
-    @Input() public readonly clickable: boolean;
-    @Input() public readonly ballIndex: number;
-    @Input() public readonly selectedBallIndex: number;
-    @Output() public readonly onBallClick: EventEmitter<number> = new EventEmitter<number>();
-
-    public get isSelected(): boolean {
-        return this.selectedBallIndex === this.ballIndex;
-    }
-
-    public clickAction(): void {
-        if (this.clickable && !this.isSelected) {
-            this.onBallClick.emit(this.ballIndex);
-        } else if (this.clickable && this.isSelected) {
-            this.onBallClick.emit(null);
-        }
-    }
 }

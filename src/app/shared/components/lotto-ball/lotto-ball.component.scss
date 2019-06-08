@@ -1,9 +1,5 @@
 @import "base.scss";
 
-:host {
-    margin-right: $margin-m;
-}
-
 .stage {
     @include flex(inline-flex, center, center, column);
     perspective-origin: 50% 50%;
@@ -57,15 +53,6 @@
             @include size(150px, 150px);
             @include font('big', 700);
             background: radial-gradient(circle at 45px 45px, $ball-color, $black);
-
-            &.not-selected {
-                background: radial-gradient(circle at 45px 45px, $secondary, $black);
-            }
-
-            &.clickable {
-                cursor: pointer;
-                user-select: none;
-            }
         }
     }
 }

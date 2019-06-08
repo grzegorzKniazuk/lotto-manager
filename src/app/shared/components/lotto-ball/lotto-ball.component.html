@@ -1,5 +1,5 @@
-<section class="stage" [ngClass]="ballSize" (click)="clickAction()">
-    <figure class="ball" [ngClass]="{ 'not-selected': !isSelected, 'clickable': clickable }">
+<section class="stage" [ngClass]="ballSize">
+    <figure class="ball">
         {{ ballNumber | scoreNumber }}
         <span class="shadow"></span>
     </figure>
