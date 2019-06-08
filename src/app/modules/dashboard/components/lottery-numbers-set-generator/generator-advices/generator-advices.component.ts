@@ -8,12 +8,13 @@ import { NumberData } from 'src/app/shared/interfaces';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { TimeService } from 'src/app/shared/services/time.service';
 import {
-    selectBonusNumberFrequency,
+    selectBonusNumberFrequency, selectMostOftenFoundNumbersWithNumberOnIndex,
     selectMostPopularBonusNumberByDayOfTheWeek,
     selectNumberOnIndexFrequency, selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumbersFrequency, selectNumbersFrequencyByDayOfTheWeek,
 } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
+import { last } from 'lodash';
 
 @AutoUnsubscribe()
 @Component({
@@ -36,6 +37,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
         this.calculateNumberOnIndexFrequency(this.numbers.length, this.dateRange);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, this.dateRange);
+        this.calculateMostOftenFoundNumbersWithNumberOnIndex(last(this.numbers), this.dateRange);
     }
 
     private numbers: number[];
@@ -47,6 +49,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public numberOnIndexFrequency$: Observable<NumberData[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
+    public mostOftenFoundNumbersWithNumberOnIndex$: Observable<NumberData[]>;
 
     constructor(
         private readonly store: Store<AppState>,
@@ -103,6 +106,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
         this.calculateNumberOnIndexFrequency(this.numbers.length, dateRange);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, dateRange);
+        this.calculateMostOftenFoundNumbersWithNumberOnIndex(last(this.numbers), dateRange);
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
@@ -128,6 +132,12 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number, dateRange: DateRange): void {
         if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
             this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumberOnIndexFrequencyByDayOfTheWeek, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateMostOftenFoundNumbersWithNumberOnIndex(ballNumber: number, dateRange: DateRange): void {
+        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
+            this.mostOftenFoundNumbersWithNumberOnIndex$ = this.store.pipe(select(selectMostOftenFoundNumbersWithNumberOnIndex, { ballNumber, dateRange }));
         }
     }
 

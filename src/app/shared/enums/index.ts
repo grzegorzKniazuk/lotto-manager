@@ -7,4 +7,3 @@ export * from './api-status-code.enum';
 export * from './table-filter-match-mode.enum';
 export * from './date-range.enum';
 export * from 'src/app/shared/enums/advice.type.enum';
-export * from 'src/app/shared/enums/scores-filters.enum';
