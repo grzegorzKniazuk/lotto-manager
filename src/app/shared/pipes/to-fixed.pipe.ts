@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { isNumber } from 'lodash';
 
 @Pipe({
     name: 'toFixed',
@@ -7,6 +8,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ToFixedPipe implements PipeTransform {
 
     transform(value: number, arg: number): string {
-        return value.toFixed(arg);
+        return isNumber(value) ? value.toFixed(arg): value;
     }
 }

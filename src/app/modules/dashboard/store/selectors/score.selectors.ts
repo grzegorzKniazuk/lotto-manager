@@ -3,10 +3,12 @@ import { DateRange, StoreFeatureNames } from 'src/app/shared/enums';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
-import { countBy, filter, flatten, map, pick } from 'lodash';
+import { countBy, filter, flatten, pick } from 'lodash';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage, sortValueDescending } from 'src/app/shared/utils';
 import { TimeService } from 'src/app/shared/services/time.service';
+import * as R from 'ramda';
+import { NumberData } from 'src/app/shared/interfaces';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -95,15 +97,15 @@ export const selectNumbersFrequency = createSelector(
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredNumbers = flatten(scores.filter(isInLastYear).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isInLastYear).map(pickNumbers));
                 break;
             }
             case DateRange.LAST_MONTH: {
-                filteredNumbers = flatten(scores.filter(isInLastMonth).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isInLastMonth).map(pickNumbers));
                 break;
             }
             case DateRange.LAST_WEEK: {
-                filteredNumbers = flatten(scores.filter(isInLastWeek).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isInLastWeek).map(pickNumbers));
                 break;
             }
         }
@@ -117,19 +119,19 @@ export const selectNumbersFrequencyByDayOfTheWeek = createSelector(
         let filteredNumbers;
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsToday).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isSameWeekDayAsToday).map(pickNumbers));
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastYear).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastYear).map(pickNumbers));
                 break;
             }
             case DateRange.LAST_MONTH: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastMonth).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastMonth).map(pickNumbers));
                 break;
             }
             case DateRange.LAST_WEEK: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastWeek).map(mapToNumbers));
+                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastWeek).map(pickNumbers));
                 break;
             }
         }
@@ -196,33 +198,37 @@ export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
 export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>, props: { ballNumber: number, dateRange: DateRange }) => {
-        const filteredNumbers = excludeNumber(flatten(map(scoresIncludeNumberInDateRange(scores, props.ballNumber, props.dateRange), mapToNumbers)), props.ballNumber);
-
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
+        return ballValuePercentageArrayWithExcludedNumber(numbersArrayIncludesSpecificNumberAndDateRange(scores, props.ballNumber, props.dateRange))(props.ballNumber).sort(sortValueDescending);
     },
 );
 
-function excludeNumber(numbers: number[], exclude: number): number[] {
-    return numbers.filter(n => n !== exclude);
+function ballValuePercentageArrayWithExcludedNumber(numbers: number[]): (ballNumber: number) => NumberData[] {
+    return function (ballNumber): NumberData[] {
+        return R.compose(mapNumbersArrayToBallValuePercentage, excludeNumber)(numbers, ballNumber);
+    }
 }
 
-function scoresIncludeNumber(scores: Score[], searchValue: number): Score[] {
-    return scores.filter(score => score.numbers.includes(searchValue));
+function numbersArrayIncludesSpecificNumberAndDateRange(scores: Score[], ballNumber: number, dateRange: DateRange): number[] {
+    return R.compose(mapScoresToNumbersArray, filterScoresBySelectedNumberAndDateRange)(scores, ballNumber, dateRange);
 }
 
-function scoresIncludeNumberInDateRange(scores: Score[], searchValue: number, dateRange: DateRange): Score[] {
+function excludeNumber(numbers: number[], excludeNumber: number): number[] {
+    return numbers.filter(n => n !== excludeNumber);
+}
+
+function filterScoresBySelectedNumberAndDateRange(scores: Score[], ballNumber: number, dateRange: DateRange): Score[] {
     switch (dateRange) {
         case DateRange.ENTIRE_RANGE: {
-            return scoresIncludeNumber(scores, searchValue);
+            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber));
         }
         case DateRange.LAST_YEAR: {
-            return scores.filter(score => score.numbers.includes(searchValue) && isInLastYear(score));
+            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber) && isInLastYear(score));
         }
         case DateRange.LAST_MONTH: {
-            return scores.filter(score => score.numbers.includes(searchValue) && isInLastMonth(score));
+            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber) && isInLastMonth(score));
         }
         case DateRange.LAST_WEEK: {
-            return scores.filter(score => score.numbers.includes(searchValue) && isInLastWeek(score));
+            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber) && isInLastWeek(score));
         }
     }
 }
@@ -250,10 +256,20 @@ function isSameWeekDayAsTodayInLastYear(score: Score): boolean {
 function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
     return TimeService.isSameWeekDayAsToday(score.date) && isInLastMonth(score);
 }
+
 function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
     return TimeService.isSameWeekDayAsToday(score.date) && isInLastWeek(score);
 }
 
-function mapToNumbers(score: Score): number[] {
+function pickNumbers(score: Score): number[] {
     return score.numbers;
+}
+
+// compose utils
+function mapScoresToNumbersArray(scores: Score[]): number[] {
+    return flatten(scores.map(score => score.numbers));
+}
+
+function isScoreNumbersIncludes(score: Score, searchNumber: number): boolean {
+    return score.numbers.includes(searchNumber);
 }
