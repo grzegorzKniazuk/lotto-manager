@@ -42,7 +42,8 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
                 break;
             }
         }
-        return R.sort(sortNumbersDataDESC, R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores))));
+
+        return R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores)));
     },
 );
 

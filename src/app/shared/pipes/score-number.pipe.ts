@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'scoreNumber',
+    pure: true,
 })
 export class ScoreNumberPipe implements PipeTransform {
 

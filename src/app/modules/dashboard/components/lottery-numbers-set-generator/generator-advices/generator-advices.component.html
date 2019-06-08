@@ -17,7 +17,9 @@
             <span *ngIf="dateRange === 'last month'">ostatnim miesiącu</span>
             <span *ngIf="dateRange === 'last week'">ostatnim tygodniu</span>
             to:
-            <span *ngFor="let bonusNumber of values(mostPopularBonusNumbersByDayOfTheWeek)">{{ bonusNumber.value }} ({{ bonusNumber.percentage | toFixed:2 }}%) </span>
+            <span *ngFor="let bonusNumber of mostPopularBonusNumbersByDayOfTheWeek | extractNumberKey | keyvalue">
+                <strong>{{ bonusNumber.key }}</strong> - <span>{{ value(bonusNumber.value) }} ({{ percentage(bonusNumber.value) | toFixed:2 }}%), </span>
+            </span>
         </p>
     </ng-container>
 </div>

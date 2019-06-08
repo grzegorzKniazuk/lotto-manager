@@ -7,6 +7,7 @@ import { SelectItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { NumbersData } from 'src/app/shared/interfaces';
 import { isObject } from 'lodash';
+import { Memoize } from 'lodash-decorators';
 
 @Component({
     selector: 'lm-generator-advices',
@@ -85,11 +86,21 @@ export class GeneratorAdvicesComponent implements OnInit {
         this.mostPopularBonusNumbersByDayOfTheWeek$ = this.store.pipe(select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }));
     }
 
-    public values(obj: NumbersData): any[] {
-        return Object.values(obj).filter(v => isObject(v));
+    @Memoize
+    public values(obj: NumbersData): { value: number, percentage: number }[] {
+        return Object.values(obj).filter(v => isObject(v)) as { value: number, percentage: number }[];
     }
 
-    public keys(obj: NumbersData): any[] {
+    @Memoize
+    public keys(obj: NumbersData): string[] {
         return Object.keys(obj);
+    }
+
+    public value(data: { value: number, percentage: number } | number): number {
+        return data.hasOwnProperty('value') ? (data as { value: number }).value : data as number;
+    }
+
+    public percentage(data: { value: number, percentage: number } | number): number {
+        return data.hasOwnProperty('percentage') ? (data as { percentage: number }).percentage : data as number;
     }
 }
