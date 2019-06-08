@@ -53,7 +53,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
             }
         }
 
-        return mapBonusNumberValueToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
     },
 );
 
@@ -79,18 +79,49 @@ export const selectBonusNumberFrequency = createSelector(
                 filteredScores = scores;
             }
         }
-        return mapBonusNumberValueToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
     },
 );
 
 export const selectNumbersFrequency = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
-        console.log(scores);
+        let filteredNumbers;
+        switch (props.dateRange) {
+            case DateRange.LAST_YEAR: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_YEAR]).map(score => score.numbers));
+                break;
+            }
+            case DateRange.LAST_MONTH: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_MONTH]).map(score => score.numbers));
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_WEEK]).map(score => score.numbers));
+                break;
+            }
+            default: {
+                filteredNumbers = flatten(scores.map(score => score.numbers));
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortDescending);
     },
 );
 
-function mapBonusNumberValueToBallValuePercentage(values: { [key: string]: number }, total: number): NumberData[] {
+function mapNumbersArrayToBallValuePercentage(array: number[]): NumberData[] {
+    const result = {};
+
+    array.forEach(number => {
+        if (result.hasOwnProperty(number)) {
+            result[number] = result[number] + 1;
+        } else {
+            Object.defineProperty(result, number, { value: 1, writable: true, configurable: true, enumerable: true });
+        }
+    });
+    return mapValuesToBallValuePercentage(result, array.length);
+}
+
+function mapValuesToBallValuePercentage(values: { [key: string]: number }, total: number): NumberData[] {
     const resultArray = [];
 
     mapValues(values, (value, index) => {
