@@ -95,14 +95,6 @@ function mapToValueAndPercentage(value: number, key: string, sourceMapObject: Ob
     }
 }
 
-function sortNumbersDataASC(last: { value: number, percentage: number }, next: { value: number, percentage: number }): number {
-    return last.value - next.value;
-}
-
-function sortNumbersDataDESC(last: { value: number, percentage: number }, next: { value: number, percentage: number }): number {
-    return next.value - last.value;
-}
-
 function reduceObjectValues(obj: Object): number {
     return Object.values(obj).reduce((acc, val) => acc + val, 0);
 }

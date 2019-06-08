@@ -96,6 +96,5 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
     private calculateBonusNumberFrequency(dateRange: DateRange): void {
         this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberFrequency, { dateRange }));
-        this.bonusNumberFrequency$.subscribe();
     }
 }
