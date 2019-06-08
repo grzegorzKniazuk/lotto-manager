@@ -20,6 +20,11 @@
                              [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1)"
                              [dateRange]="this.dateRange"
                              [numberDataArray]="numbersOnIndexFrequency"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numberOnIndexFrequencyByDayOfTheWeek$ | async as numberOnIndexFrequencyByDayOfTheWeek"
+                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1) + ' w dniu'"
+                             [dateRange]="this.dateRange"
+                             [todayDayName]="todayDayName"
+                             [numberDataArray]="numberOnIndexFrequencyByDayOfTheWeek"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"

@@ -10,7 +10,7 @@ import { TimeService } from 'src/app/shared/services/time.service';
 import {
     selectBonusNumberFrequency,
     selectMostPopularBonusNumberByDayOfTheWeek,
-    selectNumberOnIndexFrequency,
+    selectNumberOnIndexFrequency, selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumbersFrequency, selectNumbersFrequencyByDayOfTheWeek,
 } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
@@ -35,6 +35,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.bonusNumber = lotteryNumbers[lotteryNumbers.length - 1];
 
         this.calculateNumberOnIndexFrequency(this.numbers.length, this.dateRange);
+        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, this.dateRange);
     }
 
     private numbers: number[];
@@ -45,6 +46,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public numbersFrequency$: Observable<NumberData[]>;
     public numberOnIndexFrequency$: Observable<NumberData[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
+    public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
 
     constructor(
         private readonly store: Store<AppState>,
@@ -100,6 +102,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateNumbersFrequency(dateRange);
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
         this.calculateNumberOnIndexFrequency(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, dateRange);
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
@@ -119,6 +122,12 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     private calculateNumberOnIndexFrequency(numberIndex: number, dateRange: DateRange): void {
         if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
             this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumberOnIndexFrequency, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number, dateRange: DateRange): void {
+        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
+            this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumberOnIndexFrequencyByDayOfTheWeek, { numberIndex, dateRange }));
         }
     }
 

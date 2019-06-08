@@ -63,6 +63,10 @@ export const selectBonusNumberFrequency = createSelector(
         let filteredScores;
 
         switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = scores;
+                break;
+            }
             case DateRange.LAST_YEAR: {
                 filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_YEAR]);
                 break;
@@ -75,9 +79,6 @@ export const selectBonusNumberFrequency = createSelector(
                 filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_WEEK]);
                 break;
             }
-            default: {
-                filteredScores = scores;
-            }
         }
         return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortValueDescending);
     },
@@ -88,6 +89,10 @@ export const selectNumbersFrequency = createSelector(
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
         let filteredNumbers;
         switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredNumbers = flatten(scores.map(score => score.numbers));
+                break;
+            }
             case DateRange.LAST_YEAR: {
                 filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_YEAR]).map(score => score.numbers));
                 break;
@@ -100,9 +105,6 @@ export const selectNumbersFrequency = createSelector(
                 filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_WEEK]).map(score => score.numbers));
                 break;
             }
-            default: {
-                filteredNumbers = flatten(scores.map(score => score.numbers));
-            }
         }
         return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
     },
@@ -113,6 +115,10 @@ export const selectNumbersFrequencyByDayOfTheWeek = createSelector(
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
         let filteredNumbers;
         switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY]).map(score => score.numbers));
+                break;
+            }
             case DateRange.LAST_YEAR: {
                 filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_YEAR]).map(score => score.numbers));
                 break;
@@ -125,9 +131,6 @@ export const selectNumbersFrequencyByDayOfTheWeek = createSelector(
                 filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_WEEK]).map(score => score.numbers));
                 break;
             }
-            default: {
-                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY]).map(score => score.numbers));
-            }
         }
         return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
     },
@@ -139,6 +142,10 @@ export const selectNumberOnIndexFrequency = createSelector(
         let filteredNumbers;
 
         switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredNumbers = flatten(scores.map(score => score.numbers[props.numberIndex]));
+                break;
+            }
             case DateRange.LAST_YEAR: {
                 filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_YEAR]).map(score => score.numbers[props.numberIndex]));
                 break;
@@ -151,8 +158,33 @@ export const selectNumberOnIndexFrequency = createSelector(
                 filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_WEEK]).map(score => score.numbers[props.numberIndex]));
                 break;
             }
-            default: {
-                filteredNumbers = flatten(scores.map(score => score.numbers[props.numberIndex]));
+        }
+
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
+    }
+);
+
+export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
+        let filteredNumbers;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY]).map(score => score.numbers[props.numberIndex]));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_YEAR]).map(score => score.numbers[props.numberIndex]));
+                break;
+            }
+            case DateRange.LAST_MONTH: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_MONTH]).map(score => score.numbers[props.numberIndex]));
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                filteredNumbers = flatten(scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_WEEK]).map(score => score.numbers[props.numberIndex]));
+                break;
             }
         }
 
