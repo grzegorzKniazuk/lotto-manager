@@ -1,25 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { selectMostPopularBonusNumberByDayOfTheWeek } from 'src/app/modules/dashboard/store/selectors/score.selectors';
+import { selectBonusNumberFrequency, selectMostPopularBonusNumberByDayOfTheWeek } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { AdviceType, DateRange } from 'src/app/shared/enums';
 import { SelectItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { NumbersData } from 'src/app/shared/interfaces';
-import { isObject } from 'lodash';
-import { Memoize } from 'lodash-decorators';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { TimeService } from 'src/app/shared/services/time.service';
 
+@AutoUnsubscribe()
 @Component({
     selector: 'lm-generator-advices',
     templateUrl: './generator-advices.component.html',
     styleUrls: [ './generator-advices.component.scss' ],
 })
-export class GeneratorAdvicesComponent implements OnInit {
+export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
     public readonly adviceTypes = this.adviceTypeSelectOptions;
     public readonly dateRangeTypes = this.dateRangeSelectOptions;
     public adviceType: AdviceType = AdviceType.GENERAL;
     public dateRange: DateRange = DateRange.ENTIRE_RANGE;
+    public todayDayName: string = this.timeService.todayDayName;
 
     @Input()
     public set couponNumbers({ lotteryNumbers }: { lotteryNumbers: number[] }) {
@@ -31,14 +33,19 @@ export class GeneratorAdvicesComponent implements OnInit {
     private bonusNumber: number;
 
     public mostPopularBonusNumbersByDayOfTheWeek$: Observable<NumbersData>;
+    public bonusNumberFrequency$: Observable<NumbersData>;
 
     constructor(
         private readonly store: Store<AppState>,
+        private readonly timeService: TimeService,
     ) {
     }
 
     ngOnInit() {
         this.calculateGeneralAdvices(DateRange.ENTIRE_RANGE);
+    }
+
+    ngOnDestroy() {
     }
 
     private get dateRangeSelectOptions(): SelectItem[] {
@@ -80,27 +87,15 @@ export class GeneratorAdvicesComponent implements OnInit {
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
         this.calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange);
+        this.calculateBonusNumberFrequency(dateRange);
     }
 
     private calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
         this.mostPopularBonusNumbersByDayOfTheWeek$ = this.store.pipe(select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }));
     }
 
-    @Memoize
-    public values(obj: NumbersData): { value: number, percentage: number }[] {
-        return Object.values(obj).filter(v => isObject(v)) as { value: number, percentage: number }[];
-    }
-
-    @Memoize
-    public keys(obj: NumbersData): string[] {
-        return Object.keys(obj);
-    }
-
-    public value(data: { value: number, percentage: number } | number): number {
-        return data.hasOwnProperty('value') ? (data as { value: number }).value : data as number;
-    }
-
-    public percentage(data: { value: number, percentage: number } | number): number {
-        return data.hasOwnProperty('percentage') ? (data as { percentage: number }).percentage : data as number;
+    private calculateBonusNumberFrequency(dateRange: DateRange): void {
+        this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberFrequency, { dateRange }));
+        this.bonusNumberFrequency$.subscribe();
     }
 }

@@ -1,0 +1,11 @@
+<p>
+    {{ pTitle }} <strong *ngIf="todayDayName">{{ todayDayName }}</strong> dla
+    <span *ngIf="dateRange === 'entire range'">całego okresu czasu</span>
+    <span *ngIf="dateRange === 'last year'">ostatniego roku</span>
+    <span *ngIf="dateRange === 'last month'">ostatniego miesiąca</span>
+    <span *ngIf="dateRange === 'last week'">ostatniego tygodnia</span>
+    to:
+    <span *ngFor="let bonusNumber of pData | extractNumberKey | keyvalue">
+        <strong>{{ bonusNumber.key }}</strong> - <span>{{ value(bonusNumber.value) }} ({{ percentage(bonusNumber.value) | toFixed:2 }}%), </span>
+    </span>
+</p>

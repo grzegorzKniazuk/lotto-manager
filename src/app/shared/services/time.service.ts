@@ -51,4 +51,8 @@ export class TimeService {
     public static isSameWeekDayAsToday(date: string): boolean {
         return moment(date).format('dddd') === moment().format('dddd');
     }
+
+    public get todayDayName(): string {
+        return moment(this.currentDate).locale('pl').format('dddd');
+    }
 }

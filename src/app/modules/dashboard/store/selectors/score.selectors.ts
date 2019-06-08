@@ -5,7 +5,6 @@ import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
 import { TimeService } from 'src/app/shared/services/time.service';
 import * as R from 'ramda';
-import { NumbersData } from 'src/app/shared/interfaces';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -47,6 +46,34 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
     },
 );
 
+export const selectBonusNumberFrequency = createSelector(
+    selectScores,
+    (scores: Score[], props: { dateRange: DateRange }) => {
+        let counter;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                counter = countNumbersBy('bonus_number')();
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                counter = countNumbersBy('bonus_number')(isInLastYear);
+                break;
+            }
+            case DateRange.LAST_MONTH: {
+                counter = countNumbersBy('bonus_number')(isInLastMonth);
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                counter = countNumbersBy('bonus_number')(isInLastWeek);
+                break;
+            }
+        }
+
+        return R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores)));
+    }
+);
+
 function countNumbersBy(countByKey: string): R.compose {
     return function (filter: (score: Score) => boolean = () => true) {
         return R.compose(
@@ -84,14 +111,26 @@ function isSameWeekDayAsToday(score: Score): boolean {
     return TimeService.isSameWeekDayAsToday(score.date);
 }
 
+function isInLastYear(score: Score): boolean {
+    return TimeService.isSameOrAfter(score.date, TimeService.subtractYearFromNow);
+}
+
+function isInLastMonth(score: Score): boolean {
+    return TimeService.isSameOrAfter(score.date, TimeService.subtractMonthFromNow);
+}
+
+function isInLastWeek(score: Score): boolean {
+    return TimeService.isSameOrAfter(score.date, TimeService.subtractWeekFromNow);
+}
+
 function isSameWeekDayAsTodayInLastYear(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && TimeService.isSameOrAfter(score.date, TimeService.subtractYearFromNow);
+    return isSameWeekDayAsToday(score) && isInLastYear(score);
 }
 
 function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && TimeService.isSameOrAfter(score.date, TimeService.subtractMonthFromNow);
+    return isSameWeekDayAsToday(score) && isInLastMonth(score);
 }
 
 function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && TimeService.isSameOrAfter(score.date, TimeService.subtractWeekFromNow);
+    return isSameWeekDayAsToday(score) && isInLastWeek(score);
 }

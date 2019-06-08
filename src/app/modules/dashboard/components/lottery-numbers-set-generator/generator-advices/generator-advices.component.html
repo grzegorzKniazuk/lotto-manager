@@ -10,16 +10,9 @@
 
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
-        <p *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek">
-            Statystyka losowania liczb bonusowych w
-            <span *ngIf="dateRange === 'entire range'">całym okresie czasu</span>
-            <span *ngIf="dateRange === 'last year'">ostatnim roku</span>
-            <span *ngIf="dateRange === 'last month'">ostatnim miesiącu</span>
-            <span *ngIf="dateRange === 'last week'">ostatnim tygodniu</span>
-            to:
-            <span *ngFor="let bonusNumber of mostPopularBonusNumbersByDayOfTheWeek | extractNumberKey | keyvalue">
-                <strong>{{ bonusNumber.key }}</strong> - <span>{{ value(bonusNumber.value) }} ({{ percentage(bonusNumber.value) | toFixed:2 }}%), </span>
-            </span>
-        </p>
+        <lm-advice-paragraph pTitle="Liczby bonusowe w dniu tygodnia" [dateRange]="this.dateRange" [todayDayName]="todayDayName"
+                             [pData]="mostPopularBonusNumbersByDayOfTheWeek$ | async"></lm-advice-paragraph>
+        <lm-advice-paragraph pTitle="Liczby bonusowe" [dateRange]="this.dateRange"
+                             [pData]="bonusNumberFrequency$ | async"></lm-advice-paragraph>
     </ng-container>
 </div>
