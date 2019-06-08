@@ -1,10 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { DateRange, StoreFeatureNames } from 'src/app/shared/enums';
+import { DateRange, ScoresFilters, StoreFeatureNames } from 'src/app/shared/enums';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
-import { TimeService } from 'src/app/shared/services/time.service';
-import * as R from 'ramda';
+import { countBy, mapValues, pick, flatten } from 'lodash';
+import { NumberData } from 'src/app/shared/interfaces';
+import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY, scoresFilters } from 'src/app/shared/constants';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -18,111 +19,97 @@ export const selectTotalScores = createSelector(
     scoreEntitySelectors.selectTotal,
 );
 
-export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
+export const selectBonusNumbersScores = createSelector(
     selectScores,
-    (scores: Score[], props: { dateRange: DateRange }) => {
-        let counter;
+    (scores: Score[]) => scores.map(score => pick(score, [ SCORES_DATE_KEY, SCORES_BONUS_NUMBER_KEY ])),
+);
+
+export const selectNumbersScores = createSelector(
+    selectScores,
+    (scores: Score[]) => scores.map(score => pick(score, [ SCORES_DATE_KEY, SCORES_NUMBERS_KEY ])),
+);
+
+export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                counter = countNumbersBy('bonus_number')(isSameWeekDayAsToday);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY]);
                 break;
             }
             case DateRange.LAST_YEAR: {
-                counter = countNumbersBy('bonus_number')(isSameWeekDayAsTodayInLastYear);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_YEAR]);
                 break;
             }
             case DateRange.LAST_MONTH: {
-                counter = countNumbersBy('bonus_number')(isSameWeekDayAsTodayInLastMonth);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_MONTH]);
                 break;
             }
             case DateRange.LAST_WEEK: {
-                counter = countNumbersBy('bonus_number')(isSameWeekDayAsTodayInLastWeek);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_SAME_WEEK_DAY_AS_TODAY_IN_LAST_WEEK]);
                 break;
             }
         }
 
-        return R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores)));
+        return mapBonusNumberValueToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
     },
 );
 
 export const selectBonusNumberFrequency = createSelector(
-    selectScores,
-    (scores: Score[], props: { dateRange: DateRange }) => {
-        let counter;
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
 
         switch (props.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                counter = countNumbersBy('bonus_number')();
-                break;
-            }
             case DateRange.LAST_YEAR: {
-                counter = countNumbersBy('bonus_number')(isInLastYear);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_YEAR]);
                 break;
             }
             case DateRange.LAST_MONTH: {
-                counter = countNumbersBy('bonus_number')(isInLastMonth);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_MONTH]);
                 break;
             }
             case DateRange.LAST_WEEK: {
-                counter = countNumbersBy('bonus_number')(isInLastWeek);
+                filteredScores = scores.filter(scoresFilters[ScoresFilters.IS_IN_LAST_WEEK]);
                 break;
             }
+            default: {
+                filteredScores = scores;
+            }
         }
-
-        return R.mapObjIndexed(mapToValueAndPercentage, R.assoc('length', reduceObjectValues(counter(scores)), counter(scores)));
-    }
+        return mapBonusNumberValueToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
+    },
 );
 
-function countNumbersBy(countByKey: string): R.compose {
-    return function (filter: (score: Score) => boolean = () => true) {
-        return R.compose(
-            R.countBy((n: number) => n),
-            R.map((score: Score) => score[countByKey]),
-            R.filter(filter)
-        );
-    }
-}
+export const selectNumbersFrequency = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        console.log(scores);
+    },
+);
 
-function mapToValueAndPercentage(value: number, key: string, sourceMapObject: Object): Object  {
-    if (isNaN(+key)) {
-        return value;
-    } else {
-        return {
+function mapBonusNumberValueToBallValuePercentage(values: { [key: string]: number }, total: number): NumberData[] {
+    const resultArray = [];
+
+    mapValues(values, (value, index) => {
+        resultArray.push({
+            ball: +index,
             value,
-            percentage: (value / sourceMapObject['length']) * 100,
-        };
-    }
+            percentage: percentage(value, total),
+        });
+    });
+
+    return resultArray;
 }
 
-function reduceObjectValues(obj: Object): number {
-    return Object.values(obj).reduce((acc, val) => acc + val, 0);
+function percentage(value: number, total: number): number {
+    return (value / total) * 100;
 }
 
-function isSameWeekDayAsToday(score: Score): boolean {
-    return TimeService.isSameWeekDayAsToday(score.date);
+function sortDescending(a, b): number {
+    return b.value - a.value;
 }
 
-function isInLastYear(score: Score): boolean {
-    return TimeService.isSameOrAfter(score.date, TimeService.subtractYearFromNow);
-}
 
-function isInLastMonth(score: Score): boolean {
-    return TimeService.isSameOrAfter(score.date, TimeService.subtractMonthFromNow);
-}
-
-function isInLastWeek(score: Score): boolean {
-    return TimeService.isSameOrAfter(score.date, TimeService.subtractWeekFromNow);
-}
-
-function isSameWeekDayAsTodayInLastYear(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && isInLastYear(score);
-}
-
-function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && isInLastMonth(score);
-}
-
-function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && isInLastWeek(score);
-}

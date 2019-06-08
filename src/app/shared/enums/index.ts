@@ -5,6 +5,6 @@ export * from './form-control-status.enum';
 export * from './store-feature-names.enum';
 export * from './api-status-code.enum';
 export * from './table-filter-match-mode.enum';
-export * from 'src/app/shared/enums/chart-data.type';
 export * from './date-range.enum';
-export * from 'src/app/shared/enums/advice.type';
+export * from 'src/app/shared/enums/advice.type.enum';
+export * from 'src/app/shared/enums/scores-filters.enum';

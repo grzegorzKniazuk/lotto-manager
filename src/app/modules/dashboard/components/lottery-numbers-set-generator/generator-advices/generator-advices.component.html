@@ -7,17 +7,20 @@
 
     </ng-container>
     <ng-container *ngIf="adviceType === 'numbers'">
-
+        <lm-advice-paragraph *ngIf="numbersFrequency$ | async as numbersFrequency"
+                             title="Częstotliwość losowania liczb"
+                             [dateRange]="this.dateRange"
+                             [numberDataArray]="numbersFrequency"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
                              title="Częstotliwość losowania liczb bonusowych w dniu tygodnia"
                              [dateRange]="this.dateRange"
                              [todayDayName]="todayDayName"
-                             [pData]="mostPopularBonusNumbersByDayOfTheWeek"></lm-advice-paragraph>
+                             [numberDataArray]="mostPopularBonusNumbersByDayOfTheWeek"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
                              title="Częstotliwość losowania liczb bonusowych"
                              [dateRange]="this.dateRange"
-                             [pData]="bonusNumberFrequency"></lm-advice-paragraph>
+                             [numberDataArray]="bonusNumberFrequency"></lm-advice-paragraph>
     </ng-container>
 </div>

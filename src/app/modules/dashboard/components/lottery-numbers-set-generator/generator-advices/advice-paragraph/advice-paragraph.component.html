@@ -1,9 +1,9 @@
 <p-accordion>
     <p-accordionTab [header]="pTitle">
-        <div *ngFor="let bonusNumber of pData | extractNumberKey | keyvalue" class="ball-data-container">
+        <div *ngFor="let numberData of numberDataArray" class="ball-data-container">
             <div class="ball-data">
-                <lm-lotto-ball [ballNumber]="bonusNumber.key" ballSize="medium"></lm-lotto-ball>
-                <span>{{ value(bonusNumber.value) }} ({{ percentage(bonusNumber.value) | toFixed:2 }}%)</span>
+                <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
+                <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
             </div>
         </div>
     </p-accordionTab>

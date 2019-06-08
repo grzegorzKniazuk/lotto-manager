@@ -8,6 +8,7 @@ import { TableColumn } from 'src/app/shared/interfaces';
 import { Table } from 'primeng/table';
 import { TableFilterMatchModeEnum } from 'src/app/shared/enums';
 import { SelectItem } from 'primeng/api';
+import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_ID_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-score-list',
@@ -39,10 +40,10 @@ export class ScoreListComponent implements OnInit {
 
     private get columnArray(): TableColumn[] {
         return [
-            { field: 'id', header: 'Numer losowania', filterMatchMode: TableFilterMatchModeEnum.EQUALS },
-            { field: 'date', header: 'Data losowania', filterMatchMode: TableFilterMatchModeEnum.DATA_RANGE_FILTER },
-            { field: 'numbers', header: 'Wylosowane liczby', filterMatchMode: TableFilterMatchModeEnum.CONTAINS },
-            { field: 'bonus_number', header: 'Liczba z plusem', filterMatchMode: TableFilterMatchModeEnum.EQUALS },
+            { field: SCORES_ID_KEY, header: 'Numer losowania', filterMatchMode: TableFilterMatchModeEnum.EQUALS },
+            { field: SCORES_DATE_KEY, header: 'Data losowania', filterMatchMode: TableFilterMatchModeEnum.DATA_RANGE_FILTER },
+            { field: SCORES_NUMBERS_KEY, header: 'Wylosowane liczby', filterMatchMode: TableFilterMatchModeEnum.CONTAINS },
+            { field: SCORES_BONUS_NUMBER_KEY, header: 'Liczba z plusem', filterMatchMode: TableFilterMatchModeEnum.EQUALS },
         ];
     }
 
