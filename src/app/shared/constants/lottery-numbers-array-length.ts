@@ -1,0 +1,1 @@
+export const LOTTERY_NUMBERS_ARRAY_LENGTH = 5;

@@ -8,9 +8,18 @@
     </ng-container>
     <ng-container *ngIf="adviceType === 'numbers'">
         <lm-advice-paragraph *ngIf="numbersFrequency$ | async as numbersFrequency"
-                             title="Częstotliwość losowania liczb"
+                             title="Częstotliwość losowania wszystkich liczb"
                              [dateRange]="this.dateRange"
                              [numberDataArray]="numbersFrequency"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numbersFrequencyByDayOfTheWeek$ | async as numbersFrequencyByDayOfTheWeek"
+                             title="Częstotliwość losowania wszystkich liczb w dniu tygodnia"
+                             [dateRange]="this.dateRange"
+                             [todayDayName]="todayDayName"
+                             [numberDataArray]="numbersFrequencyByDayOfTheWeek"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numberOnIndexFrequency$ | async as numbersOnIndexFrequency"
+                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1)"
+                             [dateRange]="this.dateRange"
+                             [numberDataArray]="numbersOnIndexFrequency"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
