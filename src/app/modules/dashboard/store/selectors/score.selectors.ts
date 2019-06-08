@@ -3,9 +3,9 @@ import { DateRange, ScoresFilters, StoreFeatureNames } from 'src/app/shared/enum
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
-import { countBy, mapValues, pick, flatten } from 'lodash';
-import { NumberData } from 'src/app/shared/interfaces';
+import { countBy, pick, flatten } from 'lodash';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY, scoresFilters } from 'src/app/shared/constants';
+import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage, sortValueDescending } from 'src/app/shared/utils';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -53,7 +53,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
             }
         }
 
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortValueDescending);
     },
 );
 
@@ -79,7 +79,7 @@ export const selectBonusNumberFrequency = createSelector(
                 filteredScores = scores;
             }
         }
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortDescending);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortValueDescending);
     },
 );
 
@@ -104,43 +104,7 @@ export const selectNumbersFrequency = createSelector(
                 filteredNumbers = flatten(scores.map(score => score.numbers));
             }
         }
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortDescending);
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
     },
 );
-
-function mapNumbersArrayToBallValuePercentage(array: number[]): NumberData[] {
-    const result = {};
-
-    array.forEach(number => {
-        if (result.hasOwnProperty(number)) {
-            result[number] = result[number] + 1;
-        } else {
-            Object.defineProperty(result, number, { value: 1, writable: true, configurable: true, enumerable: true });
-        }
-    });
-    return mapValuesToBallValuePercentage(result, array.length);
-}
-
-function mapValuesToBallValuePercentage(values: { [key: string]: number }, total: number): NumberData[] {
-    const resultArray = [];
-
-    mapValues(values, (value, index) => {
-        resultArray.push({
-            ball: +index,
-            value,
-            percentage: percentage(value, total),
-        });
-    });
-
-    return resultArray;
-}
-
-function percentage(value: number, total: number): number {
-    return (value / total) * 100;
-}
-
-function sortDescending(a, b): number {
-    return b.value - a.value;
-}
-
 
