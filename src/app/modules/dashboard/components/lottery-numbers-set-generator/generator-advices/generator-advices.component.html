@@ -33,6 +33,9 @@
                              [numberDataArray]="mostPopularNumbersInActualMonthName"
                              [todayMonthName]="todayMonthName"
                              [title]="'Częstotliwość losowania liczb w miesiącu '"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numbersByOddOrEvenDay$ | async as numbersByOddOrEvenDay"
+                             [numberDataArray]="numbersByOddOrEvenDay"
+                             [title]="numbersByOddOrEvenDayLabel"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"

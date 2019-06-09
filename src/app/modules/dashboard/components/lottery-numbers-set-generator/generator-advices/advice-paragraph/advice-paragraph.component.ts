@@ -40,19 +40,19 @@ export class AdviceParagraphComponent {
 
         switch (this.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                message.push('dla całego okresu czasu');
+                message.push('dla wszystkich losowań');
                 break;
             }
             case DateRange.LAST_YEAR: {
-                message.push('dla ostatniego roku');
+                message.push('dla losowań z ostatniego roku');
                 break;
             }
             case DateRange.LAST_MONTH: {
-                message.push('dla ostatniego miesiąca');
+                message.push('dla losowań z ostatniego miesiąca');
                 break;
             }
             case DateRange.LAST_WEEK: {
-                message.push('dla ostatniego tygodnia');
+                message.push('dla losowań z ostatniego tygodnia');
                 break;
             }
         }

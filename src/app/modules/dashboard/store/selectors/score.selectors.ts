@@ -219,6 +219,63 @@ export const selectMostPopularNumbersInActualMonthName = createSelector(
     }
 );
 
+export const selectNumbersByOddDay = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDay));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastYear));
+                break;
+            }
+            case DateRange.LAST_MONTH: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastMonth));
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastWeek));
+                break;
+            }
+        }
+        console.log(mapNumbersArrayToBallValuePercentage(filteredScores));
+
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    }
+);
+
+export const selectNumbersByEvenDay = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDay));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastYear));
+                break;
+            }
+            case DateRange.LAST_MONTH: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastMonth));
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastWeek));
+                break;
+            }
+        }
+
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    }
+);
+
 function ballValuePercentageArrayWithExcludedNumber(numbers: number[]): (ballNumber: number) => NumberData[] {
     return function (ballNumber): NumberData[] {
         return R.compose(mapNumbersArrayToBallValuePercentage, excludeNumber)(numbers, ballNumber);
@@ -280,6 +337,38 @@ function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
 
 function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
     return TimeService.isSameWeekDayAsToday(score.date) && isInLastWeek(score);
+}
+
+function isOddDay(score: Score): boolean {
+    return TimeService.isOddDay(score.date);
+}
+
+function isOddDayInLastYear(score: Score): boolean {
+    return TimeService.isOddDay(score.date) && isInLastYear(score);
+}
+
+function isOddDayInLastMonth(score: Score): boolean {
+    return TimeService.isOddDay(score.date) && isInLastMonth(score);
+}
+
+function isOddDayInLastWeek(score: Score): boolean {
+    return TimeService.isOddDay(score.date) && isInLastWeek(score);
+}
+
+function isEvenDay(score: Score): boolean {
+    return TimeService.isEvenDay(score.date);
+}
+
+function isEvenDayInLastYear(score: Score): boolean {
+    return TimeService.isEvenDay(score.date) && isInLastYear(score);
+}
+
+function isEvenDayInLastMonth(score: Score): boolean {
+    return TimeService.isEvenDay(score.date) && isInLastMonth(score);
+}
+
+function isEvenDayInLastWeek(score: Score): boolean {
+    return TimeService.isEvenDay(score.date) && isInLastWeek(score);
 }
 
 function pickNumbers(score: Score): number[] {
