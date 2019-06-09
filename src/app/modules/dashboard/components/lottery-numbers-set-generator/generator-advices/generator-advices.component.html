@@ -41,6 +41,10 @@
                              [numberDataArray]="numbersByOddOrEvenMonth"
                              [dateRange]="this.dateRange"
                              [title]="numbersByOddOrEvenMonthLabel"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange || isLastYearRange) && numbersByYearQuarter$ | async as numbersByYearQuarter"
+                             [numberDataArray]="numbersByYearQuarter"
+                             [dateRange]="this.dateRange"
+                             [title]="numbersByYearQuarterLabel"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"

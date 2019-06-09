@@ -18,7 +18,7 @@ import {
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumbersByEvenDay, selectNumbersByEvenMonth,
-    selectNumbersByOddDay, selectNumbersByOddMonth,
+    selectNumbersByOddDay, selectNumbersByOddMonth, selectNumbersByYearQuarter,
     selectNumbersFrequency,
     selectNumbersFrequencyByDayOfTheWeek,
 } from 'src/app/modules/dashboard/store/selectors';
@@ -49,6 +49,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public mostPopularNumbersInActualMonthName$: Observable<NumberData[]>;
     public numbersByOddOrEvenDay$: Observable<NumberData[]>;
     public numbersByOddOrEvenMonth$: Observable<NumberData[]>;
+    public numbersByYearQuarter$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -142,6 +143,23 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         }
     }
 
+    public get numbersByYearQuarterLabel(): string {
+        switch (this.timeService.todayYearQuarter) {
+            case 1: {
+                return 'Częstotliwość losowania liczb w pierwszym kwartale roku';
+            }
+            case 2: {
+                return 'Częstotliwość losowania liczb w drugim kwartale roku';
+            }
+            case 3: {
+                return 'Częstotliwość losowania liczb w trzecim kwartale roku';
+            }
+            case 4: {
+                return 'Częstotliwość losowania liczb w czwartym kwartale roku';
+            }
+        }
+    }
+
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
         switch (adviceType) {
             case AdviceTypeEnum.GENERAL: {
@@ -171,6 +189,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateMostPopularNumbersInActualMonthName();
         this.calculateNumbersByOddOrEvenDay(dateRange);
         this.calculateNumbersByOddOrEvenMonth(dateRange);
+        this.calculateNumbersByYearQuarter(dateRange);
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
@@ -226,6 +245,12 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
             this.numbersByOddOrEvenMonth$ = this.timeService.isOddMonthToday
                 ? this.store.pipe(select(selectNumbersByOddMonth, { dateRange }))
                 : this.store.pipe(select(selectNumbersByEvenMonth, { dateRange }));
+        }
+    }
+
+    private calculateNumbersByYearQuarter(dateRange: DateRange): void {
+        if (this.isEntireRange || this.isLastYearRange) {
+            this.numbersByYearQuarter$ = this.store.pipe(select(selectNumbersByYearQuarter, { dateRange }));
         }
     }
 

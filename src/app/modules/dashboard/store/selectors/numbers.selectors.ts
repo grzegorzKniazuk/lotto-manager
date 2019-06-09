@@ -8,7 +8,7 @@ import {
     isInLastYear, isOddDay, isOddDayInLastMonth, isOddDayInLastWeek, isOddDayInLastYear, isOddMonth, isOddMonthInLastYear, isSameMonthAsToday,
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth, isSameWeekDayAsTodayInLastWeek,
-    isSameWeekDayAsTodayInLastYear,
+    isSameWeekDayAsTodayInLastYear, isSameYearQuarter, isSameYearQuarterInLastYear,
     mapNumbersArrayToBallValuePercentage, mapScoresToNumbersArray, numbersArrayIncludesSpecificNumberAndDateRange,
     pickNumbers,
 } from 'src/app/shared/utils';
@@ -220,6 +220,25 @@ export const selectNumbersByEvenMonth = createSelector(
             }
             case DateRange.LAST_YEAR: {
                 filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonthInLastYear));
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    }
+);
+
+export const selectNumbersByYearQuarter = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearQuarter));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearQuarterInLastYear));
                 break;
             }
         }
