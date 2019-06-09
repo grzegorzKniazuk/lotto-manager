@@ -1,5 +1,5 @@
 import { NumberData } from 'src/app/shared/interfaces';
-import { mapValuesToBallValuePercentage } from 'src/app/shared/utils/selectors-utils/map-values-to-ball-value-percentage';
+import { mapBonusNumbersCountedToBallValuePercentage } from 'src/app/shared/utils/selectors-utils/map-bonus-numbers-counted-to-ball-value-percentage';
 
 export function mapNumbersArrayToBallValuePercentage(array: number[]): NumberData[] {
     const result = {};
@@ -11,5 +11,5 @@ export function mapNumbersArrayToBallValuePercentage(array: number[]): NumberDat
             Object.defineProperty(result, number, { value: 1, writable: true, configurable: true, enumerable: true });
         }
     });
-    return mapValuesToBallValuePercentage(result)(array.length);
+    return mapBonusNumbersCountedToBallValuePercentage(result)(array.length);
 }

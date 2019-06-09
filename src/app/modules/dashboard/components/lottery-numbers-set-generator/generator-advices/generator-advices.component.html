@@ -60,5 +60,9 @@
                              [numberDataArray]="bonusNumberByOddOrEvenDay"
                              [dateRange]="this.dateRange"
                              [title]="bonusNumberByOddOrEvenDayLabel"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange || isLastYearRange) && bonusNumberByOddOrEvenMonth$ | async as bonusNumberByOddOrEvenMonth"
+                             [numberDataArray]="bonusNumberByOddOrEvenMonth"
+                             [dateRange]="this.dateRange"
+                             [title]="bonusNumberByOddOrEvenMonthLabel"></lm-advice-paragraph>
     </ng-container>
 </div>

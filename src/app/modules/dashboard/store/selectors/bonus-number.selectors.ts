@@ -2,17 +2,17 @@ import { createSelector } from '@ngrx/store';
 import { Score } from 'src/app/shared/interfaces/score';
 import { DateRange } from 'src/app/shared/enums';
 import {
-    isEvenDay, isEvenDayInLastMonth, isEvenDayInLastWeek, isEvenDayInLastYear,
+    isEvenDay, isEvenDayInLastMonth, isEvenDayInLastWeek, isEvenDayInLastYear, isEvenMonth, isEvenMonthInLastYear,
     isInLastMonth, isInLastWeek,
-    isInLastYear, isOddDay, isOddDayInLastMonth, isOddDayInLastWeek, isOddDayInLastYear, isSameMonthAsToday,
+    isInLastYear, isOddDay, isOddDayInLastMonth, isOddDayInLastWeek, isOddDayInLastYear, isOddMonth, isOddMonthInLastYear, isSameMonthAsToday,
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
     isSameWeekDayAsTodayInLastYear,
-    mapValuesToBallValuePercentage,
+    mapBonusNumbersCountedToBallValuePercentage,
 } from 'src/app/shared/utils';
 import { SCORES_BONUS_NUMBER_KEY } from 'src/app/shared/constants';
-import { selectBonusNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
+import { selectBonusNumbersScores, selectNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
 import { filter, countBy } from 'lodash';
 
 export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
@@ -38,7 +38,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
                 break;
             }
         }
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     },
 );
 
@@ -65,7 +65,7 @@ export const selectBonusNumberFrequency = createSelector(
                 break;
             }
         }
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     },
 );
 
@@ -74,7 +74,7 @@ export const selectMostPopularBonusNumberInActualMonthName = createSelector(
     (scores: Partial<Score[]>) => {
         const filteredScores = filter(scores, isSameMonthAsToday);
 
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     }
 );
 
@@ -101,8 +101,7 @@ export const selectBonusNumberByOddDay = createSelector(
                 break;
             }
         }
-        console.log(filter(scores, isOddDay));
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     }
 );
 
@@ -129,6 +128,44 @@ export const selectBonusNumberByEvenDay = createSelector(
                 break;
             }
         }
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    }
+);
+
+export const selectBonusNumberByOddMonth = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = filter(scores, isOddMonth);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = filter(scores, isOddMonthInLastYear);
+                break;
+            }
+        }
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    }
+);
+
+export const selectBonusNumberByEvenMonth = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = filter(scores, isEvenMonth);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = filter(scores, isEvenMonthInLastYear);
+                break;
+            }
+        }
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     }
 );
