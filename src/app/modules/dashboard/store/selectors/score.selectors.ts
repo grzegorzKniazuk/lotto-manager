@@ -3,12 +3,19 @@ import { DateRange, StoreFeatureNames } from 'src/app/shared/enums';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
-import { countBy, filter, flatten, pick, map, includes } from 'lodash';
+import { countBy, filter, flatten, pick } from 'lodash';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
-import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage } from 'src/app/shared/utils';
-import { TimeService } from 'src/app/shared/services/time.service';
-import * as R from 'ramda';
-import { NumberData } from 'src/app/shared/interfaces';
+import {
+    ballValuePercentageNumbersArrayWithExcludedNumber, isEvenDay, isEvenDayInLastMonth, isEvenDayInLastWeek, isEvenDayInLastYear, isEvenMonth, isEvenMonthInLastYear,
+    isInLastMonth, isInLastWeek,
+    isInLastYear, isOddDay, isOddDayInLastMonth, isOddDayInLastWeek, isOddDayInLastYear, isOddMonth, isOddMonthInLastYear, isSameMonthAsToday,
+    isSameWeekDayAsToday,
+    isSameWeekDayAsTodayInLastMonth,
+    isSameWeekDayAsTodayInLastWeek,
+    isSameWeekDayAsTodayInLastYear,
+    mapNumbersArrayToBallValuePercentage, mapScoresToNumbersArray,
+    mapValuesToBallValuePercentage, numbersArrayIncludesSpecificNumberAndDateRange, pickNumbers,
+} from 'src/app/shared/utils';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -204,7 +211,7 @@ export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
 export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>, props: { ballNumber: number, dateRange: DateRange }) => {
-        return ballValuePercentageArrayWithExcludedNumber(numbersArrayIncludesSpecificNumberAndDateRange(scores, props.ballNumber, props.dateRange))(props.ballNumber);
+        return ballValuePercentageNumbersArrayWithExcludedNumber(numbersArrayIncludesSpecificNumberAndDateRange(scores, props.ballNumber, props.dateRange))(props.ballNumber);
     },
 );
 
@@ -306,127 +313,3 @@ export const selectNumbersByEvenMonth = createSelector(
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     }
 );
-
-function ballValuePercentageArrayWithExcludedNumber(numbers: number[]): (ballNumber: number) => NumberData[] {
-    return function (ballNumber): NumberData[] {
-        return R.compose(mapNumbersArrayToBallValuePercentage, excludeNumber)(numbers, ballNumber);
-    };
-}
-
-function numbersArrayIncludesSpecificNumberAndDateRange(scores: Score[], ballNumber: number, dateRange: DateRange): number[] {
-    return R.compose(mapScoresToNumbersArray, filterScoresBySelectedNumberAndDateRange)(scores, ballNumber, dateRange);
-}
-
-function excludeNumber(numbers: number[], excludeNumber: number): number[] {
-    return numbers.filter(n => n !== excludeNumber);
-}
-
-function filterScoresBySelectedNumberAndDateRange(scores: Score[], ballNumber: number, dateRange: DateRange): Score[] {
-    switch (dateRange) {
-        case DateRange.ENTIRE_RANGE: {
-            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber));
-        }
-        case DateRange.LAST_YEAR: {
-            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber) && isInLastYear(score));
-        }
-        case DateRange.LAST_MONTH: {
-            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber) && isInLastMonth(score));
-        }
-        case DateRange.LAST_WEEK: {
-            return filter(scores, score => isScoreNumbersIncludes(score, ballNumber) && isInLastWeek(score));
-        }
-    }
-}
-
-function isInLastYear(score: Score): boolean {
-    return TimeService.isSameOrAfter(score.date, TimeService.subtractYearFromNow);
-}
-
-function isInLastMonth(score: Score): boolean {
-    return TimeService.isSameOrAfter(score.date, TimeService.subtractMonthFromNow);
-}
-
-function isInLastWeek(score: Score): boolean {
-    return TimeService.isSameOrAfter(score.date, TimeService.subtractWeekFromNow);
-}
-
-function isSameMonthAsToday(score: Score): boolean {
-    return TimeService.isSameMonthAsToday(score.date);
-}
-
-function isSameWeekDayAsToday(score: Score): boolean {
-    return TimeService.isSameWeekDayAsToday(score.date);
-}
-
-function isSameWeekDayAsTodayInLastYear(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && isInLastYear(score);
-}
-
-function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && isInLastMonth(score);
-}
-
-function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
-    return isSameWeekDayAsToday(score) && isInLastWeek(score);
-}
-
-function isOddDay(score: Score): boolean {
-    return TimeService.isOddDay(score.date);
-}
-
-function isOddDayInLastYear(score: Score): boolean {
-    return isOddDay(score) && isInLastYear(score);
-}
-
-function isOddDayInLastMonth(score: Score): boolean {
-    return isOddDay(score) && isInLastMonth(score);
-}
-
-function isOddDayInLastWeek(score: Score): boolean {
-    return isOddDay(score) && isInLastWeek(score);
-}
-
-function isEvenDay(score: Score): boolean {
-    return TimeService.isEvenDay(score.date);
-}
-
-function isEvenDayInLastYear(score: Score): boolean {
-    return isEvenDay(score) && isInLastYear(score);
-}
-
-function isEvenDayInLastMonth(score: Score): boolean {
-    return isEvenDay(score) && isInLastMonth(score);
-}
-
-function isEvenDayInLastWeek(score: Score): boolean {
-    return isEvenDay(score) && isInLastWeek(score);
-}
-
-function isOddMonth(score: Score): boolean {
-    return TimeService.isOddMonth(score.date);
-}
-
-function isOddMonthInLastYear(score: Score): boolean {
-    return isOddMonth(score) && isInLastYear(score);
-}
-
-
-function isEvenMonth(score: Score): boolean {
-    return TimeService.isEvenMonth(score.date);
-}
-
-function isEvenMonthInLastYear(score: Score): boolean {
-    return isEvenMonth(score) && isInLastYear(score);
-}
-
-function pickNumbers(score: Score): number[] {
-    return score.numbers;
-}
-
-function mapScoresToNumbersArray(scores: Score[]): number[] {
-    return flatten(map(scores, pickNumbers));
-}
-
-function isScoreNumbersIncludes(score: Score, searchNumber: number): boolean {
-    return includes(score.numbers, searchNumber);
-}

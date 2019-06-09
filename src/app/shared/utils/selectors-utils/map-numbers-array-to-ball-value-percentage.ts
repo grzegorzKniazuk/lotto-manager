@@ -1,5 +1,5 @@
 import { NumberData } from 'src/app/shared/interfaces';
-import { mapValuesToBallValuePercentage } from 'src/app/shared/utils/map-values-to-ball-value-percentage';
+import { mapValuesToBallValuePercentage } from 'src/app/shared/utils/selectors-utils/map-values-to-ball-value-percentage';
 
 export function mapNumbersArrayToBallValuePercentage(array: number[]): NumberData[] {
     const result = {};
