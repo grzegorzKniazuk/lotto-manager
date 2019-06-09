@@ -35,7 +35,12 @@
                              [title]="'Częstotliwość losowania liczb w miesiącu '"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="numbersByOddOrEvenDay$ | async as numbersByOddOrEvenDay"
                              [numberDataArray]="numbersByOddOrEvenDay"
+                             [dateRange]="this.dateRange"
                              [title]="numbersByOddOrEvenDayLabel"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange || isLastYearRange) && numbersByOddOrEvenMonth$ | async as numbersByOddOrEvenMonth"
+                             [numberDataArray]="numbersByOddOrEvenMonth"
+                             [dateRange]="this.dateRange"
+                             [title]="numbersByOddOrEvenMonthLabel"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"

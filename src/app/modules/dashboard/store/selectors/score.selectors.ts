@@ -3,7 +3,7 @@ import { DateRange, StoreFeatureNames } from 'src/app/shared/enums';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
-import { countBy, filter, flatten, pick, map } from 'lodash';
+import { countBy, filter, flatten, pick, map, includes } from 'lodash';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage } from 'src/app/shared/utils';
 import { TimeService } from 'src/app/shared/services/time.service';
@@ -55,7 +55,6 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
                 break;
             }
         }
-
         return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     },
 );
@@ -83,7 +82,6 @@ export const selectBonusNumberFrequency = createSelector(
                 break;
             }
         }
-
         return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     },
 );
@@ -172,7 +170,6 @@ export const selectNumberOnIndexFrequency = createSelector(
                 break;
             }
         }
-
         return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
@@ -200,7 +197,6 @@ export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
                 break;
             }
         }
-
         return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
@@ -242,8 +238,6 @@ export const selectNumbersByOddDay = createSelector(
                 break;
             }
         }
-        console.log(mapNumbersArrayToBallValuePercentage(filteredScores));
-
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     }
 );
@@ -271,7 +265,44 @@ export const selectNumbersByEvenDay = createSelector(
                 break;
             }
         }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    }
+);
 
+export const selectNumbersByOddMonth = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonth));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonthInLastYear));
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    }
+);
+
+export const selectNumbersByEvenMonth = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonth));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonthInLastYear));
+                break;
+            }
+        }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     }
 );
@@ -328,15 +359,15 @@ function isSameWeekDayAsToday(score: Score): boolean {
 }
 
 function isSameWeekDayAsTodayInLastYear(score: Score): boolean {
-    return TimeService.isSameWeekDayAsToday(score.date) && isInLastYear(score);
+    return isSameWeekDayAsToday(score) && isInLastYear(score);
 }
 
 function isSameWeekDayAsTodayInLastMonth(score: Score): boolean {
-    return TimeService.isSameWeekDayAsToday(score.date) && isInLastMonth(score);
+    return isSameWeekDayAsToday(score) && isInLastMonth(score);
 }
 
 function isSameWeekDayAsTodayInLastWeek(score: Score): boolean {
-    return TimeService.isSameWeekDayAsToday(score.date) && isInLastWeek(score);
+    return isSameWeekDayAsToday(score) && isInLastWeek(score);
 }
 
 function isOddDay(score: Score): boolean {
@@ -344,15 +375,15 @@ function isOddDay(score: Score): boolean {
 }
 
 function isOddDayInLastYear(score: Score): boolean {
-    return TimeService.isOddDay(score.date) && isInLastYear(score);
+    return isOddDay(score) && isInLastYear(score);
 }
 
 function isOddDayInLastMonth(score: Score): boolean {
-    return TimeService.isOddDay(score.date) && isInLastMonth(score);
+    return isOddDay(score) && isInLastMonth(score);
 }
 
 function isOddDayInLastWeek(score: Score): boolean {
-    return TimeService.isOddDay(score.date) && isInLastWeek(score);
+    return isOddDay(score) && isInLastWeek(score);
 }
 
 function isEvenDay(score: Score): boolean {
@@ -360,15 +391,32 @@ function isEvenDay(score: Score): boolean {
 }
 
 function isEvenDayInLastYear(score: Score): boolean {
-    return TimeService.isEvenDay(score.date) && isInLastYear(score);
+    return isEvenDay(score) && isInLastYear(score);
 }
 
 function isEvenDayInLastMonth(score: Score): boolean {
-    return TimeService.isEvenDay(score.date) && isInLastMonth(score);
+    return isEvenDay(score) && isInLastMonth(score);
 }
 
 function isEvenDayInLastWeek(score: Score): boolean {
-    return TimeService.isEvenDay(score.date) && isInLastWeek(score);
+    return isEvenDay(score) && isInLastWeek(score);
+}
+
+function isOddMonth(score: Score): boolean {
+    return TimeService.isOddMonth(score.date);
+}
+
+function isOddMonthInLastYear(score: Score): boolean {
+    return isOddMonth(score) && isInLastYear(score);
+}
+
+
+function isEvenMonth(score: Score): boolean {
+    return TimeService.isEvenMonth(score.date);
+}
+
+function isEvenMonthInLastYear(score: Score): boolean {
+    return isEvenMonth(score) && isInLastYear(score);
 }
 
 function pickNumbers(score: Score): number[] {
@@ -376,9 +424,9 @@ function pickNumbers(score: Score): number[] {
 }
 
 function mapScoresToNumbersArray(scores: Score[]): number[] {
-    return flatten(scores.map(score => score.numbers));
+    return flatten(map(scores, pickNumbers));
 }
 
 function isScoreNumbersIncludes(score: Score, searchNumber: number): boolean {
-    return score.numbers.includes(searchNumber);
+    return includes(score.numbers, searchNumber);
 }

@@ -10,6 +10,7 @@ export class TimeService {
     private static readonly dayNameFormat = 'dddd';
     private static readonly monthNameFormat = 'MMMM';
     private static readonly dayOfMonthFormat = 'D';
+    private static readonly monthOfYearFormat = 'M';
     private static readonly baseDateFormat = 'YYYY-MM-DD';
     private static readonly baseTimeFormat = 'HH:mm:ss';
 
@@ -59,6 +60,14 @@ export class TimeService {
         return +(moment(this.currentDate).format(TimeService.dayOfMonthFormat)) % 2 === 0;
     }
 
+    public get isOddMonthToday(): boolean {
+        return +(moment(this.currentDate).format(TimeService.monthOfYearFormat)) % 2 !== 0;
+    }
+
+    public get isEvenMonthToday(): boolean {
+        return +(moment(this.currentDate).format(TimeService.monthOfYearFormat)) % 2 === 0;
+    }
+
     public static isSameOrAfter(date: string, compareTo: string): boolean {
         return moment(date).isSameOrAfter(compareTo);
     }
@@ -85,5 +94,13 @@ export class TimeService {
 
     public static isEvenDay(date: string): boolean {
         return +(moment(date).format(TimeService.dayOfMonthFormat)) % 2 === 0;
+    }
+
+    public static isOddMonth(date: string): boolean {
+        return +(moment(date).format(TimeService.monthOfYearFormat)) % 2 !== 0;
+    }
+
+    public static isEvenMonth(date: string): boolean {
+        return +(moment(date).format(TimeService.monthOfYearFormat)) % 2 === 0;
     }
 }

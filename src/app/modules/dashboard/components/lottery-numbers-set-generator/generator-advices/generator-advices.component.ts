@@ -15,8 +15,8 @@ import {
     selectMostPopularNumbersInActualMonthName,
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
-    selectNumbersByEvenDay,
-    selectNumbersByOddDay,
+    selectNumbersByEvenDay, selectNumbersByEvenMonth,
+    selectNumbersByOddDay, selectNumbersByOddMonth,
     selectNumbersFrequency,
     selectNumbersFrequencyByDayOfTheWeek,
 } from 'src/app/modules/dashboard/store/selectors/score.selectors';
@@ -31,8 +31,8 @@ import { last } from 'lodash';
 })
 export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
-    public readonly adviceTypes = this.adviceTypeSelectOptions;
-    public readonly dateRangeTypes = this.dateRangeSelectOptions;
+    public readonly adviceTypes: SelectItem[] = this.adviceTypeSelectOptions;
+    public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
     public adviceType: AdviceTypeEnum = AdviceTypeEnum.GENERAL;
     public dateRange: DateRange = DateRange.ENTIRE_RANGE;
     public todayDayName: string = this.timeService.todayDayName;
@@ -46,6 +46,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public mostOftenFoundNumbersWithNumberOnIndex$: Observable<NumberData[]>;
     public mostPopularNumbersInActualMonthName$: Observable<NumberData[]>;
     public numbersByOddOrEvenDay$: Observable<NumberData[]>;
+    public numbersByOddOrEvenMonth$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -99,8 +100,16 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         return this.dateRange === DateRange.ENTIRE_RANGE;
     }
 
+    public get isLastYearRange(): boolean {
+        return this.dateRange === DateRange.LAST_YEAR;
+    }
+
     public get numbersByOddOrEvenDayLabel(): string {
         return this.timeService.isOddDayToday ? 'Częstotliwość losowania liczb w dni nieparzyste' : 'Częstotliwość losowania liczb w dni parzyste';
+    }
+
+    public get numbersByOddOrEvenMonthLabel(): string {
+        return this.timeService.isOddDayToday ? 'Częstotliwość losowania liczb w miesiące nieparzyste' : 'Częstotliwość losowania liczb w miesiące parzyste';
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
@@ -131,6 +140,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateMostOftenFoundNumbersWithNumberOnIndex(last(this.numbers), dateRange);
         this.calculateMostPopularNumbersInActualMonthName();
         this.calculateNumbersByOddOrEvenDay(dateRange);
+        this.calculateNumbersByOddOrEvenMonth(dateRange);
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
@@ -176,6 +186,14 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.numbersByOddOrEvenDay$ = this.timeService.isOddDayToday
             ? this.store.pipe(select(selectNumbersByOddDay, { dateRange }))
             : this.store.pipe(select(selectNumbersByEvenDay, { dateRange }));
+    }
+
+    private calculateNumbersByOddOrEvenMonth(dateRange: DateRange): void {
+        if (this.isEntireRange || this.isLastYearRange) {
+            this.numbersByOddOrEvenMonth$ = this.timeService.isOddMonthToday
+                ? this.store.pipe(select(selectNumbersByOddMonth, { dateRange }))
+                : this.store.pipe(select(selectNumbersByEvenMonth, { dateRange }));
+        }
     }
 
     /* bonus number */
