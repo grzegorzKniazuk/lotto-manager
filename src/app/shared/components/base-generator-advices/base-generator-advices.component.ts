@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AdviceTypeEnum, DateRange } from 'src/app/shared/enums';
 import { TimeService } from 'src/app/shared/services/time.service';
+import { Memoize } from 'lodash-decorators';
 
 @Component({
     selector: 'lm-base-generator-advices',
@@ -44,16 +45,19 @@ export class BaseGeneratorAdvicesComponent {
         ];
     }
 
-    public get isEntireRange(): boolean {
-        return this.dateRange === DateRange.ENTIRE_RANGE;
+    @Memoize
+    public isEntireRange(dateRange: DateRange): boolean {
+        return dateRange === DateRange.ENTIRE_RANGE;
     }
 
-    public get isLastYearRange(): boolean {
-        return this.dateRange === DateRange.LAST_YEAR;
+    @Memoize
+    public isLastYearRange(dateRange: DateRange): boolean {
+        return dateRange === DateRange.LAST_YEAR;
     }
 
-    private get dateRangeLabel(): string {
-        switch (this.dateRange) {
+    @Memoize
+    private dateRangeLabel(dateRange: DateRange): string {
+        switch (dateRange) {
             case DateRange.ENTIRE_RANGE: {
                 return 'dla wszystkich losowań';
             }
@@ -70,108 +74,126 @@ export class BaseGeneratorAdvicesComponent {
     }
 
     /* numbers labels */
-    public get numbersFrequencyLabel(): string {
-        console.log(`Częstotliwość losowania wszystkich liczb ${this.dateRangeLabel}`);
-        return `Częstotliwość losowania wszystkich liczb ${this.dateRangeLabel}`;
+    @Memoize
+    public numbersFrequencyLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania wszystkich liczb ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get numbersFrequencyByDayOfTheWeekLabel(): string {
-        return `Częstotliwość losowania wszystkich liczb w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel}`;
+    @Memoize
+    public numbersFrequencyByDayOfTheWeekLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania wszystkich liczb w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get mostPopularNumbersInActualMonthNameLabel(): string {
-        return `Częstotliwość losowania liczb w miesiącu ${this.todayMonthName} ${this.dateRangeLabel}`;
+    @Memoize
+    public mostPopularNumbersInActualMonthNameLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania liczb w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get numbersByOddOrEvenDayLabel(): string {
-        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczb w dni nieparzyste ${this.dateRangeLabel}` : `Częstotliwość losowania liczb w dni parzyste ${this.dateRangeLabel}`;
+    @Memoize
+    public numbersByOddOrEvenDayLabel(dateRange: DateRange): string {
+        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczb w dni nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczb w dni parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get numbersByOddOrEvenMonthLabel(): string {
-        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczb w miesiące nieparzyste ${this.dateRangeLabel}` : `Częstotliwość losowania liczb w miesiące parzyste ${this.dateRangeLabel}`;
+    @Memoize
+    public numbersByOddOrEvenMonthLabel(dateRange: DateRange): string {
+        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczb w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczb w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get numbersByYearQuarterLabel(): string {
+    @Memoize
+    public numbersByYearQuarterLabel(dateRange: DateRange): string {
         switch (this.timeService.todayYearQuarter) {
             case 1: {
-                return `Częstotliwość losowania liczb w pierwszym kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczb w pierwszym kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
             case 2: {
-                return `Częstotliwość losowania liczb w drugim kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczb w drugim kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
             case 3: {
-                return `Częstotliwość losowania liczb w trzecim kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczb w trzecim kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
             case 4: {
-                return `Częstotliwość losowania liczb w czwartym kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczb w czwartym kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
         }
     }
 
-    public get numbersByYearDayNumberLabel(): string {
-        return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku ${this.dateRangeLabel}`;
+    @Memoize
+    public numbersByYearDayNumberLabel(dateRange: DateRange): string {
+        return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get numbersByMonthDayNumberLabel(): string {
-        return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel}`;
+    @Memoize
+    public numbersByMonthDayNumberLabel(dateRange: DateRange): string {
+        return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel(dateRange)}`;
     }
 
     /* numbers by indexes labels */
-    public get numberOnIndexFrequencyLabel(): string {
-        return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} ${this.dateRangeLabel}`;
+    @Memoize
+    public numberOnIndexFrequencyLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get numberOnIndexFrequencyByDayOfTheWeekLabel(): string {
-        return `'Częstotliwość losowania liczb na indeksie nr.${this.numbers.length +1} w dniu ${this.todayDayName} ${this.dateRangeLabel}`;
+    @Memoize
+    public numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange: DateRange): string {
+        return `'Częstotliwość losowania liczb na indeksie nr.${this.numbers.length +1} w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get mostPopularNumberOnIndexInActualMonthNameLabel(): string {
-        return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiącu ${this.todayMonthName} ${this.dateRangeLabel}`;
+    @Memoize
+    public mostPopularNumberOnIndexInActualMonthNameLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
     }
 
     /* bonus number labels */
-    public get bonusNumberFrequencyLabel(): string {
-        return `Częstotliwość losowania liczb bonusowych ${this.dateRangeLabel}`;
+    @Memoize
+    public bonusNumberFrequencyLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania liczb bonusowych ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get mostPopularBonusNumberByDayOfTheWeekLabel(): string {
-        return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel}`;
+    @Memoize
+    public mostPopularBonusNumberByDayOfTheWeekLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get mostPopularBonusNumberInActualMonthNameLabel(): string {
-        return `Częstotliwość losowania liczb bonusowych w miesiącu ${this.todayMonthName} ${this.dateRangeLabel}`;
+    @Memoize
+    public mostPopularBonusNumberInActualMonthNameLabel(dateRange: DateRange): string {
+        return `Częstotliwość losowania liczb bonusowych w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get bonusNumberByOddOrEvenDayLabel(): string {
-        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczby bonusowej w dni nieparzyste ${this.dateRangeLabel}` : `Częstotliwość losowania liczby bonusowej w dni parzyste ${this.dateRangeLabel}`;
+    @Memoize
+    public bonusNumberByOddOrEvenDayLabel(dateRange: DateRange): string {
+        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczby bonusowej w dni nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczby bonusowej w dni parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get bonusNumberByOddOrEvenMonthLabel(): string {
-        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczby bonusowej w miesiące nieparzyste ${this.dateRangeLabel}` : `Częstotliwość losowania liczby bonusowej w miesiące parzyste ${this.dateRangeLabel}`;
+    @Memoize
+    public bonusNumberByOddOrEvenMonthLabel(dateRange: DateRange): string {
+        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczby bonusowej w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczby bonusowej w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get bonusNumberByYearQuarterLabel(): string {
+    @Memoize
+    public bonusNumberByYearQuarterLabel(dateRange: DateRange): string {
         switch (this.timeService.todayYearQuarter) {
             case 1: {
-                return `Częstotliwość losowania liczby bonusowej w pierwszym kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczby bonusowej w pierwszym kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
             case 2: {
-                return `Częstotliwość losowania liczby bonusowej w drugim kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczby bonusowej w drugim kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
             case 3: {
-                return `Częstotliwość losowania liczby bonusowej w trzecim kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczby bonusowej w trzecim kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
             case 4: {
-                return `Częstotliwość losowania liczby bonusowej w czwartym kwartale roku ${this.dateRangeLabel}`;
+                return `Częstotliwość losowania liczby bonusowej w czwartym kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
         }
     }
 
-    public get bonusNumberByYearDayNumberLabel(): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.todayYearDayNumber} dniu roku ${this.dateRangeLabel}`;
+    @Memoize
+    public bonusNumberByYearDayNumberLabel(dateRange: DateRange): string {
+        return `Częstoliwość losowania liczby bonusowej w ${this.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
     }
 
-    public get bonusNumberByMonthDayNumberLabel(): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel}`;
+    @Memoize
+    public bonusNumberByMonthDayNumberLabel(dateRange: DateRange): string {
+        return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel(dateRange)}`;
     }
 }

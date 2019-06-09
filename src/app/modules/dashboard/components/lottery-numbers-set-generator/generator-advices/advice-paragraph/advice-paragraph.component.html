@@ -1,5 +1,5 @@
 <p-accordion>
-    <p-accordionTab [header]="pTitle">
+    <p-accordionTab [header]="title">
         <div class="accordion-menu">
             <span *ngIf="isChartViewType">
                 <p-selectButton [options]="chartDataTypes" [(ngModel)]="chartDataType" (onOptionClick)="onOptionClick($event)"></p-selectButton>

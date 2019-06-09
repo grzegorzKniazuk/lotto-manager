@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ChartDataType, DataViewType, DateRange, SortBy } from 'src/app/shared/enums';
+import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
 import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 
@@ -13,7 +13,7 @@ export class AdviceParagraphComponent {
 
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
     @Input() public readonly numberDataArray: NumberData[] = [];
-    @Input() public readonly pTitle: string;
+    @Input() public readonly title: string;
 
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypes: SelectItem[] = this.sorTypesOptions;
