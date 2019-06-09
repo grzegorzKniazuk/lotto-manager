@@ -6,28 +6,34 @@ import * as moment from 'moment';
 })
 export class TimeService {
 
+    private static readonly locale = 'pl';
+    private static readonly dayNameFormat = 'dddd';
+    private static readonly monthNameFormat = 'MMMM';
+    private static readonly baseDateFormat = 'YYYY-MM-DD';
+    private static readonly baseTimeFormat = 'HH:mm:ss';
+
     public static get subtractYearFromNow(): string {
-        return moment().subtract('1', 'year').format('YYYY-MM-DD');
+        return moment().subtract('1', 'year').format(TimeService.baseDateFormat);
     }
 
     public static get subtractMonthFromNow(): string {
-        return moment().subtract('1', 'month').format('YYYY-MM-DD');
+        return moment().subtract('1', 'month').format(TimeService.baseDateFormat);
     }
 
     public static get subtractWeekFromNow(): string {
-        return moment().subtract('1', 'week').format('YYYY-MM-DD');
+        return moment().subtract('1', 'week').format(TimeService.baseDateFormat);
     }
 
     public get currentDate(): string {
-        return moment().format('YYYY-MM-DD');
+        return moment().format(TimeService.baseDateFormat);
     }
 
     public get currentTime(): string {
-        return moment().format('HH:mm:ss');
+        return moment().format(TimeService.baseTimeFormat);
     }
 
     public get timeToDrawLeft(): string {
-        let drawTime = moment().locale('pl').clone().hour(21).minute(40).second(0);
+        let drawTime = moment().locale(TimeService.locale).clone().hour(21).minute(40).second(0);
 
         if (moment().isAfter(drawTime)) {
             drawTime = drawTime.add(1, 'day');
@@ -37,7 +43,11 @@ export class TimeService {
     }
 
     public get todayDayName(): string {
-        return moment(this.currentDate).locale('pl').format('dddd');
+        return moment(this.currentDate).locale(TimeService.locale).format(TimeService.dayNameFormat);
+    }
+
+    public get todayMonthName(): string {
+        return moment(this.currentDate).locale(TimeService.locale).format(TimeService.monthNameFormat);
     }
 
     public static isSameOrAfter(date: string, compareTo: string): boolean {
@@ -53,6 +63,10 @@ export class TimeService {
     }
 
     public static isSameWeekDayAsToday(date: string): boolean {
-        return moment(date).format('dddd') === moment().format('dddd');
+        return moment(date).format(TimeService.dayNameFormat) === moment().format(TimeService.dayNameFormat);
+    }
+
+    public static isSameMonthAsToday(date: string): boolean {
+        return moment(date).format(TimeService.monthNameFormat) === moment().format(TimeService.monthNameFormat);
     }
 }

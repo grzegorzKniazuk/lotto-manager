@@ -16,6 +16,7 @@ export class AdviceParagraphComponent {
     @Input() public readonly numberDataArray: NumberData[];
     @Input() public readonly title: string;
     @Input() public readonly todayDayName: string;
+    @Input() public readonly todayMonthName: string;
 
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypes: SelectItem[] = this.sorTypesOptions;
@@ -31,6 +32,10 @@ export class AdviceParagraphComponent {
 
         if (this.todayDayName) {
             message.push(this.todayDayName);
+        }
+
+        if (this.todayMonthName) {
+            message.push(this.todayMonthName);
         }
 
         switch (this.dateRange) {

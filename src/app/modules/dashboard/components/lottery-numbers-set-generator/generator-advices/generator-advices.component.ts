@@ -11,6 +11,7 @@ import {
     selectBonusNumberFrequency,
     selectMostOftenFoundNumbersWithNumberOnIndex,
     selectMostPopularBonusNumberByDayOfTheWeek,
+    selectMostPopularBonusNumberInActualMonthName,
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumbersFrequency,
@@ -32,9 +33,11 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public adviceType: AdviceTypeEnum = AdviceTypeEnum.GENERAL;
     public dateRange: DateRange = DateRange.ENTIRE_RANGE;
     public todayDayName: string = this.timeService.todayDayName;
+    public todayMonthName: string = this.timeService.todayMonthName;
 
-    public mostPopularBonusNumbersByDayOfTheWeek$: Observable<NumberData[]>;
     public bonusNumberFrequency$: Observable<NumberData[]>;
+    public mostPopularBonusNumberByDayOfTheWeek$: Observable<NumberData[]>;
+    public mostPopularBonusNumberInActualMonthName$: Observable<NumberData[]>;
 
     public numbersFrequency$: Observable<NumberData[]>;
     public numberOnIndexFrequency$: Observable<NumberData[]>;
@@ -85,6 +88,10 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
+    private get isEntireRange(): boolean {
+        return this.dateRange === DateRange.ENTIRE_RANGE;
+    }
+
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
         switch (adviceType) {
             case AdviceTypeEnum.GENERAL: {
@@ -114,8 +121,9 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
-        this.calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange);
         this.calculateBonusNumberFrequency(dateRange);
+        this.calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange);
+        this.calculateMostPopularBonusNumberInActualMonthName(dateRange);
     }
 
     /* numbers */
@@ -146,11 +154,17 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     }
 
     /* bonus number */
-    private calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
-        this.mostPopularBonusNumbersByDayOfTheWeek$ = this.store.pipe(select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }));
-    }
-
     private calculateBonusNumberFrequency(dateRange: DateRange): void {
         this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberFrequency, { dateRange }));
+    }
+
+    private calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
+        this.mostPopularBonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }));
+    }
+
+    private calculateMostPopularBonusNumberInActualMonthName(dateRange: DateRange): void {
+        if (dateRange === DateRange.ENTIRE_RANGE) {
+            this.mostPopularBonusNumberInActualMonthName$ = this.store.pipe(select(selectMostPopularBonusNumberInActualMonthName));
+        }
     }
 }

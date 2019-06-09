@@ -9,6 +9,7 @@ import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage } 
 import { TimeService } from 'src/app/shared/services/time.service';
 import * as R from 'ramda';
 import { NumberData } from 'src/app/shared/interfaces';
+import { Time } from '@angular/common';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -83,8 +84,16 @@ export const selectBonusNumberFrequency = createSelector(
                 break;
             }
         }
+
         return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length);
     },
+);
+
+export const selectMostPopularBonusNumberInActualMonthName = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>) => {
+        return mapValuesToBallValuePercentage(countBy(filter(scores, isSameMonthAsToday), SCORES_BONUS_NUMBER_KEY), scores.length);
+    }
 );
 
 export const selectNumbersFrequency = createSelector(
@@ -243,6 +252,10 @@ function isInLastMonth(score: Score): boolean {
 
 function isInLastWeek(score: Score): boolean {
     return TimeService.isSameOrAfter(score.date, TimeService.subtractWeekFromNow);
+}
+
+function isSameMonthAsToday(score: Score): boolean {
+    return TimeService.isSameMonthAsToday(score.date);
 }
 
 function isSameWeekDayAsToday(score: Score): boolean {

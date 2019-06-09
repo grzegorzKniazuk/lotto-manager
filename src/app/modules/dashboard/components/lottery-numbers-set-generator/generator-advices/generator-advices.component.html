@@ -35,10 +35,14 @@
                              [dateRange]="this.dateRange"
                              [numberDataArray]="bonusNumberFrequency"
                              title="Częstotliwość losowania liczb bonusowych"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
+        <lm-advice-paragraph *ngIf="mostPopularBonusNumberByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
                              [dateRange]="this.dateRange"
                              [numberDataArray]="mostPopularBonusNumbersByDayOfTheWeek"
                              [todayDayName]="todayDayName"
                              title="Częstotliwość losowania liczb bonusowych w dniu tygodnia"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="isEntireRange && mostPopularBonusNumberInActualMonthName$ | async as mostPopularBonusNumberInActualMonthName"
+                             [numberDataArray]="mostPopularBonusNumberInActualMonthName"
+                             [todayMonthName]="todayMonthName"
+                             [title]="'Częstotliwość losowania liczb bonusowych w miesiącach '"></lm-advice-paragraph>
     </ng-container>
 </div>
