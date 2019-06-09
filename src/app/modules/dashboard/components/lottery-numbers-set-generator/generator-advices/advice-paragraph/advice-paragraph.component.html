@@ -2,13 +2,13 @@
     <p-accordionTab [header]="pTitle">
         <div class="accordion-menu">
             <span *ngIf="isChartViewType">
-                <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="chartDataType" [options]="chartDataTypes"></p-selectButton>
+                <p-selectButton [options]="chartDataTypes" [(ngModel)]="chartDataType" (onOptionClick)="onOptionClick($event)"></p-selectButton>
             </span>
             <span>
-                <p-selectButton [(ngModel)]="sortBy" [options]="sortTypes"></p-selectButton>
+                <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy" (onOptionClick)="onOptionClick($event)"></p-selectButton>
             </span>
             <span>
-                <p-selectButton [(ngModel)]="viewType" [options]="viewTypes"></p-selectButton>
+                <p-selectButton [options]="viewTypes" [(ngModel)]="viewType" (onOptionClick)="onOptionClick($event)"></p-selectButton>
             </span>
         </div>
         <ng-container *ngIf="isNumbersViewType">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </ng-container>
-        <lm-number-data-chart *ngIf="isChartViewType" [chartDataType]="chartDataType" [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy"></lm-number-data-chart>
+        <lm-number-data-chart *ngIf="isChartViewType" [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy" [chartDataType]="chartDataType" [sortBy]="sortBy"></lm-number-data-chart>
     </p-accordionTab>
 </p-accordion>
-<div>a</div>
+<div #accordionBottomAnchor hidden></div>

@@ -1,20 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NumberData } from 'src/app/shared/interfaces';
 import { values } from 'lodash';
 import * as R from 'ramda';
 import { mapNumberDataArrayToBallNumberArray, mapNumberDataArrayToPercentageArray, mapNumberDataArrayToValueArray } from 'src/app/shared/utils';
-import { ChartDataType } from 'src/app/shared/enums';
+import { ChartDataType, SortBy } from 'src/app/shared/enums';
 import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT_COLOR, BASE_FONT_SIZE } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-number-data-chart',
     templateUrl: './number-data-chart.component.html',
     styleUrls: [ './number-data-chart.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NumberDataChartComponent {
 
-    @Input() public numberDataArray: NumberData[];
-    @Input() public chartDataType: ChartDataType;
+    @Input() public readonly numberDataArray: NumberData[];
+    @Input() public readonly chartDataType: ChartDataType;
+    @Input() public readonly sortBy: SortBy;
 
     public get chartData(): Object {
         return {

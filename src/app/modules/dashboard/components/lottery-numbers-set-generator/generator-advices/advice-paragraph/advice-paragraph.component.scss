@@ -6,7 +6,7 @@
     padding: $padding-l 0;
 
     span {
-        &:first-of-type {
+        &:not(:last-of-type) {
             margin-right: $margin-m;
         }
     }

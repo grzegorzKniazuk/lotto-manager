@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, DateRange, SortBy } from 'src/app/shared/enums';
 import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
@@ -7,14 +7,15 @@ import { SelectItem } from 'primeng/api';
     selector: 'lm-advice-paragraph',
     templateUrl: './advice-paragraph.component.html',
     styleUrls: [ './advice-paragraph.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
 
-    @Input() public dateRange: DateRange = DateRange.ENTIRE_RANGE;
-    @Input() public numberDataArray: NumberData[];
-    @Input() public title: string;
-    @Input() public todayDayName: string;
-    @Input() public collapsed: boolean = true;
+    @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
+    @Input() public readonly dateRange: DateRange = DateRange.ENTIRE_RANGE;
+    @Input() public readonly numberDataArray: NumberData[];
+    @Input() public readonly title: string;
+    @Input() public readonly todayDayName: string;
 
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypes: SelectItem[] = this.sorTypesOptions;
@@ -56,8 +57,8 @@ export class AdviceParagraphComponent {
 
     public get sorTypesOptions(): SelectItem[] {
         return [
-            { label: 'Numer', value: SortBy.NUMBER },
-            { label: 'Wartość', value: SortBy.VALUE },
+            { label: 'Sortuj wg. numeru', value: SortBy.NUMBER },
+            { label: 'Sortuj wg. wartości', value: SortBy.VALUE },
         ];
     }
 
@@ -70,8 +71,8 @@ export class AdviceParagraphComponent {
 
     public get chartTypesOptions(): SelectItem[] {
         return [
-            { label: 'Liczbowy', value: ChartDataType.VALUES },
-            { label: 'Procentowy', value: ChartDataType.PERCENTAGES },
+            { label: 'Wartości liczbowe', value: ChartDataType.VALUES },
+            { label: 'Wartości procentowe', value: ChartDataType.PERCENTAGES },
         ];
     }
 
@@ -85,9 +86,7 @@ export class AdviceParagraphComponent {
 
     public onOptionClick(event: OptionClickEvent): void {
         event.originalEvent.stopImmediatePropagation();
-        console.log(event.originalEvent);
-        console.log(event.option);
-        console.log(event.index);
+        this.accordionBottomAnchor.nativeElement.focus();
     }
 }
 
