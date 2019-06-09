@@ -8,7 +8,7 @@ import { TableColumn } from 'src/app/shared/interfaces';
 import { Table } from 'primeng/table';
 import { TableFilterMatchModeEnum } from 'src/app/shared/enums';
 import { SelectItem } from 'primeng/api';
-import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_ID_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
+import { FIRST_DRAW_DATE, SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_ID_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-score-list',
@@ -20,13 +20,13 @@ export class ScoreListComponent implements OnInit {
     public readonly scoresList$: Observable<Score[]> = this.store.pipe(select(selectScores));
     public readonly totalScores$: Observable<number> = this.store.pipe(select(selectTotalScores));
     public readonly columns: TableColumn[] = this.columnArray;
-    public dateRangeFilter: Date[];
+    public dateRangeFilter: Date[] = [ new Date(FIRST_DRAW_DATE), new Date() ];
     public readonly bonusNumbers: SelectItem[] = this.bonusNumbersArray;
     public readonly numbers: SelectItem[] = this.numbersArray;
     @ViewChild('table', { static: true }) private table: Table;
 
     constructor(
-        private store: Store<AppState>,
+        private readonly store: Store<AppState>,
     ) {
     }
 

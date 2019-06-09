@@ -12,11 +12,8 @@ import { SelectItem } from 'primeng/api';
 export class AdviceParagraphComponent {
 
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
-    @Input() public readonly dateRange: DateRange = DateRange.ENTIRE_RANGE;
     @Input() public readonly numberDataArray: NumberData[] = [];
-    @Input() public readonly title: string;
-    @Input() public readonly todayDayName: string;
-    @Input() public readonly todayMonthName: string;
+    @Input() public readonly pTitle: string;
 
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypes: SelectItem[] = this.sorTypesOptions;
@@ -26,39 +23,6 @@ export class AdviceParagraphComponent {
 
     public chartDataType: ChartDataType = ChartDataType.VALUES;
     public chartDataTypes: SelectItem[] = this.chartTypesOptions;
-
-    public get pTitle(): string {
-        const message = [ this.title ];
-
-        if (this.todayDayName) {
-            message.push(this.todayDayName);
-        }
-
-        if (this.todayMonthName) {
-            message.push(this.todayMonthName);
-        }
-
-        switch (this.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                message.push('dla wszystkich losowań');
-                break;
-            }
-            case DateRange.LAST_YEAR: {
-                message.push('dla losowań z ostatniego roku');
-                break;
-            }
-            case DateRange.LAST_MONTH: {
-                message.push('dla losowań z ostatniego miesiąca');
-                break;
-            }
-            case DateRange.LAST_WEEK: {
-                message.push('dla losowań z ostatniego tygodnia');
-                break;
-            }
-        }
-
-        return message.join(' ');
-    }
 
     public get sorTypesOptions(): SelectItem[] {
         return [

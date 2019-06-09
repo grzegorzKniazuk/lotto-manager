@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from 'src/app/shared/prime-ng.module';
 import {
+    BaseGeneratorAdvicesComponent,
     CouponControlComponent,
     DashboardSideMenuComponent,
     FormControlErrorTooltipComponent,
@@ -27,6 +28,7 @@ const components = [
     LottoBallComponent,
     TimerComponent,
     CouponControlComponent,
+    BaseGeneratorAdvicesComponent,
 ];
 
 const directives = [

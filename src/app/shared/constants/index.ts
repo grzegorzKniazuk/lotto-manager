@@ -7,3 +7,4 @@ export * from './base-font-color';
 export * from './base-font-size';
 export * from './base-chart-bar-background-color';
 export * from './base-chart-bar-border-color';
+export * from './first-draw-date';

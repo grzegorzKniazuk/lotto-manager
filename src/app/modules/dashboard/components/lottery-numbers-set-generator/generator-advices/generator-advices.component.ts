@@ -1,8 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AdviceTypeEnum, DateRange } from 'src/app/shared/enums';
-import { SelectItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { NumberData } from 'src/app/shared/interfaces';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
@@ -34,22 +33,16 @@ import {
 } from 'src/app/modules/dashboard/store/selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
 import { last } from 'lodash';
+import { BaseGeneratorAdvicesComponent } from 'src/app/shared/components';
 
 @AutoUnsubscribe()
 @Component({
     selector: 'lm-generator-advices',
     templateUrl: './generator-advices.component.html',
     styleUrls: [ './generator-advices.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
-
-    public readonly adviceTypes: SelectItem[] = this.adviceTypeSelectOptions;
-    public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
-    public adviceType: AdviceTypeEnum = AdviceTypeEnum.GENERAL;
-    public dateRange: DateRange = DateRange.ENTIRE_RANGE;
-    public todayDayName: string = this.timeService.todayDayName;
-    public todayMonthName: string = this.timeService.todayMonthName;
-
+export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent implements OnInit, OnDestroy {
     /* numbers */
     public numbersFrequency$: Observable<NumberData[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
@@ -75,13 +68,11 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public bonusNumberByYearDayNumber$: Observable<NumberData[]>;
     public bonusNumberByMonthDayNumber$: Observable<NumberData[]>;
 
-    private numbers: number[];
-    private bonusNumber: number;
-
     constructor(
+        timeService: TimeService,
         private readonly store: Store<AppState>,
-        private readonly timeService: TimeService,
     ) {
+        super(timeService);
     }
 
     @Input()
@@ -94,102 +85,11 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateMostPopularNumberOnIndexInActualMonthName(this.numbers.length, this.dateRange);
     }
 
-    private get dateRangeSelectOptions(): SelectItem[] {
-        return [
-            { label: 'Wszystkie losowania', value: DateRange.ENTIRE_RANGE },
-            { label: 'Ostatni rok', value: DateRange.LAST_YEAR },
-            { label: 'Ostatni miesiąc', value: DateRange.LAST_MONTH },
-            { label: 'Ostatni tydzień', value: DateRange.LAST_WEEK },
-        ];
-    }
-
-    private get adviceTypeSelectOptions(): SelectItem[] {
-        return [
-            { label: 'Ogólne', value: AdviceTypeEnum.GENERAL },
-            { label: 'Liczby 5-35', value: AdviceTypeEnum.NUMBERS },
-            { label: 'Liczba bonusowa', value: AdviceTypeEnum.BONUS_NUMBER },
-        ];
-    }
-
     ngOnInit() {
         this.calculateGeneralAdvices(DateRange.ENTIRE_RANGE);
     }
 
     ngOnDestroy() {
-    }
-
-    public get isEntireRange(): boolean {
-        return this.dateRange === DateRange.ENTIRE_RANGE;
-    }
-
-    public get isLastYearRange(): boolean {
-        return this.dateRange === DateRange.LAST_YEAR;
-    }
-
-    public get numbersByOddOrEvenDayLabel(): string {
-        return this.timeService.isOddDayToday ? 'Częstotliwość losowania liczb w dni nieparzyste' : 'Częstotliwość losowania liczb w dni parzyste';
-    }
-
-    public get numbersByOddOrEvenMonthLabel(): string {
-        return this.timeService.isOddMonthToday ? 'Częstotliwość losowania liczb w miesiące nieparzyste' : 'Częstotliwość losowania liczb w miesiące parzyste';
-    }
-
-    public get bonusNumberByOddOrEvenDayLabel(): string {
-        return this.timeService.isOddDayToday ? 'Częstotliwość losowania liczby bonusowej w dni nieparzyste' : 'Częstotliwość losowania liczby bonusowej w dni parzyste';
-    }
-
-    public get bonusNumberByOddOrEvenMonthLabel(): string {
-        return this.timeService.isOddMonthToday ? 'Częstotliwość losowania liczby bonusowej w miesiące nieparzyste' : 'Częstotliwość losowania liczby bonusowej w miesiące parzyste';
-    }
-
-    public get bonusNumberByYearQuarterLabel(): string {
-        switch (this.timeService.todayYearQuarter) {
-            case 1: {
-                return 'Częstotliwość losowania liczby bonusowej w pierwszym kwartale roku';
-            }
-            case 2: {
-                return 'Częstotliwość losowania liczby bonusowej w drugim kwartale roku';
-            }
-            case 3: {
-                return 'Częstotliwość losowania liczby bonusowej w trzecim kwartale roku';
-            }
-            case 4: {
-                return 'Częstotliwość losowania liczby bonusowej w czwartym kwartale roku';
-            }
-        }
-    }
-
-    public get numbersByYearQuarterLabel(): string {
-        switch (this.timeService.todayYearQuarter) {
-            case 1: {
-                return 'Częstotliwość losowania liczb w pierwszym kwartale roku';
-            }
-            case 2: {
-                return 'Częstotliwość losowania liczb w drugim kwartale roku';
-            }
-            case 3: {
-                return 'Częstotliwość losowania liczb w trzecim kwartale roku';
-            }
-            case 4: {
-                return 'Częstotliwość losowania liczb w czwartym kwartale roku';
-            }
-        }
-    }
-
-    public get numbersByYearDayNumberLabel(): string {
-        return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku`;
-    }
-
-    public get bonusNumberByYearDayNumberLabel(): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.timeService.todayYearDayNumber} dniu roku`;
-    }
-
-    public get numbersByMonthDayNumberLabel(): string {
-        return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
-    }
-
-    public get bonusNumberByMonthDayNumberLabel(): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
