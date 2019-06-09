@@ -163,11 +163,11 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     }
 
     public get numbersByYearDayNumberLabel(): string {
-        return `Częstoliwośc losowania liczb w ${this.timeService.todayYearDayNumber} dniach roku`;
+        return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku`;
     }
 
     public get numbersByMonthDayNumberLabel(): string {
-        return `Częstoliwośc losowania liczb w ${this.timeService.todayMonthDayNumber} dniach miesiąca`;
+        return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
