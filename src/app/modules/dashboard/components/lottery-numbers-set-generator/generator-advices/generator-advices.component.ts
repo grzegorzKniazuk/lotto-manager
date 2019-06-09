@@ -11,7 +11,6 @@ import {
     selectBonusNumberByEvenDay, selectBonusNumberByEvenMonth, selectBonusNumberByMonthDayNumber,
     selectBonusNumberByOddDay, selectBonusNumberByOddMonth, selectBonusNumberByYearDayNumber, selectBonusNumberByYearQuarter,
     selectBonusNumberFrequency,
-    selectMostOftenFoundNumbersWithNumberOnIndex,
     selectMostPopularBonusNumberByDayOfTheWeek,
     selectMostPopularBonusNumberInActualMonthName,
     selectMostPopularNumbersInActualMonthName,
@@ -23,7 +22,6 @@ import {
     selectNumbersFrequencyByDayOfTheWeek,
 } from 'src/app/modules/dashboard/store/selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
-import { last } from 'lodash';
 
 @AutoUnsubscribe()
 @Component({
@@ -42,16 +40,17 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
     /* numbers */
     public numbersFrequency$: Observable<NumberData[]>;
-    public numberOnIndexFrequency$: Observable<NumberData[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
-    public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
-    public mostOftenFoundNumbersWithNumberOnIndex$: Observable<NumberData[]>;
     public mostPopularNumbersInActualMonthName$: Observable<NumberData[]>;
     public numbersByOddOrEvenDay$: Observable<NumberData[]>;
     public numbersByOddOrEvenMonth$: Observable<NumberData[]>;
     public numbersByYearQuarter$: Observable<NumberData[]>;
     public numbersByYearDayNumber$: Observable<NumberData[]>;
     public numbersByMonthDayNumber$: Observable<NumberData[]>;
+
+    /* numbers by indexes */
+    public numberOnIndexFrequency$: Observable<NumberData[]>;
+    public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -79,7 +78,6 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
         this.calculateNumberOnIndexFrequency(this.numbers.length, this.dateRange);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, this.dateRange);
-        this.calculateMostOftenFoundNumbersWithNumberOnIndex(last(this.numbers), this.dateRange);
     }
 
     private get dateRangeSelectOptions(): SelectItem[] {
@@ -169,7 +167,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     }
 
     public get bonusNumberByYearDayNumberLabel(): string {
-        return `Częstoliwość losowania liczb bonusowych w ${this.timeService.todayYearDayNumber} dniu roku`;
+        return `Częstoliwość losowania liczby bonusowej w ${this.timeService.todayYearDayNumber} dniu roku`;
     }
 
     public get numbersByMonthDayNumberLabel(): string {
@@ -177,7 +175,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     }
 
     public get bonusNumberByMonthDayNumberLabel(): string {
-        return `Częstoliwość losowania liczb bonusowych w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
+        return `Częstoliwość losowania liczby bonusowej w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
@@ -205,7 +203,6 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
         this.calculateNumberOnIndexFrequency(this.numbers.length, dateRange);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, dateRange);
-        this.calculateMostOftenFoundNumbersWithNumberOnIndex(last(this.numbers), dateRange);
         this.calculateMostPopularNumbersInActualMonthName();
         this.calculateNumbersByOddOrEvenDay(dateRange);
         this.calculateNumbersByOddOrEvenMonth(dateRange);
@@ -232,24 +229,6 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
 
     private calculateNumbersFrequencyByDayOfTheWeek(dateRange: DateRange): void {
         this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersFrequencyByDayOfTheWeek, { dateRange }));
-    }
-
-    private calculateNumberOnIndexFrequency(numberIndex: number, dateRange: DateRange): void {
-        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
-            this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumberOnIndexFrequency, { numberIndex, dateRange }));
-        }
-    }
-
-    private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number, dateRange: DateRange): void {
-        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
-            this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumberOnIndexFrequencyByDayOfTheWeek, { numberIndex, dateRange }));
-        }
-    }
-
-    private calculateMostOftenFoundNumbersWithNumberOnIndex(ballNumber: number, dateRange: DateRange): void {
-        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
-            this.mostOftenFoundNumbersWithNumberOnIndex$ = this.store.pipe(select(selectMostOftenFoundNumbersWithNumberOnIndex, { ballNumber, dateRange }));
-        }
     }
 
     private calculateMostPopularNumbersInActualMonthName(): void {
@@ -287,6 +266,19 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     private calculateNumbersByMonthDayNumber(dateRange: DateRange): void {
         if (this.isEntireRange || this.isLastYearRange) {
             this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByMonthDayNumber, { dateRange }));
+        }
+    }
+
+    /* numbers by indexes */
+    private calculateNumberOnIndexFrequency(numberIndex: number, dateRange: DateRange): void {
+        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
+            this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumberOnIndexFrequency, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number, dateRange: DateRange): void {
+        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
+            this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumberOnIndexFrequencyByDayOfTheWeek, { numberIndex, dateRange }));
         }
     }
 

@@ -11,12 +11,10 @@ export * from './selectors-utils/extract-percentage-from-number-data';
 export * from './selectors-utils/extract-value-from-number-data';
 export * from './selectors-utils/map-numbers-array-to-ball-value-percentage';
 export * from 'src/app/shared/utils/selectors-utils/map-bonus-numbers-counted-to-ball-value-percentage';
-export * from './selectors-utils/ball-value-percentage-numbers-array-with-excluded-number';
 export * from './selectors-utils/exclude-number-from-array';
 export * from './selectors-utils/filter-scores-by-selected-number-and-data-range';
 export * from './selectors-utils/is-score-numbers-includes';
 export * from './selectors-utils/map-scores-to-numbers-array';
-export * from './selectors-utils/numbers-array-includes-specific-number-and-date-range';
 export * from './selectors-utils/pick-numbers';
 
 /* selectors date utils */

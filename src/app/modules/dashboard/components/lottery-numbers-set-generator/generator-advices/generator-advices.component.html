@@ -16,19 +16,6 @@
                              [numberDataArray]="numbersFrequencyByDayOfTheWeek"
                              [todayDayName]="todayDayName"
                              title="Częstotliwość losowania wszystkich liczb w dniu tygodnia"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="numberOnIndexFrequency$ | async as numbersOnIndexFrequency"
-                             [dateRange]="this.dateRange"
-                             [numberDataArray]="numbersOnIndexFrequency"
-                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1)"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="numberOnIndexFrequencyByDayOfTheWeek$ | async as numberOnIndexFrequencyByDayOfTheWeek"
-                             [dateRange]="this.dateRange"
-                             [numberDataArray]="numberOnIndexFrequencyByDayOfTheWeek"
-                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1) + ' w dniu'"
-                             [todayDayName]="todayDayName"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="numbers.length && mostOftenFoundNumbersWithNumberOnIndex$ | async as mostOftenFoundNumbersWithNumberOnIndex"
-                             [dateRange]="this.dateRange"
-                             [numberDataArray]="mostOftenFoundNumbersWithNumberOnIndex"
-                             [title]="'Częstotliwość losowania liczb występujących wraz z liczbą na indeksie nr.' + numbers.length"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="isEntireRange && mostPopularNumbersInActualMonthName$ | async as mostPopularNumbersInActualMonthName"
                              [numberDataArray]="mostPopularNumbersInActualMonthName"
                              [todayMonthName]="todayMonthName"
@@ -53,6 +40,16 @@
                              [numberDataArray]="numbersByMonthDayNumber"
                              [dateRange]="this.dateRange"
                              [title]="numbersByMonthDayNumberLabel"></lm-advice-paragraph>
+        <div>Dla numerów indeksów</div>
+        <lm-advice-paragraph *ngIf="numberOnIndexFrequency$ | async as numbersOnIndexFrequency"
+                             [dateRange]="this.dateRange"
+                             [numberDataArray]="numbersOnIndexFrequency"
+                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numberOnIndexFrequencyByDayOfTheWeek$ | async as numberOnIndexFrequencyByDayOfTheWeek"
+                             [dateRange]="this.dateRange"
+                             [numberDataArray]="numberOnIndexFrequencyByDayOfTheWeek"
+                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1) + ' w dniu'"
+                             [todayDayName]="todayDayName"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"

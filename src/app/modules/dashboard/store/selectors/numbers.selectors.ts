@@ -2,7 +2,6 @@ import { createSelector } from '@ngrx/store';
 import { Score } from 'src/app/shared/interfaces/score';
 import { DateRange } from 'src/app/shared/enums';
 import {
-    ballValuePercentageNumbersArrayWithExcludedNumber,
     isEvenDay,
     isEvenDayInLastMonth,
     isEvenDayInLastWeek,
@@ -28,7 +27,6 @@ import {
     isSameYearQuarterInLastYear,
     mapNumbersArrayToBallValuePercentage,
     mapScoresToNumbersArray,
-    numbersArrayIncludesSpecificNumberAndDateRange,
     pickNumbers,
 } from 'src/app/shared/utils';
 import { selectNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
@@ -137,13 +135,6 @@ export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredNumbers);
-    },
-);
-
-export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
-    selectNumbersScores,
-    (scores: Partial<Score[]>, props: { ballNumber: number, dateRange: DateRange }) => {
-        return ballValuePercentageNumbersArrayWithExcludedNumber(numbersArrayIncludesSpecificNumberAndDateRange(scores, props.ballNumber, props.dateRange))(props.ballNumber);
     },
 );
 
