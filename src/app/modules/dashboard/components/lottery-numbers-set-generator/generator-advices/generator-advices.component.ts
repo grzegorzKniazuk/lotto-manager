@@ -8,8 +8,8 @@ import { NumberData } from 'src/app/shared/interfaces';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { TimeService } from 'src/app/shared/services/time.service';
 import {
-    selectBonusNumberByEvenDay, selectBonusNumberByEvenMonth,
-    selectBonusNumberByOddDay, selectBonusNumberByOddMonth, selectBonusNumberByYearQuarter,
+    selectBonusNumberByEvenDay, selectBonusNumberByEvenMonth, selectBonusNumberByMonthDayNumber,
+    selectBonusNumberByOddDay, selectBonusNumberByOddMonth, selectBonusNumberByYearDayNumber, selectBonusNumberByYearQuarter,
     selectBonusNumberFrequency,
     selectMostOftenFoundNumbersWithNumberOnIndex,
     selectMostPopularBonusNumberByDayOfTheWeek,
@@ -60,6 +60,8 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public bonusNumberByOddOrEvenDay$: Observable<NumberData[]>;
     public bonusNumberByOddOrEvenMonth$: Observable<NumberData[]>;
     public bonusNumberByYearQuarter$: Observable<NumberData[]>;
+    public bonusNumberByYearDayNumber$: Observable<NumberData[]>;
+    public bonusNumberByMonthDayNumber$: Observable<NumberData[]>;
 
     private numbers: number[];
     private bonusNumber: number;
@@ -166,8 +168,16 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku`;
     }
 
+    public get bonusNumberByYearDayNumberLabel(): string {
+        return `Częstoliwość losowania liczb bonusowych w ${this.timeService.todayYearDayNumber} dniu roku`;
+    }
+
     public get numbersByMonthDayNumberLabel(): string {
         return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
+    }
+
+    public get bonusNumberByMonthDayNumberLabel(): string {
+        return `Częstoliwość losowania liczb bonusowych w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
@@ -211,6 +221,8 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateBonusNumberByOddOrEvenDay(dateRange);
         this.calculateBonusNumberByOddOrEvenMonth(dateRange);
         this.calculateBonusNumberByYearQuarter(dateRange);
+        this.calculateBonusNumberByYearDayNumber();
+        this.calculateBonusNumberByMonthDayNumber(dateRange);
     }
 
     /* numbers */
@@ -310,6 +322,18 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     private calculateBonusNumberByYearQuarter(dateRange: DateRange): void {
         if (this.isEntireRange || this.isLastYearRange) {
             this.bonusNumberByYearQuarter$ = this.store.pipe(select(selectBonusNumberByYearQuarter, { dateRange }));
+        }
+    }
+
+    private calculateBonusNumberByYearDayNumber(): void {
+        if (this.isEntireRange) {
+            this.bonusNumberByYearDayNumber$ = this.store.pipe(select(selectBonusNumberByYearDayNumber));
+        }
+    }
+
+    private calculateBonusNumberByMonthDayNumber(dateRange: DateRange): void {
+        if (this.isEntireRange || this.isLastYearRange) {
+            this.bonusNumberByMonthDayNumber$ = this.store.pipe(select(selectBonusNumberByMonthDayNumber, { dateRange }));
         }
     }
 }

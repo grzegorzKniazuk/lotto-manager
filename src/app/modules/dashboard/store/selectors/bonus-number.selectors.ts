@@ -17,11 +17,11 @@ import {
     isOddDayInLastYear,
     isOddMonth,
     isOddMonthInLastYear,
-    isSameMonthAsToday,
+    isSameMonthAsToday, isSameMonthDayNumber, isSameMonthDayNumberInLastYear,
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
-    isSameWeekDayAsTodayInLastYear, isSameYearQuarter, isSameYearQuarterInLastYear,
+    isSameWeekDayAsTodayInLastYear, isSameYearDayNumber, isSameYearQuarter, isSameYearQuarterInLastYear,
     mapBonusNumbersCountedToBallValuePercentage,
 } from 'src/app/shared/utils';
 import { SCORES_BONUS_NUMBER_KEY } from 'src/app/shared/constants';
@@ -195,6 +195,34 @@ export const selectBonusNumberByYearQuarter = createSelector(
             }
             case DateRange.LAST_YEAR: {
                 filteredScores = filter(scores, isSameYearQuarterInLastYear);
+                break;
+            }
+        }
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    },
+);
+
+export const selectBonusNumberByYearDayNumber = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>) => {
+        let filteredScores = filter(scores, isSameYearDayNumber);
+
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    },
+);
+
+export const selectBonusNumberByMonthDayNumber = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = filter(scores, isSameMonthDayNumber);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = filter(scores, isSameMonthDayNumberInLastYear);
                 break;
             }
         }

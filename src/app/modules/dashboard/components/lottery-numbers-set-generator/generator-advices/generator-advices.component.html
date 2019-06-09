@@ -80,5 +80,13 @@
                              [numberDataArray]="bonusNumberByYearQuarter"
                              [dateRange]="this.dateRange"
                              [title]="bonusNumberByYearQuarterLabel"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="isEntireRange && bonusNumberByYearDayNumber$ | async as bonusNumberByYearDayNumber"
+                             [numberDataArray]="bonusNumberByYearDayNumber"
+                             [dateRange]="this.dateRange"
+                             [title]="bonusNumberByYearDayNumberLabel"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange || isLastYearRange) && bonusNumberByMonthDayNumber$ | async as bonusNumberByMonthDayNumber"
+                             [numberDataArray]="bonusNumberByMonthDayNumber"
+                             [dateRange]="this.dateRange"
+                             [title]="bonusNumberByMonthDayNumberLabel"></lm-advice-paragraph>
     </ng-container>
 </div>
