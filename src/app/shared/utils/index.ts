@@ -42,3 +42,6 @@ export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-we
 export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-year';
 export * from './selectors-utils/date-utils/is-same-year-quarter';
 export * from './selectors-utils/date-utils/is-same-year-quarter-in-last-year';
+export * from 'src/app/shared/utils/selectors-utils/date-utils/is-same-year-day-number';
+export * from 'src/app/shared/utils/selectors-utils/date-utils/is-same-month-day-number';
+export * from 'src/app/shared/utils/selectors-utils/date-utils/is-same-month-day-number-in-last-year';

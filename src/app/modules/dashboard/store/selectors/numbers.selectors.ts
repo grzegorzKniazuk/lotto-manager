@@ -2,18 +2,37 @@ import { createSelector } from '@ngrx/store';
 import { Score } from 'src/app/shared/interfaces/score';
 import { DateRange } from 'src/app/shared/enums';
 import {
-    ballValuePercentageNumbersArrayWithExcludedNumber, isEvenDay, isEvenDayInLastMonth, isEvenDayInLastWeek, isEvenDayInLastYear, isEvenMonth, isEvenMonthInLastYear,
+    ballValuePercentageNumbersArrayWithExcludedNumber,
+    isEvenDay,
+    isEvenDayInLastMonth,
+    isEvenDayInLastWeek,
+    isEvenDayInLastYear,
+    isEvenMonth,
+    isEvenMonthInLastYear,
     isInLastMonth,
     isInLastWeek,
-    isInLastYear, isOddDay, isOddDayInLastMonth, isOddDayInLastWeek, isOddDayInLastYear, isOddMonth, isOddMonthInLastYear, isSameMonthAsToday,
+    isInLastYear,
+    isOddDay,
+    isOddDayInLastMonth,
+    isOddDayInLastWeek,
+    isOddDayInLastYear,
+    isOddMonth,
+    isOddMonthInLastYear,
+    isSameMonthAsToday, isSameMonthDayNumber, isSameMonthDayNumberInLastYear,
     isSameWeekDayAsToday,
-    isSameWeekDayAsTodayInLastMonth, isSameWeekDayAsTodayInLastWeek,
-    isSameWeekDayAsTodayInLastYear, isSameYearQuarter, isSameYearQuarterInLastYear,
-    mapNumbersArrayToBallValuePercentage, mapScoresToNumbersArray, numbersArrayIncludesSpecificNumberAndDateRange,
+    isSameWeekDayAsTodayInLastMonth,
+    isSameWeekDayAsTodayInLastWeek,
+    isSameWeekDayAsTodayInLastYear,
+    isSameYearDayNumber,
+    isSameYearQuarter,
+    isSameYearQuarterInLastYear,
+    mapNumbersArrayToBallValuePercentage,
+    mapScoresToNumbersArray,
+    numbersArrayIncludesSpecificNumberAndDateRange,
     pickNumbers,
 } from 'src/app/shared/utils';
 import { selectNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
-import { flatten, filter } from 'lodash';
+import { filter, flatten } from 'lodash';
 
 export const selectNumbersFrequency = createSelector(
     selectNumbersScores,
@@ -132,7 +151,7 @@ export const selectMostPopularNumbersInActualMonthName = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>) => {
         return mapNumbersArrayToBallValuePercentage(mapScoresToNumbersArray(filter(scores, isSameMonthAsToday)));
-    }
+    },
 );
 
 export const selectNumbersByOddDay = createSelector(
@@ -159,7 +178,7 @@ export const selectNumbersByOddDay = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
-    }
+    },
 );
 
 export const selectNumbersByEvenDay = createSelector(
@@ -186,7 +205,7 @@ export const selectNumbersByEvenDay = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
-    }
+    },
 );
 
 export const selectNumbersByOddMonth = createSelector(
@@ -205,7 +224,7 @@ export const selectNumbersByOddMonth = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
-    }
+    },
 );
 
 export const selectNumbersByEvenMonth = createSelector(
@@ -224,7 +243,7 @@ export const selectNumbersByEvenMonth = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
-    }
+    },
 );
 
 export const selectNumbersByYearQuarter = createSelector(
@@ -243,5 +262,33 @@ export const selectNumbersByYearQuarter = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
-    }
+    },
+);
+
+export const selectNumbersByYearDayNumber = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>) => {
+        let filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearDayNumber));
+
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
+);
+
+export const selectNumbersByMonthDayNumber = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumber));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumberInLastYear));
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
 );
