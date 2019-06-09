@@ -3,7 +3,7 @@ import { DateRange, StoreFeatureNames } from 'src/app/shared/enums';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
-import { countBy, filter, flatten, pick } from 'lodash';
+import { countBy, filter, flatten, pick, map } from 'lodash';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage } from 'src/app/shared/utils';
 import { TimeService } from 'src/app/shared/services/time.service';
@@ -43,15 +43,15 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = scores.filter(isSameWeekDayAsTodayInLastYear);
+                filteredScores = filter(scores, isSameWeekDayAsTodayInLastYear);
                 break;
             }
             case DateRange.LAST_MONTH: {
-                filteredScores = scores.filter(isSameWeekDayAsTodayInLastMonth);
+                filteredScores = filter(scores, isSameWeekDayAsTodayInLastMonth);
                 break;
             }
             case DateRange.LAST_WEEK: {
-                filteredScores = scores.filter(isSameWeekDayAsTodayInLastWeek);
+                filteredScores = filter(scores, isSameWeekDayAsTodayInLastWeek);
                 break;
             }
         }
@@ -71,15 +71,15 @@ export const selectBonusNumberFrequency = createSelector(
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = scores.filter(isInLastYear);
+                filteredScores = filter(scores, isInLastYear);
                 break;
             }
             case DateRange.LAST_MONTH: {
-                filteredScores = scores.filter(isInLastMonth);
+                filteredScores = filter(scores, isInLastMonth);
                 break;
             }
             case DateRange.LAST_WEEK: {
-                filteredScores = scores.filter(isInLastWeek);
+                filteredScores = filter(scores, isInLastWeek);
                 break;
             }
         }
@@ -215,9 +215,7 @@ export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
 export const selectMostPopularNumbersInActualMonthName = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>) => {
-        const filteredScores = filter(scores, isSameMonthAsToday);
-
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+        return mapNumbersArrayToBallValuePercentage(mapScoresToNumbersArray(filter(scores, isSameMonthAsToday)));
     }
 );
 
