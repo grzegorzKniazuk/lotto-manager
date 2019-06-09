@@ -2,9 +2,22 @@ import { createSelector } from '@ngrx/store';
 import { Score } from 'src/app/shared/interfaces/score';
 import { DateRange } from 'src/app/shared/enums';
 import {
-    isEvenDay, isEvenDayInLastMonth, isEvenDayInLastWeek, isEvenDayInLastYear, isEvenMonth, isEvenMonthInLastYear,
-    isInLastMonth, isInLastWeek,
-    isInLastYear, isOddDay, isOddDayInLastMonth, isOddDayInLastWeek, isOddDayInLastYear, isOddMonth, isOddMonthInLastYear, isSameMonthAsToday,
+    isEvenDay,
+    isEvenDayInLastMonth,
+    isEvenDayInLastWeek,
+    isEvenDayInLastYear,
+    isEvenMonth,
+    isEvenMonthInLastYear,
+    isInLastMonth,
+    isInLastWeek,
+    isInLastYear,
+    isOddDay,
+    isOddDayInLastMonth,
+    isOddDayInLastWeek,
+    isOddDayInLastYear,
+    isOddMonth,
+    isOddMonthInLastYear,
+    isSameMonthAsToday,
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
@@ -12,8 +25,8 @@ import {
     mapBonusNumbersCountedToBallValuePercentage,
 } from 'src/app/shared/utils';
 import { SCORES_BONUS_NUMBER_KEY } from 'src/app/shared/constants';
-import { selectBonusNumbersScores, selectNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
-import { filter, countBy } from 'lodash';
+import { selectBonusNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
+import { countBy, filter } from 'lodash';
 
 export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
     selectBonusNumbersScores,
@@ -75,7 +88,7 @@ export const selectMostPopularBonusNumberInActualMonthName = createSelector(
         const filteredScores = filter(scores, isSameMonthAsToday);
 
         return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
-    }
+    },
 );
 
 export const selectBonusNumberByOddDay = createSelector(
@@ -102,7 +115,7 @@ export const selectBonusNumberByOddDay = createSelector(
             }
         }
         return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
-    }
+    },
 );
 
 export const selectBonusNumberByEvenDay = createSelector(
@@ -129,11 +142,11 @@ export const selectBonusNumberByEvenDay = createSelector(
             }
         }
         return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
-    }
+    },
 );
 
 export const selectBonusNumberByOddMonth = createSelector(
-    selectNumbersScores,
+    selectBonusNumbersScores,
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
         let filteredScores;
 
@@ -148,11 +161,11 @@ export const selectBonusNumberByOddMonth = createSelector(
             }
         }
         return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
-    }
+    },
 );
 
 export const selectBonusNumberByEvenMonth = createSelector(
-    selectNumbersScores,
+    selectBonusNumbersScores,
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
         let filteredScores;
 
@@ -167,5 +180,5 @@ export const selectBonusNumberByEvenMonth = createSelector(
             }
         }
         return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
-    }
+    },
 );
