@@ -1,13 +1,24 @@
 <p-accordion>
     <p-accordionTab [header]="pTitle">
         <div class="accordion-menu">
-            <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy"></p-selectButton>
+            <span *ngIf="isChartViewType">
+                <p-selectButton [options]="chartDataTypes" [(ngModel)]="chartDataType"></p-selectButton>
+            </span>
+            <span>
+                <p-selectButton [options]="viewTypes" [(ngModel)]="viewType"></p-selectButton>
+            </span>
+            <span>
+                <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy"></p-selectButton>
+            </span>
         </div>
-        <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data-container">
-            <div class="ball-data">
-                <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
-                <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
+        <ng-container *ngIf="isNumbersViewType">
+            <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data-container">
+                <div class="ball-data">
+                    <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
+                    <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
+                </div>
             </div>
-        </div>
+        </ng-container>
+        <lm-number-data-chart *ngIf="isChartViewType" [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy" [chartDataType]="chartDataType"></lm-number-data-chart>
     </p-accordionTab>
 </p-accordion>

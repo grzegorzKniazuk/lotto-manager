@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DateRange, SortBy } from 'src/app/shared/enums';
+import { ChartDataType, DataViewType, DateRange, SortBy } from 'src/app/shared/enums';
 import { NumberData } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 
@@ -16,8 +16,15 @@ export class AdviceParagraphComponent {
     @Input() public title: string;
     @Input() public todayDayName: string;
     @Input() public collapsed: boolean = true;
-    @Input() public sortBy: SortBy = SortBy.VALUE;
-    public sortTypes = this.sorTypesOptions;
+
+    public sortBy: SortBy = SortBy.VALUE;
+    public sortTypes: SelectItem[] = this.sorTypesOptions;
+
+    public viewType: DataViewType = DataViewType.NUMBERS;
+    public viewTypes: SelectItem[] = this.viewTypesOptions;
+
+    public chartDataType: ChartDataType = ChartDataType.VALUES;
+    public chartDataTypes: SelectItem[] = this.chartTypesOptions;
 
     public get pTitle(): string {
         const message = [ this.title ];
@@ -54,5 +61,28 @@ export class AdviceParagraphComponent {
             { label: 'Wartość', value: SortBy.VALUE },
         ];
     }
+
+    public get viewTypesOptions(): SelectItem[] {
+        return [
+            { label: 'Zestaw liczb', value: DataViewType.NUMBERS },
+            { label: 'Wykres', value: DataViewType.CHART },
+        ];
+    }
+
+    public get chartTypesOptions(): SelectItem[] {
+        return [
+            { label: 'Liczbowy', value: ChartDataType.VALUES },
+            { label: 'Procentowy', value: ChartDataType.PERCENTAGES },
+        ];
+    }
+
+    public get isChartViewType(): boolean {
+        return this.viewType === DataViewType.CHART;
+    }
+
+    public get isNumbersViewType(): boolean {
+        return this.viewType === DataViewType.NUMBERS;
+    }
+
 }
 
