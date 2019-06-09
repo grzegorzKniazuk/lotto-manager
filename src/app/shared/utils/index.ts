@@ -16,6 +16,7 @@ export * from './selectors-utils/filter-scores-by-selected-number-and-data-range
 export * from './selectors-utils/is-score-numbers-includes';
 export * from './selectors-utils/map-scores-to-numbers-array';
 export * from './selectors-utils/pick-numbers';
+export * from './selectors-utils/pick-on-index';
 
 /* selectors date utils */
 export * from './selectors-utils/date-utils/is-even-day';

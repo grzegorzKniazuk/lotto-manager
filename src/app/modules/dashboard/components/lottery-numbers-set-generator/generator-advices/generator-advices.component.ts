@@ -15,10 +15,10 @@ import {
     selectBonusNumberByYearDayNumber,
     selectBonusNumberByYearQuarter,
     selectBonusNumberFrequency,
-    selectMostPopularBonusNumberByDayOfTheWeek,
-    selectMostPopularBonusNumberInActualMonthName,
-    selectMostPopularNumberOnIndexInActualMonthName,
-    selectMostPopularNumbersInActualMonthName,
+    selectBonusNumberByDayOfTheWeek,
+    selectBonusNumberInActualMonthName,
+    selectNumberOnIndexInActualMonthName,
+    selectNumbersInActualMonthName, selectNumberOnIndexByEvenDay, selectNumberOnIndexByOddDay,
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumbersByEvenDay,
@@ -46,7 +46,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     /* numbers */
     public numbersFrequency$: Observable<NumberData[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
-    public mostPopularNumbersInActualMonthName$: Observable<NumberData[]>;
+    public numbersInActualMonthName$: Observable<NumberData[]>;
     public numbersByOddOrEvenDay$: Observable<NumberData[]>;
     public numbersByOddOrEvenMonth$: Observable<NumberData[]>;
     public numbersByYearQuarter$: Observable<NumberData[]>;
@@ -56,12 +56,13 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     /* numbers by indexes */
     public numberOnIndexFrequency$: Observable<NumberData[]>;
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
-    public mostPopularNumberOnIndexInActualMonthName$: Observable<NumberData[]>;
+    public numberOnIndexInActualMonthName$: Observable<NumberData[]>;
+    public numberOnIndexByOddOrEvenDay$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
-    public mostPopularBonusNumberByDayOfTheWeek$: Observable<NumberData[]>;
-    public mostPopularBonusNumberInActualMonthName$: Observable<NumberData[]>;
+    public bonusNumberByDayOfTheWeek$: Observable<NumberData[]>;
+    public bonusNumberInActualMonthName$: Observable<NumberData[]>;
     public bonusNumberByOddOrEvenDay$: Observable<NumberData[]>;
     public bonusNumberByOddOrEvenMonth$: Observable<NumberData[]>;
     public bonusNumberByYearQuarter$: Observable<NumberData[]>;
@@ -80,9 +81,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.numbers = lotteryNumbers.slice(0, lotteryNumbers.length - 1);
         this.bonusNumber = last(lotteryNumbers);
 
-        this.calculateNumberOnIndexFrequency(this.numbers.length, this.dateRange);
-        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, this.dateRange);
-        this.calculateMostPopularNumberOnIndexInActualMonthName(this.numbers.length, this.dateRange);
+        this.calculateNumberAdvicesForIndexes(this.dateRange);
     }
 
     ngOnInit() {
@@ -116,28 +115,33 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         /* numbers */
         this.calculateNumbersFrequency(dateRange);
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
-        this.calculateMostPopularNumbersInActualMonthName(dateRange);
+        this.calculateNumbersInActualMonthName(dateRange);
         this.calculateNumbersByOddOrEvenDay(dateRange);
         this.calculateNumbersByOddOrEvenMonth(dateRange);
         this.calculateNumbersByYearQuarter(dateRange);
         this.calculateNumbersByYearDayNumber(dateRange);
         this.calculateNumbersByMonthDayNumber(dateRange);
 
-        /* numbers indexes */
-        this.calculateNumberOnIndexFrequency(this.numbers.length, dateRange);
-        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, dateRange);
-        this.calculateMostPopularNumberOnIndexInActualMonthName(this.numbers.length, dateRange);
+        this.calculateNumberAdvicesForIndexes(dateRange);
     }
 
     private calculateBonusNumberAdvices(dateRange: DateRange): void {
         this.calculateBonusNumberFrequency(dateRange);
-        this.calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange);
-        this.calculateMostPopularBonusNumberInActualMonthName(dateRange);
+        this.calculateBonusNumbersByDayOfTheWeek(dateRange);
+        this.calculateBonusNumberInActualMonthName(dateRange);
         this.calculateBonusNumberByOddOrEvenDay(dateRange);
         this.calculateBonusNumberByOddOrEvenMonth(dateRange);
         this.calculateBonusNumberByYearQuarter(dateRange);
         this.calculateBonusNumberByYearDayNumber(dateRange);
         this.calculateBonusNumberByMonthDayNumber(dateRange);
+    }
+
+    private calculateNumberAdvicesForIndexes(dateRange: DateRange): void {
+        /* numbers indexes */
+        this.calculateNumberOnIndexFrequency(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexInActualMonthName(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexByOddOrEvenDay(this.numbers.length, dateRange);
     }
 
     /* numbers */
@@ -149,9 +153,9 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersFrequencyByDayOfTheWeek, { dateRange }));
     }
 
-    private calculateMostPopularNumbersInActualMonthName(dateRange: DateRange): void {
+    private calculateNumbersInActualMonthName(dateRange: DateRange): void {
         if (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE) {
-            this.mostPopularNumbersInActualMonthName$ = this.store.pipe(select(selectMostPopularNumbersInActualMonthName, { dateRange }));
+            this.numbersInActualMonthName$ = this.store.pipe(select(selectNumbersInActualMonthName, { dateRange }));
         }
     }
 
@@ -200,9 +204,17 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         }
     }
 
-    private calculateMostPopularNumberOnIndexInActualMonthName(numberIndex: number, dateRange: DateRange): void {
+    private calculateNumberOnIndexInActualMonthName(numberIndex: number, dateRange: DateRange): void {
         if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH && (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE)) {
-            this.mostPopularNumberOnIndexInActualMonthName$ = this.store.pipe(select(selectMostPopularNumberOnIndexInActualMonthName, { numberIndex, dateRange }));
+            this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumberOnIndexInActualMonthName, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexByOddOrEvenDay(numberIndex: number, dateRange: DateRange): void {
+        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH) {
+            this.numberOnIndexByOddOrEvenDay$ = this.timeService.isOddDayToday
+                ? this.store.pipe(select(selectNumberOnIndexByOddDay, { numberIndex, dateRange }))
+                : this.store.pipe(select(selectNumberOnIndexByEvenDay, { numberIndex, dateRange }));
         }
     }
 
@@ -211,13 +223,13 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberFrequency, { dateRange }));
     }
 
-    private calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
-        this.mostPopularBonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectMostPopularBonusNumberByDayOfTheWeek, { dateRange }));
+    private calculateBonusNumbersByDayOfTheWeek(dateRange: DateRange): void {
+        this.bonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectBonusNumberByDayOfTheWeek, { dateRange }));
     }
 
-    private calculateMostPopularBonusNumberInActualMonthName(dateRange: DateRange): void {
+    private calculateBonusNumberInActualMonthName(dateRange: DateRange): void {
         if (dateRange === DateRange.ENTIRE_RANGE) {
-            this.mostPopularBonusNumberInActualMonthName$ = this.store.pipe(select(selectMostPopularBonusNumberInActualMonthName));
+            this.bonusNumberInActualMonthName$ = this.store.pipe(select(selectBonusNumberInActualMonthName));
         }
     }
 

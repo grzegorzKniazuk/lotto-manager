@@ -85,7 +85,7 @@ export class BaseGeneratorAdvicesComponent {
     }
 
     @Memoize
-    public mostPopularNumbersInActualMonthNameLabel(dateRange: DateRange): string {
+    public numbersInActualMonthNameLabel(dateRange: DateRange): string {
         return `Częstotliwość losowania liczb w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
     }
 
@@ -139,8 +139,16 @@ export class BaseGeneratorAdvicesComponent {
     }
 
     @Memoize
-    public mostPopularNumberOnIndexInActualMonthNameLabel(dateRange: DateRange): string {
+    public numberOnIndexInActualMonthNameLabel(dateRange: DateRange): string {
         return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
+    }
+
+    @Memoize
+    public numberOnIndexByOddOrEvenDayLabel(dateRange: DateRange): string {
+        return this.timeService.isOddDayToday
+            ? `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dni nieparzyste ${this.dateRangeLabel(dateRange)}`
+            : `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dni parzyste ${this.dateRangeLabel(dateRange)}`;
+
     }
 
     /* bonus number labels */
@@ -150,12 +158,12 @@ export class BaseGeneratorAdvicesComponent {
     }
 
     @Memoize
-    public mostPopularBonusNumberByDayOfTheWeekLabel(dateRange: DateRange): string {
+    public bonusNumberByDayOfTheWeekLabel(dateRange: DateRange): string {
         return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
     @Memoize
-    public mostPopularBonusNumberInActualMonthNameLabel(dateRange: DateRange): string {
+    public bonusNumberInActualMonthNameLabel(dateRange: DateRange): string {
         return `Częstotliwość losowania liczb bonusowych w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
     }
 

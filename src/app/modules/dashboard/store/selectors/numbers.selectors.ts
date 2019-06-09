@@ -84,72 +84,18 @@ export const selectNumbersFrequencyByDayOfTheWeek = createSelector(
     },
 );
 
-export const selectNumberOnIndexFrequency = createSelector(
-    selectNumbersScores,
-    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
-        let filteredNumbers;
-
-        switch (props.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                filteredNumbers = flatten(scores.map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_YEAR: {
-                filteredNumbers = flatten(scores.filter(isInLastYear).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_MONTH: {
-                filteredNumbers = flatten(scores.filter(isInLastMonth).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_WEEK: {
-                filteredNumbers = flatten(scores.filter(isInLastWeek).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-        }
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
-    },
-);
-
-export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
-    selectNumbersScores,
-    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
-        let filteredNumbers;
-
-        switch (props.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsToday).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_YEAR: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastYear).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_MONTH: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastMonth).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_WEEK: {
-                filteredNumbers = flatten(scores.filter(isSameWeekDayAsTodayInLastWeek).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-        }
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
-    },
-);
-
-export const selectMostPopularNumbersInActualMonthName = createSelector(
+export const selectNumbersInActualMonthName = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
         let filteredScores;
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsToday));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsToday))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsTodayInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsTodayInLastYear))();
                 break;
             }
         }
@@ -164,19 +110,19 @@ export const selectNumbersByOddDay = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDay));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDay))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastYear))();
                 break;
             }
             case DateRange.LAST_MONTH: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastMonth));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastMonth))();
                 break;
             }
             case DateRange.LAST_WEEK: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastWeek));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddDayInLastWeek))();
                 break;
             }
         }
@@ -191,19 +137,19 @@ export const selectNumbersByEvenDay = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDay));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDay))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastYear))();
                 break;
             }
             case DateRange.LAST_MONTH: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastMonth));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastMonth))();
                 break;
             }
             case DateRange.LAST_WEEK: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastWeek));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastWeek))();
                 break;
             }
         }
@@ -218,11 +164,11 @@ export const selectNumbersByOddMonth = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonth));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonth))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonthInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonthInLastYear))();
                 break;
             }
         }
@@ -237,11 +183,11 @@ export const selectNumbersByEvenMonth = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonth));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonth))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonthInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonthInLastYear))();
                 break;
             }
         }
@@ -256,11 +202,11 @@ export const selectNumbersByYearQuarter = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearQuarter));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearQuarter))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearQuarterInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearQuarterInLastYear))();
                 break;
             }
         }
@@ -271,7 +217,7 @@ export const selectNumbersByYearQuarter = createSelector(
 export const selectNumbersByYearDayNumber = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>) => {
-        let filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearDayNumber));
+        let filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearDayNumber))();
 
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     },
@@ -284,33 +230,14 @@ export const selectNumbersByMonthDayNumber = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumber));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumber))();
                 break;
             }
             case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumberInLastYear));
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumberInLastYear))();
                 break;
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
-    },
-);
-
-export const selectMostPopularNumberOnIndexInActualMonthName = createSelector(
-    selectNumbersScores,
-    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
-        let filteredNumbers;
-
-        switch (props.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                filteredNumbers = flatten(scores.filter(isSameMonthAsToday).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-            case DateRange.LAST_YEAR: {
-                filteredNumbers = flatten(scores.filter(isSameMonthAsTodayInLastYear).map(score => score.numbers[props.numberIndex]));
-                break;
-            }
-        }
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );

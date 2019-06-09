@@ -28,7 +28,7 @@ import { SCORES_BONUS_NUMBER_KEY } from 'src/app/shared/constants';
 import { selectBonusNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
 import { countBy, filter } from 'lodash';
 
-export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
+export const selectBonusNumberByDayOfTheWeek = createSelector(
     selectBonusNumbersScores,
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
         let filteredScores;
@@ -82,7 +82,7 @@ export const selectBonusNumberFrequency = createSelector(
     },
 );
 
-export const selectMostPopularBonusNumberInActualMonthName = createSelector(
+export const selectBonusNumberInActualMonthName = createSelector(
     selectBonusNumbersScores,
     (scores: Partial<Score[]>) => {
         const filteredScores = filter(scores, isSameMonthAsToday);
