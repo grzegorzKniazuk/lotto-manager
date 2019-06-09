@@ -32,13 +32,16 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public adviceType: AdviceTypeEnum = AdviceTypeEnum.GENERAL;
     public dateRange: DateRange = DateRange.ENTIRE_RANGE;
     public todayDayName: string = this.timeService.todayDayName;
+
     public mostPopularBonusNumbersByDayOfTheWeek$: Observable<NumberData[]>;
     public bonusNumberFrequency$: Observable<NumberData[]>;
+
     public numbersFrequency$: Observable<NumberData[]>;
     public numberOnIndexFrequency$: Observable<NumberData[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
     public mostOftenFoundNumbersWithNumberOnIndex$: Observable<NumberData[]>;
+
     private numbers: number[];
     private bonusNumber: number;
 

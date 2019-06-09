@@ -31,14 +31,14 @@
                              [title]="'Częstotliwość losowania liczb występujących wraz z liczbą na indeksie nr.' + numbers.length"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
+        <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
+                             [dateRange]="this.dateRange"
+                             [numberDataArray]="bonusNumberFrequency"
+                             title="Częstotliwość losowania liczb bonusowych"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
                              [dateRange]="this.dateRange"
                              [numberDataArray]="mostPopularBonusNumbersByDayOfTheWeek"
                              [todayDayName]="todayDayName"
                              title="Częstotliwość losowania liczb bonusowych w dniu tygodnia"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
-                             [dateRange]="this.dateRange"
-                             [numberDataArray]="bonusNumberFrequency"
-                             title="Częstotliwość losowania liczb bonusowych"></lm-advice-paragraph>
     </ng-container>
 </div>
