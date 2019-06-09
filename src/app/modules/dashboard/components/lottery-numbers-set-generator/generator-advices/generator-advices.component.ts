@@ -8,6 +8,8 @@ import { NumberData } from 'src/app/shared/interfaces';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { TimeService } from 'src/app/shared/services/time.service';
 import {
+    selectBonusNumberByEvenDay,
+    selectBonusNumberByOddDay,
     selectBonusNumberFrequency,
     selectMostOftenFoundNumbersWithNumberOnIndex,
     selectMostPopularBonusNumberByDayOfTheWeek,
@@ -52,6 +54,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public bonusNumberFrequency$: Observable<NumberData[]>;
     public mostPopularBonusNumberByDayOfTheWeek$: Observable<NumberData[]>;
     public mostPopularBonusNumberInActualMonthName$: Observable<NumberData[]>;
+    public bonusNumberByOddOrEvenDay$: Observable<NumberData[]>;
 
     private numbers: number[];
     private bonusNumber: number;
@@ -109,7 +112,11 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     }
 
     public get numbersByOddOrEvenMonthLabel(): string {
-        return this.timeService.isOddDayToday ? 'Częstotliwość losowania liczb w miesiące nieparzyste' : 'Częstotliwość losowania liczb w miesiące parzyste';
+        return this.timeService.isOddMonthToday ? 'Częstotliwość losowania liczb w miesiące nieparzyste' : 'Częstotliwość losowania liczb w miesiące parzyste';
+    }
+
+    public get bonusNumberByOddOrEvenDayLabel(): string {
+        return this.timeService.isOddDayToday ? 'Częstotliwość losowania liczby bonusowej w dni nieparzyste' : 'Częstotliwość losowania liczby bonusowej w dni parzyste';
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {
@@ -147,6 +154,7 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateBonusNumberFrequency(dateRange);
         this.calculateMostPopularBonusNumbersByDayOfTheWeek(dateRange);
         this.calculateMostPopularBonusNumberInActualMonthName();
+        this.calculateBonusNumberByOddOrEvenDay(dateRange);
     }
 
     /* numbers */
@@ -209,5 +217,11 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         if (this.isEntireRange) {
             this.mostPopularBonusNumberInActualMonthName$ = this.store.pipe(select(selectMostPopularBonusNumberInActualMonthName));
         }
+    }
+
+    private calculateBonusNumberByOddOrEvenDay(dateRange: DateRange): void {
+        this.bonusNumberByOddOrEvenDay$ = this.timeService.isOddDayToday
+            ? this.store.pipe(select(selectBonusNumberByOddDay, { dateRange }))
+            : this.store.pipe(select(selectBonusNumberByEvenDay, { dateRange }));
     }
 }
