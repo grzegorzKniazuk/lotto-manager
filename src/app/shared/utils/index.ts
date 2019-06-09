@@ -34,6 +34,7 @@ export * from './selectors-utils/date-utils/is-odd-day-in-last-year';
 export * from './selectors-utils/date-utils/is-odd-month';
 export * from './selectors-utils/date-utils/is-odd-month-in-last-year';
 export * from './selectors-utils/date-utils/is-same-month-as-today';
+export * from './selectors-utils/date-utils/is-same-month-as-today-in-last-year';
 export * from './selectors-utils/date-utils/is-same-week-day-as-today';
 export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-month';
 export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-week';

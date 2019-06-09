@@ -17,7 +17,7 @@ import {
     isOddDayInLastYear,
     isOddMonth,
     isOddMonthInLastYear,
-    isSameMonthAsToday, isSameMonthDayNumber, isSameMonthDayNumberInLastYear,
+    isSameMonthAsToday, isSameMonthAsTodayInLastYear, isSameMonthDayNumber, isSameMonthDayNumberInLastYear,
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
@@ -140,8 +140,20 @@ export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
 
 export const selectMostPopularNumbersInActualMonthName = createSelector(
     selectNumbersScores,
-    (scores: Partial<Score[]>) => {
-        return mapNumbersArrayToBallValuePercentage(mapScoresToNumbersArray(filter(scores, isSameMonthAsToday)));
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsToday));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsTodayInLastYear));
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
     },
 );
 
@@ -281,5 +293,24 @@ export const selectNumbersByMonthDayNumber = createSelector(
             }
         }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
+);
+
+export const selectMostPopularNumberOnIndexInActualMonthName = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
+        let filteredNumbers;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredNumbers = flatten(scores.filter(isSameMonthAsToday).map(score => score.numbers[props.numberIndex]));
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredNumbers = flatten(scores.filter(isSameMonthAsTodayInLastYear).map(score => score.numbers[props.numberIndex]));
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
