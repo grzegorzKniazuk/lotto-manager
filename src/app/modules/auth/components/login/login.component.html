@@ -15,7 +15,7 @@
             </span>
         </label>
         <div class="form-actions">
-            <button [disabled]="loginForm.invalid" class="ui-button-raised ui-button" icon="pi pi-save" label="Zaloguj" pButton type="submit" (click)="onLogin()"></button>
+            <button (click)="onLogin()" [disabled]="loginForm.invalid" class="ui-button-raised ui-button" icon="pi pi-save" label="Zaloguj" pButton type="submit"></button>
         </div>
         <div class="register-link">
             Nie masz konta? <span routerLink="../register">Zarejestruj się</span>

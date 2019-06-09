@@ -8,6 +8,6 @@ import { isNumber } from 'lodash';
 export class ToFixedPipe implements PipeTransform {
 
     transform(value: number, arg: number): string {
-        return isNumber(value) ? value.toFixed(arg): value;
+        return isNumber(value) ? value.toFixed(arg) : value;
     }
 }

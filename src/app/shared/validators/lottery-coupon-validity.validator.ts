@@ -8,7 +8,7 @@ export function lotteryCouponValidity(control: AbstractControl): ValidationError
         if (!isInteger(numberValue)) {
             error = {
                 invalidCoupon: true,
-            }
+            };
         }
     });
 

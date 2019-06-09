@@ -205,7 +205,7 @@ export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
 function ballValuePercentageArrayWithExcludedNumber(numbers: number[]): (ballNumber: number) => NumberData[] {
     return function (ballNumber): NumberData[] {
         return R.compose(mapNumbersArrayToBallValuePercentage, excludeNumber)(numbers, ballNumber);
-    }
+    };
 }
 
 function numbersArrayIncludesSpecificNumberAndDateRange(scores: Score[], ballNumber: number, dateRange: DateRange): number[] {

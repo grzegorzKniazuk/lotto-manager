@@ -3,3 +3,4 @@ export * from './user';
 export * from './api-response';
 export * from './table-column';
 export * from 'src/app/shared/interfaces/number-data';
+export * from './option-click-event';

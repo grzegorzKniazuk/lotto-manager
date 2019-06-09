@@ -17,25 +17,27 @@ import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_ID_KEY, SCORES_NUMBERS
 })
 export class ScoreListComponent implements OnInit {
 
-    @ViewChild('table', { static: true }) private table: Table;
     public readonly scoresList$: Observable<Score[]> = this.store.pipe(select(selectScores));
     public readonly totalScores$: Observable<number> = this.store.pipe(select(selectTotalScores));
     public readonly columns: TableColumn[] = this.columnArray;
     public dateRangeFilter: Date[];
     public readonly bonusNumbers: SelectItem[] = this.bonusNumbersArray;
     public readonly numbers: SelectItem[] = this.numbersArray;
+    @ViewChild('table', { static: true }) private table: Table;
 
     constructor(
         private store: Store<AppState>,
     ) {
     }
 
-    ngOnInit() {
-        this.buildDataRangeFilter();
-    }
-
-    public rowTrackBy(score: Score): number {
-        return score.id;
+    public get bonusNumbersArray(): SelectItem[] {
+        return [
+            { label: '1', value: 1 },
+            { label: '2', value: 2 },
+            { label: '3', value: 3 },
+            { label: '4', value: 4 },
+            { label: 'Wszystkie', value: null },
+        ];
     }
 
     private get columnArray(): TableColumn[] {
@@ -57,14 +59,12 @@ export class ScoreListComponent implements OnInit {
         return numbers;
     }
 
-    public get bonusNumbersArray(): SelectItem[] {
-        return [
-            { label: '1', value: 1 },
-            { label: '2', value: 2 },
-            { label: '3', value: 3 },
-            { label: '4', value: 4 },
-            { label: 'Wszystkie', value: null },
-        ];
+    ngOnInit() {
+        this.buildDataRangeFilter();
+    }
+
+    public rowTrackBy(score: Score): number {
+        return score.id;
     }
 
     private buildDataRangeFilter(): void {

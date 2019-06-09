@@ -8,10 +8,13 @@ import { NumberData } from 'src/app/shared/interfaces';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { TimeService } from 'src/app/shared/services/time.service';
 import {
-    selectBonusNumberFrequency, selectMostOftenFoundNumbersWithNumberOnIndex,
+    selectBonusNumberFrequency,
+    selectMostOftenFoundNumbersWithNumberOnIndex,
     selectMostPopularBonusNumberByDayOfTheWeek,
-    selectNumberOnIndexFrequency, selectNumberOnIndexFrequencyByDayOfTheWeek,
-    selectNumbersFrequency, selectNumbersFrequencyByDayOfTheWeek,
+    selectNumberOnIndexFrequency,
+    selectNumberOnIndexFrequencyByDayOfTheWeek,
+    selectNumbersFrequency,
+    selectNumbersFrequencyByDayOfTheWeek,
 } from 'src/app/modules/dashboard/store/selectors/score.selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
 import { last } from 'lodash';
@@ -29,6 +32,21 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
     public adviceType: AdviceTypeEnum = AdviceTypeEnum.GENERAL;
     public dateRange: DateRange = DateRange.ENTIRE_RANGE;
     public todayDayName: string = this.timeService.todayDayName;
+    public mostPopularBonusNumbersByDayOfTheWeek$: Observable<NumberData[]>;
+    public bonusNumberFrequency$: Observable<NumberData[]>;
+    public numbersFrequency$: Observable<NumberData[]>;
+    public numberOnIndexFrequency$: Observable<NumberData[]>;
+    public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
+    public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
+    public mostOftenFoundNumbersWithNumberOnIndex$: Observable<NumberData[]>;
+    private numbers: number[];
+    private bonusNumber: number;
+
+    constructor(
+        private readonly store: Store<AppState>,
+        private readonly timeService: TimeService,
+    ) {
+    }
 
     @Input()
     public set couponNumbers({ lotteryNumbers }: { lotteryNumbers: number[] }) {
@@ -38,30 +56,6 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
         this.calculateNumberOnIndexFrequency(this.numbers.length, this.dateRange);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, this.dateRange);
         this.calculateMostOftenFoundNumbersWithNumberOnIndex(last(this.numbers), this.dateRange);
-    }
-
-    private numbers: number[];
-    private bonusNumber: number;
-
-    public mostPopularBonusNumbersByDayOfTheWeek$: Observable<NumberData[]>;
-    public bonusNumberFrequency$: Observable<NumberData[]>;
-    public numbersFrequency$: Observable<NumberData[]>;
-    public numberOnIndexFrequency$: Observable<NumberData[]>;
-    public numbersFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
-    public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
-    public mostOftenFoundNumbersWithNumberOnIndex$: Observable<NumberData[]>;
-
-    constructor(
-        private readonly store: Store<AppState>,
-        private readonly timeService: TimeService,
-    ) {
-    }
-
-    ngOnInit() {
-        this.calculateGeneralAdvices(DateRange.ENTIRE_RANGE);
-    }
-
-    ngOnDestroy() {
     }
 
     private get dateRangeSelectOptions(): SelectItem[] {
@@ -79,6 +73,13 @@ export class GeneratorAdvicesComponent implements OnInit, OnDestroy {
             { label: 'Liczby 5-35', value: AdviceTypeEnum.NUMBERS },
             { label: 'Liczba bonusowa', value: AdviceTypeEnum.BONUS_NUMBER },
         ];
+    }
+
+    ngOnInit() {
+        this.calculateGeneralAdvices(DateRange.ENTIRE_RANGE);
+    }
+
+    ngOnDestroy() {
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateRange): void {

@@ -18,17 +18,12 @@ export class CouponControlComponent implements ControlValueAccessor {
     @Input() public bonusMax: number = 4;
 
     public value: number[] = [];
-    private numbersValue: number[] = [];
-    private bonusNumberValue: number;
-
     public numbers: number[] = this.numbersArray;
     public bonusNumbers: number[] = this.bonusNumbersArray;
-
+    private numbersValue: number[] = [];
+    private bonusNumberValue: number;
     private readonly numbersToDraw: number = 6;
     private readonly bonusNumberIndex: number = 5;
-
-    public propagateChange: any = () => {
-    };
 
     private get numbersArray(): number[] {
         return this.createNumberFilledArray(this.min, this.max);
@@ -38,13 +33,8 @@ export class CouponControlComponent implements ControlValueAccessor {
         return this.createNumberFilledArray(this.bonusMin, this.bonusMax);
     }
 
-    private createNumberFilledArray(min: number, max: number): number[] {
-        return Array.from({ length: max }, (value, key) => {
-            if (key + 1 >= min) {
-                return key + 1;
-            }
-        }).filter((number) => number);
-    }
+    public propagateChange: any = () => {
+    };
 
     public isSelected(n: number): boolean {
         return this.numbersValue.includes(n);
@@ -64,12 +54,7 @@ export class CouponControlComponent implements ControlValueAccessor {
         this.numbersValue = this.sortValuesAscending(this.numbersValue);
         this.value = [ ...this.numbersValue, this.bonusNumberValue ];
 
-
         this.propagateChange(this.value);
-    }
-
-    private sortValuesAscending(numbers): number[] {
-        return numbers.sort((a, b) => a - b);
     }
 
     public selectBonusNumber(bonusNumber: number): void {
@@ -101,5 +86,17 @@ export class CouponControlComponent implements ControlValueAccessor {
                 this.value.push(number);
             }
         });
+    }
+
+    private createNumberFilledArray(min: number, max: number): number[] {
+        return Array.from({ length: max }, (value, key) => {
+            if (key + 1 >= min) {
+                return key + 1;
+            }
+        }).filter((number) => number);
+    }
+
+    private sortValuesAscending(numbers): number[] {
+        return numbers.sort((a, b) => a - b);
     }
 }

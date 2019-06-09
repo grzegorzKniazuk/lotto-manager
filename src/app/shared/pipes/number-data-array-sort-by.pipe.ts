@@ -5,6 +5,7 @@ import { sortBallNumberAscending, sortValueDescending } from 'src/app/shared/uti
 
 @Pipe({
     name: 'numberDataArraySortBy',
+    pure: true,
 })
 export class NumberDataArraySortByPipe implements PipeTransform {
 

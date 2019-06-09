@@ -1,6 +1,6 @@
 <div class="select-container">
-    <p-selectButton #adviceTypeValue [options]="adviceTypes" [(ngModel)]="adviceType" (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)"></p-selectButton>
-    <p-selectButton #dateRangeValue [options]="dateRangeTypes" [(ngModel)]="dateRange" (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)"></p-selectButton>
+    <p-selectButton #adviceTypeValue (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)" [(ngModel)]="adviceType" [options]="adviceTypes"></p-selectButton>
+    <p-selectButton #dateRangeValue (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)" [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
 </div>
 <div class="tips-container">
     <ng-container *ngIf="adviceType === 'general'">
@@ -8,37 +8,37 @@
     </ng-container>
     <ng-container *ngIf="adviceType === 'numbers'">
         <lm-advice-paragraph *ngIf="numbersFrequency$ | async as numbersFrequency"
-                             title="Częstotliwość losowania wszystkich liczb"
                              [dateRange]="this.dateRange"
-                             [numberDataArray]="numbersFrequency"></lm-advice-paragraph>
+                             [numberDataArray]="numbersFrequency"
+                             title="Częstotliwość losowania wszystkich liczb"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="numbersFrequencyByDayOfTheWeek$ | async as numbersFrequencyByDayOfTheWeek"
-                             title="Częstotliwość losowania wszystkich liczb w dniu tygodnia"
                              [dateRange]="this.dateRange"
+                             [numberDataArray]="numbersFrequencyByDayOfTheWeek"
                              [todayDayName]="todayDayName"
-                             [numberDataArray]="numbersFrequencyByDayOfTheWeek"></lm-advice-paragraph>
+                             title="Częstotliwość losowania wszystkich liczb w dniu tygodnia"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="numberOnIndexFrequency$ | async as numbersOnIndexFrequency"
-                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1)"
                              [dateRange]="this.dateRange"
-                             [numberDataArray]="numbersOnIndexFrequency"></lm-advice-paragraph>
+                             [numberDataArray]="numbersOnIndexFrequency"
+                             [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1)"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="numberOnIndexFrequencyByDayOfTheWeek$ | async as numberOnIndexFrequencyByDayOfTheWeek"
+                             [dateRange]="this.dateRange"
+                             [numberDataArray]="numberOnIndexFrequencyByDayOfTheWeek"
                              [title]="'Częstotliwość losowania liczb na indeksie nr.' + (numbers.length + 1) + ' w dniu'"
-                             [dateRange]="this.dateRange"
-                             [todayDayName]="todayDayName"
-                             [numberDataArray]="numberOnIndexFrequencyByDayOfTheWeek"></lm-advice-paragraph>
+                             [todayDayName]="todayDayName"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="numbers.length && mostOftenFoundNumbersWithNumberOnIndex$ | async as mostOftenFoundNumbersWithNumberOnIndex"
-                             [title]="'Częstotliwość losowania liczb występujących wraz z liczbą na indeksie nr.' + numbers.length"
                              [dateRange]="this.dateRange"
-                             [numberDataArray]="mostOftenFoundNumbersWithNumberOnIndex"></lm-advice-paragraph>
+                             [numberDataArray]="mostOftenFoundNumbersWithNumberOnIndex"
+                             [title]="'Częstotliwość losowania liczb występujących wraz z liczbą na indeksie nr.' + numbers.length"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="mostPopularBonusNumbersByDayOfTheWeek$ | async as mostPopularBonusNumbersByDayOfTheWeek"
-                             title="Częstotliwość losowania liczb bonusowych w dniu tygodnia"
                              [dateRange]="this.dateRange"
+                             [numberDataArray]="mostPopularBonusNumbersByDayOfTheWeek"
                              [todayDayName]="todayDayName"
-                             [numberDataArray]="mostPopularBonusNumbersByDayOfTheWeek"></lm-advice-paragraph>
+                             title="Częstotliwość losowania liczb bonusowych w dniu tygodnia"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
-                             title="Częstotliwość losowania liczb bonusowych"
                              [dateRange]="this.dateRange"
-                             [numberDataArray]="bonusNumberFrequency"></lm-advice-paragraph>
+                             [numberDataArray]="bonusNumberFrequency"
+                             title="Częstotliwość losowania liczb bonusowych"></lm-advice-paragraph>
     </ng-container>
 </div>

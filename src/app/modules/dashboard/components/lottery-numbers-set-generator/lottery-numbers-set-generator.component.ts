@@ -16,12 +16,12 @@ export class LotteryNumbersSetGeneratorComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
-    }
-
     private get form(): FormGroup {
         return this.formBuilder.group({
             lotteryNumbers: [ [], [ Validators.required, lotteryCouponValidity ] ],
         });
+    }
+
+    ngOnInit() {
     }
 }

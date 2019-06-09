@@ -6,6 +6,18 @@ import * as moment from 'moment';
 })
 export class TimeService {
 
+    public static get subtractYearFromNow(): string {
+        return moment().subtract('1', 'year').format('YYYY-MM-DD');
+    }
+
+    public static get subtractMonthFromNow(): string {
+        return moment().subtract('1', 'month').format('YYYY-MM-DD');
+    }
+
+    public static get subtractWeekFromNow(): string {
+        return moment().subtract('1', 'week').format('YYYY-MM-DD');
+    }
+
     public get currentDate(): string {
         return moment().format('YYYY-MM-DD');
     }
@@ -24,6 +36,10 @@ export class TimeService {
         return drawTime.from(moment());
     }
 
+    public get todayDayName(): string {
+        return moment(this.currentDate).locale('pl').format('dddd');
+    }
+
     public static isSameOrAfter(date: string, compareTo: string): boolean {
         return moment(date).isSameOrAfter(compareTo);
     }
@@ -36,23 +52,7 @@ export class TimeService {
         return moment(date).isSame(compareTo);
     }
 
-    public static get subtractYearFromNow(): string {
-        return moment().subtract('1', 'year').format('YYYY-MM-DD');
-    }
-
-    public static get subtractMonthFromNow(): string {
-        return moment().subtract('1', 'month').format('YYYY-MM-DD');
-    }
-
-    public static get subtractWeekFromNow(): string {
-        return moment().subtract('1', 'week').format('YYYY-MM-DD');
-    }
-
     public static isSameWeekDayAsToday(date: string): boolean {
         return moment(date).format('dddd') === moment().format('dddd');
-    }
-
-    public get todayDayName(): string {
-        return moment(this.currentDate).locale('pl').format('dddd');
     }
 }

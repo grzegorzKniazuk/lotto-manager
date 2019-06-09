@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NumberData } from 'src/app/shared/interfaces';
 import { values } from 'lodash';
 import * as R from 'ramda';
@@ -10,7 +10,6 @@ import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT
     selector: 'lm-number-data-chart',
     templateUrl: './number-data-chart.component.html',
     styleUrls: [ './number-data-chart.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NumberDataChartComponent {
 
@@ -48,7 +47,7 @@ export class NumberDataChartComponent {
                         fontSize: BASE_FONT_SIZE,
                         fontColor: BASE_FONT_COLOR,
                         fontStyle: 'bold',
-                    }
+                    },
                 } ],
                 xAxes: [ {
                     ticks: {
@@ -62,7 +61,7 @@ export class NumberDataChartComponent {
                         fontSize: BASE_FONT_SIZE,
                         fontColor: BASE_FONT_COLOR,
                         fontStyle: 'bold',
-                    }
+                    },
                 } ],
             },
         };

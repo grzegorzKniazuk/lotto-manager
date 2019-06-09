@@ -1,13 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ChartDataType, DataViewType, DateRange, SortBy } from 'src/app/shared/enums';
-import { NumberData } from 'src/app/shared/interfaces';
+import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 
 @Component({
     selector: 'lm-advice-paragraph',
     templateUrl: './advice-paragraph.component.html',
     styleUrls: [ './advice-paragraph.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
 
@@ -82,6 +81,13 @@ export class AdviceParagraphComponent {
 
     public get isNumbersViewType(): boolean {
         return this.viewType === DataViewType.NUMBERS;
+    }
+
+    public onOptionClick(event: OptionClickEvent): void {
+        event.originalEvent.stopImmediatePropagation();
+        console.log(event.originalEvent);
+        console.log(event.option);
+        console.log(event.index);
     }
 }
 
