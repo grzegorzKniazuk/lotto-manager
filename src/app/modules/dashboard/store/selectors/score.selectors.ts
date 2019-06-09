@@ -5,7 +5,7 @@ import * as scoreEntitySelectors from '../reducers/score.reducer';
 import { Score } from 'src/app/shared/interfaces/score';
 import { countBy, filter, flatten, pick } from 'lodash';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
-import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage, sortValueDescending } from 'src/app/shared/utils';
+import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage } from 'src/app/shared/utils';
 import { TimeService } from 'src/app/shared/services/time.service';
 import * as R from 'ramda';
 import { NumberData } from 'src/app/shared/interfaces';
@@ -56,7 +56,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
             }
         }
 
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortValueDescending);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length);
     },
 );
 
@@ -83,7 +83,7 @@ export const selectBonusNumberFrequency = createSelector(
                 break;
             }
         }
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length).sort(sortValueDescending);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length);
     },
 );
 
@@ -109,7 +109,7 @@ export const selectNumbersFrequency = createSelector(
                 break;
             }
         }
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
 
@@ -135,7 +135,7 @@ export const selectNumbersFrequencyByDayOfTheWeek = createSelector(
                 break;
             }
         }
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
 
@@ -163,7 +163,7 @@ export const selectNumberOnIndexFrequency = createSelector(
             }
         }
 
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
 
@@ -191,14 +191,14 @@ export const selectNumberOnIndexFrequencyByDayOfTheWeek = createSelector(
             }
         }
 
-        return mapNumbersArrayToBallValuePercentage(filteredNumbers).sort(sortValueDescending);
+        return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },
 );
 
 export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>, props: { ballNumber: number, dateRange: DateRange }) => {
-        return ballValuePercentageArrayWithExcludedNumber(numbersArrayIncludesSpecificNumberAndDateRange(scores, props.ballNumber, props.dateRange))(props.ballNumber).sort(sortValueDescending);
+        return ballValuePercentageArrayWithExcludedNumber(numbersArrayIncludesSpecificNumberAndDateRange(scores, props.ballNumber, props.dateRange))(props.ballNumber);
     },
 );
 

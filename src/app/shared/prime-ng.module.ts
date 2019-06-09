@@ -1,5 +1,17 @@
 import { NgModule } from '@angular/core';
-import { AccordionModule, ButtonModule, CalendarModule, ChartModule, DropdownModule, InputTextModule, MultiSelectModule, SelectButtonModule, SpinnerModule, TooltipModule } from 'primeng/primeng';
+import {
+    AccordionModule,
+    ButtonModule,
+    CalendarModule,
+    ChartModule,
+    DropdownModule,
+    InputTextModule,
+    MultiSelectModule,
+    PanelModule,
+    SelectButtonModule,
+    SpinnerModule,
+    TooltipModule,
+} from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
 
 const primeNGModules = [
@@ -13,6 +25,7 @@ const primeNGModules = [
     MultiSelectModule,
     ChartModule,
     SelectButtonModule,
+    PanelModule,
     AccordionModule,
 ];
 

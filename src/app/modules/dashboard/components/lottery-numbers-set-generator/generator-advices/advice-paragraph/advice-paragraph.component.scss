@@ -1,5 +1,11 @@
 @import "base.scss";
 
+.accordion-menu {
+    @include flex(flex, flex-end, center, row);
+    @include size(100%);
+    padding: $padding-m 0;
+}
+
 .ball-data-container {
     @include flex(inline-flex, center, center, column);
 

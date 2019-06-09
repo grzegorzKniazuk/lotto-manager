@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DateRange } from 'src/app/shared/enums';
+import { DateRange, SortBy } from 'src/app/shared/enums';
 import { NumberData } from 'src/app/shared/interfaces';
+import { SelectItem } from 'primeng/api';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -14,6 +15,9 @@ export class AdviceParagraphComponent {
     @Input() public numberDataArray: NumberData[];
     @Input() public title: string;
     @Input() public todayDayName: string;
+    @Input() public collapsed: boolean = true;
+    @Input() public sortBy: SortBy = SortBy.VALUE;
+    public sortTypes = this.sorTypesOptions;
 
     public get pTitle(): string {
         const message = [ this.title ];
@@ -42,6 +46,13 @@ export class AdviceParagraphComponent {
         }
 
         return message.join(' ');
+    }
+
+    public get sorTypesOptions(): SelectItem[] {
+        return [
+            { label: 'Numer', value: SortBy.NUMBER },
+            { label: 'Wartość', value: SortBy.VALUE },
+        ];
     }
 }
 

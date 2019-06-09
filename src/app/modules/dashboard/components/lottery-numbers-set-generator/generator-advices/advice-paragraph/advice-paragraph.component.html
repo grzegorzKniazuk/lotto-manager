@@ -1,6 +1,9 @@
 <p-accordion>
     <p-accordionTab [header]="pTitle">
-        <div *ngFor="let numberData of numberDataArray" class="ball-data-container">
+        <div class="accordion-menu">
+            <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy"></p-selectButton>
+        </div>
+        <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data-container">
             <div class="ball-data">
                 <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
                 <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
