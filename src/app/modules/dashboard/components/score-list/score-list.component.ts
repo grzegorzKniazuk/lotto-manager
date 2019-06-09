@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Score } from 'src/app/shared/interfaces/score';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { selectScores, selectTotalScores } from 'src/app/modules/dashboard/store/selectors/score.selectors';
+import { selectScores, selectTotalScores } from 'src/app/modules/dashboard/store/selectors';
 import { TableColumn } from 'src/app/shared/interfaces';
 import { Table } from 'primeng/table';
 import { TableFilterMatchModeEnum } from 'src/app/shared/enums';

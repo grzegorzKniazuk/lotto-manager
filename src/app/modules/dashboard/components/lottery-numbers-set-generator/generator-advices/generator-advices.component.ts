@@ -19,7 +19,7 @@ import {
     selectNumbersByOddDay, selectNumbersByOddMonth,
     selectNumbersFrequency,
     selectNumbersFrequencyByDayOfTheWeek,
-} from 'src/app/modules/dashboard/store/selectors/score.selectors';
+} from 'src/app/modules/dashboard/store/selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
 import { last } from 'lodash';
 
