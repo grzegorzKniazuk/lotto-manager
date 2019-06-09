@@ -9,7 +9,6 @@ import { mapNumbersArrayToBallValuePercentage, mapValuesToBallValuePercentage } 
 import { TimeService } from 'src/app/shared/services/time.service';
 import * as R from 'ramda';
 import { NumberData } from 'src/app/shared/interfaces';
-import { Time } from '@angular/common';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -40,7 +39,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
 
         switch (props.dateRange) {
             case DateRange.ENTIRE_RANGE: {
-                filteredScores = scores.filter(isSameWeekDayAsToday);
+                filteredScores = filter(scores, isSameWeekDayAsToday);
                 break;
             }
             case DateRange.LAST_YEAR: {
@@ -57,7 +56,7 @@ export const selectMostPopularBonusNumberByDayOfTheWeek = createSelector(
             }
         }
 
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     },
 );
 
@@ -85,14 +84,16 @@ export const selectBonusNumberFrequency = createSelector(
             }
         }
 
-        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY), filteredScores.length);
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     },
 );
 
 export const selectMostPopularBonusNumberInActualMonthName = createSelector(
     selectBonusNumbersScores,
     (scores: Partial<Score[]>) => {
-        return mapValuesToBallValuePercentage(countBy(filter(scores, isSameMonthAsToday), SCORES_BONUS_NUMBER_KEY), scores.length);
+        const filteredScores = filter(scores, isSameMonthAsToday);
+
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
     }
 );
 
@@ -211,6 +212,15 @@ export const selectMostOftenFoundNumbersWithNumberOnIndex = createSelector(
     },
 );
 
+export const selectMostPopularNumbersInActualMonthName = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>) => {
+        const filteredScores = filter(scores, isSameMonthAsToday);
+
+        return mapValuesToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    }
+);
+
 function ballValuePercentageArrayWithExcludedNumber(numbers: number[]): (ballNumber: number) => NumberData[] {
     return function (ballNumber): NumberData[] {
         return R.compose(mapNumbersArrayToBallValuePercentage, excludeNumber)(numbers, ballNumber);
@@ -278,7 +288,6 @@ function pickNumbers(score: Score): number[] {
     return score.numbers;
 }
 
-// compose utils
 function mapScoresToNumbersArray(scores: Score[]): number[] {
     return flatten(scores.map(score => score.numbers));
 }

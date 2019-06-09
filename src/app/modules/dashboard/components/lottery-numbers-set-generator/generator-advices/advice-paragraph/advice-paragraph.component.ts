@@ -13,7 +13,7 @@ export class AdviceParagraphComponent {
 
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
     @Input() public readonly dateRange: DateRange = DateRange.ENTIRE_RANGE;
-    @Input() public readonly numberDataArray: NumberData[];
+    @Input() public readonly numberDataArray: NumberData[] = [];
     @Input() public readonly title: string;
     @Input() public readonly todayDayName: string;
     @Input() public readonly todayMonthName: string;

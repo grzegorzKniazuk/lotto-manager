@@ -11,5 +11,5 @@ export function mapNumbersArrayToBallValuePercentage(array: number[]): NumberDat
             Object.defineProperty(result, number, { value: 1, writable: true, configurable: true, enumerable: true });
         }
     });
-    return mapValuesToBallValuePercentage(result, array.length);
+    return mapValuesToBallValuePercentage(result)(array.length);
 }
