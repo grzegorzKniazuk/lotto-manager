@@ -6,14 +6,15 @@ export function mapBonusNumbersCountedToBallValuePercentage(values: { [key: stri
     const resultArray = [];
 
     return function (total: number): NumberData[] {
-        mapValues(values, (value, index) => {
-            resultArray.push({
-                ball: +index,
-                value,
-                percentage: percentage(value, total),
+        if (values) {
+            mapValues(values, (value, index) => {
+                resultArray.push({
+                    ball: +index,
+                    value,
+                    percentage: percentage(value, total),
+                });
             });
-        });
-
+        }
         return resultArray;
     };
 }
