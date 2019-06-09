@@ -1,0 +1,1 @@
+export const BASE_CHART_BAR_BORDER_COLOR = '#1E88E5';

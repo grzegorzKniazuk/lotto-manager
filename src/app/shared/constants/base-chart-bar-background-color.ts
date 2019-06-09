@@ -1,0 +1,1 @@
+export const BASE_CHART_BAR_BACKGROUND_COLOR = '#42A5F5';

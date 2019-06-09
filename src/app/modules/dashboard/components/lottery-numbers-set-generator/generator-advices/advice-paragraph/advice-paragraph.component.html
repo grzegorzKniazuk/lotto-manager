@@ -4,11 +4,11 @@
             <span *ngIf="isChartViewType">
                 <p-selectButton [options]="chartDataTypes" [(ngModel)]="chartDataType"></p-selectButton>
             </span>
-            <span>
-                <p-selectButton [options]="viewTypes" [(ngModel)]="viewType"></p-selectButton>
+            <span *ngIf="!isChartViewType">
+                <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy"></p-selectButton>
             </span>
             <span>
-                <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy"></p-selectButton>
+                <p-selectButton [options]="viewTypes" [(ngModel)]="viewType"></p-selectButton>
             </span>
         </div>
         <ng-container *ngIf="isNumbersViewType">

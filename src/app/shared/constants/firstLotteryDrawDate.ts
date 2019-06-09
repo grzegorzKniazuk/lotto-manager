@@ -1,1 +1,0 @@
-export const FIRST_LOTTERY_DRAW_DATE = '2014-10-19';

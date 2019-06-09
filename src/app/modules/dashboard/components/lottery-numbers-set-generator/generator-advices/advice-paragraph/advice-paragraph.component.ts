@@ -83,6 +83,5 @@ export class AdviceParagraphComponent {
     public get isNumbersViewType(): boolean {
         return this.viewType === DataViewType.NUMBERS;
     }
-
 }
 

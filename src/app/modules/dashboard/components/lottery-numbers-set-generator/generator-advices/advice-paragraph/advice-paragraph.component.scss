@@ -17,7 +17,7 @@
 
     .ball-data {
         @include flex(inline-flex, center, center, column);
-        margin-right: $margin-m;
+        margin: 0 $margin-m $margin-m 0;
 
         span {
             text-align: center;
