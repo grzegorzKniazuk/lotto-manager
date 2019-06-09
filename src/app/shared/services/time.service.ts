@@ -13,6 +13,7 @@ export class TimeService {
     private static readonly monthOfYearFormat = 'M';
     private static readonly baseDateFormat = 'YYYY-MM-DD';
     private static readonly baseTimeFormat = 'HH:mm:ss';
+    private static readonly yearQuarterFormat = 'Q';
 
     public static get subtractYearFromNow(): string {
         return moment().subtract('1', 'year').format(TimeService.baseDateFormat);
@@ -52,6 +53,10 @@ export class TimeService {
         return moment(this.currentDate).locale(TimeService.locale).format(TimeService.monthNameFormat);
     }
 
+    public get todayYearQuarter(): number {
+        return +moment(this.currentDate).format(TimeService.yearQuarterFormat);
+    }
+
     public get isOddDayToday(): boolean {
         return +(moment(this.currentDate).format(TimeService.dayOfMonthFormat)) % 2 !== 0;
     }
@@ -65,7 +70,7 @@ export class TimeService {
     }
 
     public get isEvenMonthToday(): boolean {
-        return +(moment(this.currentDate).format(TimeService.monthOfYearFormat)) % 2 === 0;
+        return +moment(this.currentDate).format(TimeService.monthOfYearFormat) % 2 === 0;
     }
 
     public static isSameOrAfter(date: string, compareTo: string): boolean {
@@ -102,5 +107,9 @@ export class TimeService {
 
     public static isEvenMonth(date: string): boolean {
         return +(moment(date).format(TimeService.monthOfYearFormat)) % 2 === 0;
+    }
+
+    public static isSameYearQuarter(date: string): boolean {
+        return moment(date).format(TimeService.yearQuarterFormat) === moment().format(TimeService.yearQuarterFormat);
     }
 }

@@ -21,7 +21,7 @@ import {
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
-    isSameWeekDayAsTodayInLastYear,
+    isSameWeekDayAsTodayInLastYear, isSameYearQuarter, isSameYearQuarterInLastYear,
     mapBonusNumbersCountedToBallValuePercentage,
 } from 'src/app/shared/utils';
 import { SCORES_BONUS_NUMBER_KEY } from 'src/app/shared/constants';
@@ -176,6 +176,25 @@ export const selectBonusNumberByEvenMonth = createSelector(
             }
             case DateRange.LAST_YEAR: {
                 filteredScores = filter(scores, isEvenMonthInLastYear);
+                break;
+            }
+        }
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    },
+);
+
+export const selectBonusNumberByYearQuarter = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = filter(scores, isSameYearQuarter);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = filter(scores, isSameYearQuarterInLastYear);
                 break;
             }
         }

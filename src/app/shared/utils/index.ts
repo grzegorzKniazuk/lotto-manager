@@ -40,3 +40,5 @@ export * from './selectors-utils/date-utils/is-same-week-day-as-today';
 export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-month';
 export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-week';
 export * from './selectors-utils/date-utils/is-same-week-day-as-today-in-last-year';
+export * from './selectors-utils/date-utils/is-same-year-quarter';
+export * from './selectors-utils/date-utils/is-same-year-quarter-in-last-year';
