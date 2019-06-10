@@ -3,12 +3,24 @@ import { selectNumbersScores } from 'src/app/modules/dashboard/store/selectors/b
 import { Score } from 'src/app/shared/interfaces/score';
 import { DateRange } from 'src/app/shared/enums';
 import {
-    isEvenDay, isEvenDayInLastMonth, isEvenDayInLastWeek,
-    isEvenDayInLastYear, isInLastMonth, isInLastWeek, isInLastYear,
+    isEvenDay,
+    isEvenDayInLastMonth,
+    isEvenDayInLastWeek,
+    isEvenDayInLastYear, isEvenMonth, isEvenMonthInLastYear,
+    isInLastMonth,
+    isInLastWeek,
+    isInLastYear,
     isOddDay,
     isOddDayInLastMonth,
     isOddDayInLastWeek,
-    isOddDayInLastYear, isSameMonthAsToday, isSameMonthAsTodayInLastYear, isSameWeekDayAsToday, isSameWeekDayAsTodayInLastMonth, isSameWeekDayAsTodayInLastWeek, isSameWeekDayAsTodayInLastYear,
+    isOddDayInLastYear,
+    isOddMonth, isOddMonthInLastYear,
+    isSameMonthAsToday,
+    isSameMonthAsTodayInLastYear,
+    isSameWeekDayAsToday,
+    isSameWeekDayAsTodayInLastMonth,
+    isSameWeekDayAsTodayInLastWeek,
+    isSameWeekDayAsTodayInLastYear,
     mapNumbersArrayToBallValuePercentage,
     mapScoresToNumbersArray,
 } from 'src/app/shared/utils';
@@ -134,6 +146,44 @@ export const selectNumberOnIndexByEvenDay = createSelector(
             }
             case DateRange.LAST_WEEK: {
                 filteredScores = mapScoresToNumbersArray(filter(scores, isEvenDayInLastWeek))(props.numberIndex);
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
+);
+
+export const selectNumberOnIndexByOddMonth = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonth))(props.numberIndex);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isOddMonthInLastYear))(props.numberIndex);
+                break;
+            }
+        }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
+);
+
+export const selectNumberOnIndexByEvenMonth = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonth))(props.numberIndex);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isEvenMonthInLastYear))(props.numberIndex);
                 break;
             }
         }

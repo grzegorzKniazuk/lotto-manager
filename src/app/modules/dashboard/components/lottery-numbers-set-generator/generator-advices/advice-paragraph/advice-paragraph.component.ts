@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
 import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
@@ -7,7 +7,6 @@ import { SelectItem } from 'primeng/api';
     selector: 'lm-advice-paragraph',
     templateUrl: './advice-paragraph.component.html',
     styleUrls: [ './advice-paragraph.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
 

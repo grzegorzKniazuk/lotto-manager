@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AdviceTypeEnum, DateRange } from 'src/app/shared/enums';
 import { TimeService } from 'src/app/shared/services/time.service';
@@ -7,7 +7,6 @@ import { Memoize } from 'lodash-decorators';
 @Component({
     selector: 'lm-base-generator-advices',
     template: 'no template for base components!',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseGeneratorAdvicesComponent {
     public readonly adviceTypes: SelectItem[] = this.adviceTypeSelectOptions;
@@ -135,7 +134,7 @@ export class BaseGeneratorAdvicesComponent {
 
     @Memoize
     public numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange: DateRange): string {
-        return `'Częstotliwość losowania liczb na indeksie nr.${this.numbers.length +1} w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
+        return `'Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
     @Memoize
@@ -149,6 +148,13 @@ export class BaseGeneratorAdvicesComponent {
             ? `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dni nieparzyste ${this.dateRangeLabel(dateRange)}`
             : `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dni parzyste ${this.dateRangeLabel(dateRange)}`;
 
+    }
+
+    @Memoize
+    public numberOnIndexByOddOrEvenMonthLabel(dateRange: DateRange): string {
+        return this.timeService.isOddDayToday
+            ? `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}`
+            : `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
     /* bonus number labels */

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AdviceTypeEnum, DateRange } from 'src/app/shared/enums';
@@ -7,6 +7,7 @@ import { NumberData } from 'src/app/shared/interfaces';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { TimeService } from 'src/app/shared/services/time.service';
 import {
+    selectBonusNumberByDayOfTheWeek,
     selectBonusNumberByEvenDay,
     selectBonusNumberByEvenMonth,
     selectBonusNumberByMonthDayNumber,
@@ -15,12 +16,14 @@ import {
     selectBonusNumberByYearDayNumber,
     selectBonusNumberByYearQuarter,
     selectBonusNumberFrequency,
-    selectBonusNumberByDayOfTheWeek,
     selectBonusNumberInActualMonthName,
-    selectNumberOnIndexInActualMonthName,
-    selectNumbersInActualMonthName, selectNumberOnIndexByEvenDay, selectNumberOnIndexByOddDay,
+    selectNumberOnIndexByEvenDay,
+    selectNumberOnIndexByEvenMonth,
+    selectNumberOnIndexByOddDay,
+    selectNumberOnIndexByOddMonth,
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
+    selectNumberOnIndexInActualMonthName,
     selectNumbersByEvenDay,
     selectNumbersByEvenMonth,
     selectNumbersByMonthDayNumber,
@@ -30,6 +33,7 @@ import {
     selectNumbersByYearQuarter,
     selectNumbersFrequency,
     selectNumbersFrequencyByDayOfTheWeek,
+    selectNumbersInActualMonthName,
 } from 'src/app/modules/dashboard/store/selectors';
 import { LOTTERY_NUMBERS_ARRAY_LENGTH } from 'src/app/shared/constants';
 import { last } from 'lodash';
@@ -40,7 +44,6 @@ import { BaseGeneratorAdvicesComponent } from 'src/app/shared/components';
     selector: 'lm-generator-advices',
     templateUrl: './generator-advices.component.html',
     styleUrls: [ './generator-advices.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent implements OnInit, OnDestroy {
     /* numbers */
@@ -58,6 +61,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberData[]>;
     public numberOnIndexInActualMonthName$: Observable<NumberData[]>;
     public numberOnIndexByOddOrEvenDay$: Observable<NumberData[]>;
+    public numberOnIndexByOddOrEvenMonth$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -142,6 +146,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numbers.length, dateRange);
         this.calculateNumberOnIndexInActualMonthName(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByOddOrEvenDay(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexByOddOrEvenMonth(this.numbers.length, dateRange);
     }
 
     /* numbers */
@@ -215,6 +220,14 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
             this.numberOnIndexByOddOrEvenDay$ = this.timeService.isOddDayToday
                 ? this.store.pipe(select(selectNumberOnIndexByOddDay, { numberIndex, dateRange }))
                 : this.store.pipe(select(selectNumberOnIndexByEvenDay, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexByOddOrEvenMonth(numberIndex: number, dateRange: DateRange): void {
+        if (this.numbers.length < LOTTERY_NUMBERS_ARRAY_LENGTH && (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE)) {
+            this.numberOnIndexByOddOrEvenMonth$ = this.timeService.isOddDayToday
+                ? this.store.pipe(select(selectNumberOnIndexByOddMonth, { numberIndex, dateRange }))
+                : this.store.pipe(select(selectNumberOnIndexByEvenMonth, { numberIndex, dateRange }));
         }
     }
 
