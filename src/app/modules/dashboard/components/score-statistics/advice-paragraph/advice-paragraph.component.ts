@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
 import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
@@ -7,6 +7,7 @@ import { SelectItem } from 'primeng/api';
     selector: 'lm-advice-paragraph',
     templateUrl: './advice-paragraph.component.html',
     styleUrls: [ './advice-paragraph.component.scss' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
 
@@ -17,7 +18,7 @@ export class AdviceParagraphComponent {
     @Output() public onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();
     @Input() public isNumberIndexAdvice = false;
     public numberIndexButtonConfig = this.numberIndexButtonOptions;
-    public numberIndex = 1;
+    public numberIndex = 0;
 
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
@@ -37,11 +38,11 @@ export class AdviceParagraphComponent {
 
     private get numberIndexButtonOptions(): SelectItem[] {
         return [
-            { label: '1', value: 1 },
-            { label: '2', value: 2 },
-            { label: '3', value: 3 },
-            { label: '4', value: 4 },
-            { label: '5', value: 5 },
+            { label: '1', value: 0 },
+            { label: '2', value: 1 },
+            { label: '3', value: 2 },
+            { label: '4', value: 3 },
+            { label: '5', value: 4 },
         ];
     }
 

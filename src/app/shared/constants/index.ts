@@ -1,7 +1,6 @@
 export * from './validation-errors';
 export * from './api-url';
 export * from './score-object-keys';
-export * from './lottery-numbers-array-length';
 export * from './number-data-object-keys';
 export * from './base-font-color';
 export * from './base-font-size';
