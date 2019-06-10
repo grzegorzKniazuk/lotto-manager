@@ -20,7 +20,7 @@ import {
     selectNumberOnIndexByEvenDay,
     selectNumberOnIndexByEvenMonth,
     selectNumberOnIndexByOddDay,
-    selectNumberOnIndexByOddMonth, selectNumberOnIndexByYearQuarter,
+    selectNumberOnIndexByOddMonth, selectNumberOnIndexByYearDayNumber, selectNumberOnIndexByYearQuarter,
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumberOnIndexInActualMonthName,
@@ -63,6 +63,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     public numberOnIndexByOddOrEvenDay$: Observable<NumberData[]>;
     public numberOnIndexByOddOrEvenMonth$: Observable<NumberData[]>;
     public numberOnIndexByYearQuarter$: Observable<NumberData[]>;
+    public numberOnIndexByYearDayNumber$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -149,6 +150,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.calculateNumberOnIndexByOddOrEvenDay(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByOddOrEvenMonth(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByYearQuarter(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexByYearDayNumber(this.numbers.length, dateRange);
     }
 
     /* numbers */
@@ -236,6 +238,12 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     private calculateNumberOnIndexByYearQuarter(numberIndex: number, dateRange: DateRange): void {
         if (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE) {
             this.numberOnIndexByYearQuarter$ = this.store.pipe(select(selectNumberOnIndexByYearQuarter, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexByYearDayNumber(numberIndex: number, dateRange: DateRange): void {
+        if (dateRange === DateRange.ENTIRE_RANGE) {
+            this.numberOnIndexByYearDayNumber$ = this.store.pipe(select(selectNumberOnIndexByYearDayNumber, { numberIndex, dateRange }));
         }
     }
 

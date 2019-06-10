@@ -20,7 +20,7 @@ import {
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
-    isSameWeekDayAsTodayInLastYear, isSameYearQuarter, isSameYearQuarterInLastYear,
+    isSameWeekDayAsTodayInLastYear, isSameYearDayNumber, isSameYearQuarter, isSameYearQuarterInLastYear,
     mapNumbersArrayToBallValuePercentage,
     mapScoresToNumbersArray,
 } from 'src/app/shared/utils';
@@ -206,6 +206,15 @@ export const selectNumberOnIndexByYearQuarter = createSelector(
                 break;
             }
         }
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
+);
+
+export const selectNumberOnIndexByYearDayNumber = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
+        let filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearDayNumber))(props.numberIndex);
+
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     },
 );

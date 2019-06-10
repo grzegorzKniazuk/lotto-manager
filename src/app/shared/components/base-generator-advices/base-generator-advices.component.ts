@@ -157,6 +157,7 @@ export class BaseGeneratorAdvicesComponent {
             : `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
+    @Memoize
     public numberOnIndexByYearQuarterLabel(dateRange: DateRange): string {
         switch (this.timeService.todayYearQuarter) {
             case 1: {
@@ -172,6 +173,11 @@ export class BaseGeneratorAdvicesComponent {
                 return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w czwartym kwartale roku ${this.dateRangeLabel(dateRange)}`;
             }
         }
+    }
+
+    @Memoize
+    public numberOnIndexByYearDayNumberLabel(dateRange: DateRange): string {
+        return `Częstoliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w ${this.timeService.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
     }
 
     /* bonus number labels */
