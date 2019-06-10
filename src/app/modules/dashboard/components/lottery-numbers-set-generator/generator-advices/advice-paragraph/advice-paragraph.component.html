@@ -1,16 +1,21 @@
 <p-accordion>
     <p-accordionTab [header]="title">
-        <div class="accordion-menu">
-            <span *ngIf="isChartViewType">
-                <p-selectButton [options]="chartDataTypes" [(ngModel)]="chartDataType" (onOptionClick)="onOptionClick($event)"></p-selectButton>
+        <nav class="accordion-menu">
+            <span *ngIf="isNumberIndexAdvice">
+                <p-selectButton [options]="numberIndexButtonConfig" [(ngModel)]="numberIndex" (onOptionClick)="onOptionClick($event)" (onChange)="sendSelectedNumberIndex()"></p-selectButton>
             </span>
             <span>
-                <p-selectButton [options]="sortTypes" [(ngModel)]="sortBy" (onOptionClick)="onOptionClick($event)"></p-selectButton>
+                <span *ngIf="isChartViewType">
+                <p-selectButton [options]="chartTypesButtonConfig" [(ngModel)]="chartDataType" (onOptionClick)="onOptionClick($event)"></p-selectButton>
             </span>
             <span>
-                <p-selectButton [options]="viewTypes" [(ngModel)]="viewType" (onOptionClick)="onOptionClick($event)"></p-selectButton>
+                <p-selectButton [options]="sortTypesButtonConfig" [(ngModel)]="sortBy" (onOptionClick)="onOptionClick($event)"></p-selectButton>
             </span>
-        </div>
+            <span>
+                <p-selectButton [options]="viewTypesButtonConfig" [(ngModel)]="viewType" (onOptionClick)="onOptionClick($event)"></p-selectButton>
+            </span>
+            </span>
+        </nav>
         <ng-container *ngIf="isNumbersViewType">
             <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data-container">
                 <div class="ball-data">

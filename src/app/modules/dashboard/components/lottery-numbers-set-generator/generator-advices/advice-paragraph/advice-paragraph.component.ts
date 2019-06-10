@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
 import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
@@ -14,30 +14,45 @@ export class AdviceParagraphComponent {
     @Input() public readonly numberDataArray: NumberData[] = [];
     @Input() public readonly title: string;
 
+    @Output() public onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();
+    @Input() public isNumberIndexAdvice = false;
+    public numberIndexButtonConfig = this.numberIndexButtonOptions;
+    public numberIndex = 1;
+
     public sortBy: SortBy = SortBy.VALUE;
-    public sortTypes: SelectItem[] = this.sorTypesOptions;
+    public sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
 
     public viewType: DataViewType = DataViewType.NUMBERS;
-    public viewTypes: SelectItem[] = this.viewTypesOptions;
+    public viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
 
     public chartDataType: ChartDataType = ChartDataType.VALUES;
-    public chartDataTypes: SelectItem[] = this.chartTypesOptions;
+    public chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
 
-    public get sorTypesOptions(): SelectItem[] {
+    private get sorTypesButtonOptions(): SelectItem[] {
         return [
             { label: 'Sortuj wg. numeru', value: SortBy.NUMBER },
             { label: 'Sortuj wg. wartości', value: SortBy.VALUE },
         ];
     }
 
-    public get viewTypesOptions(): SelectItem[] {
+    private get numberIndexButtonOptions(): SelectItem[] {
+        return [
+            { label: '1', value: 1 },
+            { label: '2', value: 2 },
+            { label: '3', value: 3 },
+            { label: '4', value: 4 },
+            { label: '5', value: 5 },
+        ];
+    }
+
+    private get viewTypesButtonOptions(): SelectItem[] {
         return [
             { label: 'Zestaw liczb', value: DataViewType.NUMBERS },
             { label: 'Wykres', value: DataViewType.CHART },
         ];
     }
 
-    public get chartTypesOptions(): SelectItem[] {
+    private get chartTypesButtonOptions(): SelectItem[] {
         return [
             { label: 'Wartości liczbowe', value: ChartDataType.VALUES },
             { label: 'Wartości procentowe', value: ChartDataType.PERCENTAGES },
@@ -55,6 +70,10 @@ export class AdviceParagraphComponent {
     public onOptionClick(event: OptionClickEvent): void {
         event.originalEvent.stopImmediatePropagation();
         this.accordionBottomAnchor.nativeElement.focus();
+    }
+
+    public sendSelectedNumberIndex(): void {
+       this.onSelectNumberIndexChange.emit(this.numberIndex);
     }
 }
 

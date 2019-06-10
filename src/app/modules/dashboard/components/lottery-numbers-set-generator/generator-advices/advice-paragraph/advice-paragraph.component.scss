@@ -1,13 +1,15 @@
 @import "base.scss";
 
 .accordion-menu {
-    @include flex(inline-flex, flex-end, center, row);
+    @include flex(inline-flex, space-between, center, row);
     @include size(100%);
     padding: $padding-l 0;
 
     span {
-        &:not(:last-of-type) {
-            margin-right: $margin-m;
+        span {
+            &:not(:last-of-type) {
+                margin-right: $margin-m;
+            }
         }
     }
 }
