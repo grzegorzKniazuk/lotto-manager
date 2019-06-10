@@ -10,3 +10,4 @@ export * from 'src/app/shared/enums/advice.type.enum';
 export * from './sort-by.enum';
 export * from './data-view-type.enum';
 export * from './chart-data-type.enum';
+export * from './label-params-type.enum';

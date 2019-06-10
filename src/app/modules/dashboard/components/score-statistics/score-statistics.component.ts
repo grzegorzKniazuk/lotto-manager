@@ -4,7 +4,7 @@ import { NumberData } from 'src/app/shared/interfaces';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AdviceTypeEnum, DateRange } from 'src/app/shared/enums';
+import { AdviceTypeEnum, DateRange, LabelParamsType } from 'src/app/shared/enums';
 import {
     selectBonusNumberByDayOfTheWeek,
     selectBonusNumberByEvenDay,
@@ -146,6 +146,20 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
             }
         }
     }
+    // TODO DOKONCZYC METODE DO BUDOWANIA LABELEK, PARAMS PRZEKAZYWANE OD KOMPONENTU DZIECKA
+    private buildLabelMessage(labelParams: LabelParamsType[]): string {
+        const labelMessage = ['Częstotliwość losowania'];
+
+        if (labelParams.includes(LabelParamsType.ALL_NUMBERS)) {
+            labelMessage.push('wszystkich');
+        }
+
+        labelMessage.push('liczb');
+
+
+
+        return labelMessage.join('');
+    }
 
     /* numbers labels */
     @Memoize
@@ -209,7 +223,7 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
 
     @Memoize
     public numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange: DateRange): string {
-        return `'Częstotliwość losowania liczb na wybranym indeksie w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
+        return `Częstotliwość losowania liczb na wybranym indeksie w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
     @Memoize
