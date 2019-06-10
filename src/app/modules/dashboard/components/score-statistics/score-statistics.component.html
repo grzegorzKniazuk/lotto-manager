@@ -1,1 +1,98 @@
-<router-outlet></router-outlet>
+<div class="select-container">
+    <p-selectButton #adviceTypeValue (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)" [(ngModel)]="adviceType" [options]="adviceTypes"></p-selectButton>
+    <p-selectButton #dateRangeValue (onOptionClick)="onOptionClick(adviceTypeValue.value, dateRangeValue.value)" [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
+</div>
+<div class="tips-container">
+    <ng-container *ngIf="adviceType === 'general'">
+
+    </ng-container>
+    <ng-container *ngIf="adviceType === 'numbers'">
+        <lm-advice-paragraph *ngIf="numbersFrequency$ | async as numbersFrequency"
+                             [numberDataArray]="numbersFrequency"
+                             [title]="numbersFrequencyLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numbersFrequencyByDayOfTheWeek$ | async as numbersFrequencyByDayOfTheWeek"
+                             [numberDataArray]="numbersFrequencyByDayOfTheWeek"
+                             [title]="numbersFrequencyByDayOfTheWeekLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numbersInActualMonthName$ | async as numbersInActualMonthName"
+                             [numberDataArray]="numbersInActualMonthName"
+                             [title]="numbersInActualMonthNameLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numbersByOddOrEvenDay$ | async as numbersByOddOrEvenDay"
+                             [numberDataArray]="numbersByOddOrEvenDay"
+                             [title]="numbersByOddOrEvenDayLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numbersByOddOrEvenMonth$ | async as numbersByOddOrEvenMonth"
+                             [numberDataArray]="numbersByOddOrEvenMonth"
+                             [title]="numbersByOddOrEvenMonthLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numbersByYearQuarter$ | async as numbersByYearQuarter"
+                             [numberDataArray]="numbersByYearQuarter"
+                             [title]="numbersByYearQuarterLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="isEntireRange(dateRange) && numbersByYearDayNumber$ | async as numbersByYearDayNumber"
+                             [numberDataArray]="numbersByYearDayNumber"
+                             [title]="numbersByYearDayNumberLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numbersByMonthDayNumber$ | async as numbersByMonthDayNumber"
+                             [numberDataArray]="numbersByMonthDayNumber"
+                             [title]="numbersByMonthDayNumberLabel(dateRange)"></lm-advice-paragraph>
+        <div>Dla numerów indeksów</div>
+        <lm-advice-paragraph *ngIf="numberOnIndexFrequency$ | async as numbersOnIndexFrequency"
+                             [numberDataArray]="numbersOnIndexFrequency"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexFrequencyLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numberOnIndexFrequencyByDayOfTheWeek$ | async as numberOnIndexFrequencyByDayOfTheWeek"
+                             [numberDataArray]="numberOnIndexFrequencyByDayOfTheWeek"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numberOnIndexInActualMonthName$ | async as numberOnIndexInActualMonthName"
+                             [numberDataArray]="numberOnIndexInActualMonthName"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexInActualMonthNameLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numberOnIndexInActualMonthName$ | async as numberOnIndexInActualMonthName"
+                             [numberDataArray]="numberOnIndexInActualMonthName"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexInActualMonthNameLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="numberOnIndexByOddOrEvenDay$ | async as numberOnIndexByOddOrEvenDay"
+                             [numberDataArray]="numberOnIndexByOddOrEvenDay"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexByOddOrEvenDayLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numberOnIndexByOddOrEvenMonth$ | async as numberOnIndexByOddOrEvenMonth"
+                             [numberDataArray]="numberOnIndexByOddOrEvenMonth"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexByOddOrEvenMonthLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numberOnIndexByYearQuarter$ | async as numberOnIndexByYearQuarter"
+                             [numberDataArray]="numberOnIndexByYearQuarter"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexByYearQuarterLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="isEntireRange(dateRange) && numberOnIndexByYearDayNumber$ | async as numberOnIndexByYearDayNumber"
+                             [numberDataArray]="numberOnIndexByYearDayNumber"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexByYearDayNumberLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numberOnIndexByMonthDayNumber$ | async as numberOnIndexByMonthDayNumber"
+                             [numberDataArray]="numberOnIndexByMonthDayNumber"
+                             [isNumberIndexAdvice]="true"
+                             [title]="numberOnIndexByMonthDayNumberLabel(dateRange)"></lm-advice-paragraph>
+    </ng-container>
+    <ng-container *ngIf="adviceType === 'bonus_number'">
+        <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
+                             [numberDataArray]="bonusNumberFrequency"
+                             [title]="bonusNumberFrequencyLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="bonusNumberByDayOfTheWeek$ | async as bonusNumbersByDayOfTheWeek"
+                             [numberDataArray]="bonusNumbersByDayOfTheWeek"
+                             [title]="bonusNumberByDayOfTheWeekLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="isEntireRange(dateRange) && bonusNumberInActualMonthName$ | async as bonusNumberInActualMonthName"
+                             [numberDataArray]="bonusNumberInActualMonthName"
+                             [title]="bonusNumberInActualMonthNameLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="bonusNumberByOddOrEvenDay$ | async as bonusNumberByOddOrEvenDay"
+                             [numberDataArray]="bonusNumberByOddOrEvenDay"
+                             [title]="bonusNumberByOddOrEvenDayLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && bonusNumberByOddOrEvenMonth$ | async as bonusNumberByOddOrEvenMonth"
+                             [numberDataArray]="bonusNumberByOddOrEvenMonth"
+                             [title]="bonusNumberByOddOrEvenMonthLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && bonusNumberByYearQuarter$ | async as bonusNumberByYearQuarter"
+                             [numberDataArray]="bonusNumberByYearQuarter"
+                             [title]="bonusNumberByYearQuarterLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="isEntireRange(dateRange) && bonusNumberByYearDayNumber$ | async as bonusNumberByYearDayNumber"
+                             [numberDataArray]="bonusNumberByYearDayNumber"
+                             [title]="bonusNumberByYearDayNumberLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && bonusNumberByMonthDayNumber$ | async as bonusNumberByMonthDayNumber"
+                             [numberDataArray]="bonusNumberByMonthDayNumber"
+                             [title]="bonusNumberByMonthDayNumberLabel(dateRange)"></lm-advice-paragraph>
+    </ng-container>
+</div>

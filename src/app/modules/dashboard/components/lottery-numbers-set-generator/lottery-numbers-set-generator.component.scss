@@ -14,10 +14,4 @@
         @include flex(flex, flex-start, flex-start, column);
         @include size(100%, 250px);
     }
-
-    .advices-container {
-        @include flex(flex, flex-start, flex-start, column);
-        @include size(100%, calc(100% - 250px));
-    }
-
 }

@@ -1,8 +1,8 @@
 <p-accordion>
     <p-accordionTab [header]="title">
         <nav class="accordion-menu">
-            <span *ngIf="isNumberIndexAdvice">
-                <p-selectButton [options]="numberIndexButtonConfig" [(ngModel)]="numberIndex" (onOptionClick)="onOptionClick($event)" (onChange)="sendSelectedNumberIndex()"></p-selectButton>
+            <span>
+                <p-selectButton *ngIf="isNumberIndexAdvice" [options]="numberIndexButtonConfig" [(ngModel)]="numberIndex" (onOptionClick)="onOptionClick($event)" (onChange)="sendSelectedNumberIndex()"></p-selectButton>
             </span>
             <span>
                 <span *ngIf="isChartViewType">
