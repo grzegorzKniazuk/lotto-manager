@@ -20,7 +20,7 @@ import {
     selectNumberOnIndexByEvenDay,
     selectNumberOnIndexByEvenMonth,
     selectNumberOnIndexByOddDay,
-    selectNumberOnIndexByOddMonth,
+    selectNumberOnIndexByOddMonth, selectNumberOnIndexByYearQuarter,
     selectNumberOnIndexFrequency,
     selectNumberOnIndexFrequencyByDayOfTheWeek,
     selectNumberOnIndexInActualMonthName,
@@ -62,6 +62,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     public numberOnIndexInActualMonthName$: Observable<NumberData[]>;
     public numberOnIndexByOddOrEvenDay$: Observable<NumberData[]>;
     public numberOnIndexByOddOrEvenMonth$: Observable<NumberData[]>;
+    public numberOnIndexByYearQuarter$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -147,6 +148,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.calculateNumberOnIndexInActualMonthName(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByOddOrEvenDay(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByOddOrEvenMonth(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexByYearQuarter(this.numbers.length, dateRange);
     }
 
     /* numbers */
@@ -228,6 +230,12 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
             this.numberOnIndexByOddOrEvenMonth$ = this.timeService.isOddDayToday
                 ? this.store.pipe(select(selectNumberOnIndexByOddMonth, { numberIndex, dateRange }))
                 : this.store.pipe(select(selectNumberOnIndexByEvenMonth, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexByYearQuarter(numberIndex: number, dateRange: DateRange): void {
+        if (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE) {
+            this.numberOnIndexByYearQuarter$ = this.store.pipe(select(selectNumberOnIndexByYearQuarter, { numberIndex, dateRange }));
         }
     }
 
