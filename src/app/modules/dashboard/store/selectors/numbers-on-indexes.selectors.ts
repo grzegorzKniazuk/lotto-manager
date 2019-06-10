@@ -16,7 +16,7 @@ import {
     isOddDayInLastYear,
     isOddMonth, isOddMonthInLastYear,
     isSameMonthAsToday,
-    isSameMonthAsTodayInLastYear,
+    isSameMonthAsTodayInLastYear, isSameMonthDayNumber, isSameMonthDayNumberInLastYear,
     isSameWeekDayAsToday,
     isSameWeekDayAsTodayInLastMonth,
     isSameWeekDayAsTodayInLastWeek,
@@ -215,6 +215,25 @@ export const selectNumberOnIndexByYearDayNumber = createSelector(
     (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
         let filteredScores = mapScoresToNumbersArray(filter(scores, isSameYearDayNumber))(props.numberIndex);
 
+        return mapNumbersArrayToBallValuePercentage(filteredScores);
+    },
+);
+
+export const selectNumberOnIndexByMonthDayNumber = createSelector(
+    selectNumbersScores,
+    (scores: Partial<Score[]>, props: { numberIndex: number, dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumber))(props.numberIndex);
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthDayNumberInLastYear))(props.numberIndex);
+                break;
+            }
+        }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     },
 );

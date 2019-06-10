@@ -56,6 +56,9 @@
         <lm-advice-paragraph *ngIf="isEntireRange(dateRange) && numberOnIndexByYearDayNumber$ | async as numberOnIndexByYearDayNumber"
                              [numberDataArray]="numberOnIndexByYearDayNumber"
                              [title]="numberOnIndexByYearDayNumberLabel(dateRange)"></lm-advice-paragraph>
+        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numberOnIndexByMonthDayNumber$ | async as numberOnIndexByMonthDayNumber"
+                             [numberDataArray]="numberOnIndexByMonthDayNumber"
+                             [title]="numberOnIndexByMonthDayNumberLabel(dateRange)"></lm-advice-paragraph>
     </ng-container>
     <ng-container *ngIf="adviceType === 'bonus_number'">
         <lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"

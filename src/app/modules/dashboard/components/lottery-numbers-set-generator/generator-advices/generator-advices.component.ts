@@ -18,7 +18,7 @@ import {
     selectBonusNumberFrequency,
     selectBonusNumberInActualMonthName,
     selectNumberOnIndexByEvenDay,
-    selectNumberOnIndexByEvenMonth,
+    selectNumberOnIndexByEvenMonth, selectNumberOnIndexByMonthDayNumber,
     selectNumberOnIndexByOddDay,
     selectNumberOnIndexByOddMonth, selectNumberOnIndexByYearDayNumber, selectNumberOnIndexByYearQuarter,
     selectNumberOnIndexFrequency,
@@ -64,6 +64,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     public numberOnIndexByOddOrEvenMonth$: Observable<NumberData[]>;
     public numberOnIndexByYearQuarter$: Observable<NumberData[]>;
     public numberOnIndexByYearDayNumber$: Observable<NumberData[]>;
+    public numberOnIndexByMonthDayNumber$: Observable<NumberData[]>;
 
     /* bonus numbers */
     public bonusNumberFrequency$: Observable<NumberData[]>;
@@ -151,6 +152,7 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
         this.calculateNumberOnIndexByOddOrEvenMonth(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByYearQuarter(this.numbers.length, dateRange);
         this.calculateNumberOnIndexByYearDayNumber(this.numbers.length, dateRange);
+        this.calculateNumberOnIndexByMonthDayNumber(this.numbers.length, dateRange);
     }
 
     /* numbers */
@@ -244,6 +246,12 @@ export class GeneratorAdvicesComponent extends BaseGeneratorAdvicesComponent imp
     private calculateNumberOnIndexByYearDayNumber(numberIndex: number, dateRange: DateRange): void {
         if (dateRange === DateRange.ENTIRE_RANGE) {
             this.numberOnIndexByYearDayNumber$ = this.store.pipe(select(selectNumberOnIndexByYearDayNumber, { numberIndex, dateRange }));
+        }
+    }
+
+    private calculateNumberOnIndexByMonthDayNumber(numberIndex: number, dateRange: DateRange): void {
+        if (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE) {
+            this.numberOnIndexByMonthDayNumber$ = this.store.pipe(select(selectNumberOnIndexByMonthDayNumber, { numberIndex, dateRange }));
         }
     }
 

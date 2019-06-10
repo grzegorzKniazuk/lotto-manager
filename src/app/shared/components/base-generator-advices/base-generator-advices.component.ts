@@ -127,22 +127,18 @@ export class BaseGeneratorAdvicesComponent {
     }
 
     /* numbers by indexes labels */
-    @Memoize
     public numberOnIndexFrequencyLabel(dateRange: DateRange): string {
         return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    @Memoize
     public numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange: DateRange): string {
         return `'Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    @Memoize
     public numberOnIndexInActualMonthNameLabel(dateRange: DateRange): string {
         return `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
     }
 
-    @Memoize
     public numberOnIndexByOddOrEvenDayLabel(dateRange: DateRange): string {
         return this.timeService.isOddDayToday
             ? `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w dni nieparzyste ${this.dateRangeLabel(dateRange)}`
@@ -150,14 +146,12 @@ export class BaseGeneratorAdvicesComponent {
 
     }
 
-    @Memoize
     public numberOnIndexByOddOrEvenMonthLabel(dateRange: DateRange): string {
         return this.timeService.isOddDayToday
             ? `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}`
             : `Częstotliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
     }
 
-    @Memoize
     public numberOnIndexByYearQuarterLabel(dateRange: DateRange): string {
         switch (this.timeService.todayYearQuarter) {
             case 1: {
@@ -175,9 +169,12 @@ export class BaseGeneratorAdvicesComponent {
         }
     }
 
-    @Memoize
     public numberOnIndexByYearDayNumberLabel(dateRange: DateRange): string {
         return `Częstoliwość losowania liczb na indeksie nr.${this.numbers.length + 1} w ${this.timeService.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
+    }
+
+    public numberOnIndexByMonthDayNumberLabel(dateRange: DateRange): string {
+        return `Częstoliwość losowania liczb w na indeksie nr.${this.numbers.length + 1} w ${this.timeService.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel(dateRange)}`;
     }
 
     /* bonus number labels */
