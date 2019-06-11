@@ -398,7 +398,7 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
 
     @Memoize
     private calculateNumbersInActualMonthName(dateRange: DateRange): void {
-        if (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE) {
+        if (dateRange === DateRange.ENTIRE_RANGE) {
             this.numbersInActualMonthName$ = this.store.pipe(select(selectNumbersInActualMonthName, { dateRange }));
         }
     }
@@ -450,9 +450,7 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
     }
 
     private calculateNumberOnIndexInActualMonthName(numberIndex: number, dateRange: DateRange): void {
-        if (dateRange === DateRange.LAST_YEAR || dateRange === DateRange.ENTIRE_RANGE) {
-            this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumberOnIndexInActualMonthName, { numberIndex, dateRange }));
-        }
+        this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumberOnIndexInActualMonthName, { numberIndex, dateRange }));
     }
 
     private calculateNumberOnIndexByOddOrEvenDay(numberIndex: number, dateRange: DateRange): void {

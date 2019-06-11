@@ -13,7 +13,7 @@
         <lm-advice-paragraph *ngIf="numbersFrequencyByDayOfTheWeek$ | async as numbersFrequencyByDayOfTheWeek"
                              [numberDataArray]="numbersFrequencyByDayOfTheWeek"
                              [title]="numbersFrequencyByDayOfTheWeekLabel(dateRange)"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numbersInActualMonthName$ | async as numbersInActualMonthName"
+        <lm-advice-paragraph *ngIf="isEntireRange(dateRange) && numbersInActualMonthName$ | async as numbersInActualMonthName"
                              [numberDataArray]="numbersInActualMonthName"
                              [title]="numbersInActualMonthNameLabel(dateRange)"></lm-advice-paragraph>
         <lm-advice-paragraph *ngIf="numbersByOddOrEvenDay$ | async as numbersByOddOrEvenDay"
@@ -42,7 +42,7 @@
                              [isNumberIndexAdvice]="true"
                              (onSelectNumberIndexChange)="onNumberOnIndexFrequencyByDayOfTheWeekIndexChange($event)"
                              [title]="numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange)"></lm-advice-paragraph>
-        <lm-advice-paragraph *ngIf="(isEntireRange(dateRange) || isLastYearRange(dateRange)) && numberOnIndexInActualMonthName$ | async as numberOnIndexInActualMonthName"
+        <lm-advice-paragraph *ngIf="numberOnIndexInActualMonthName$ | async as numberOnIndexInActualMonthName"
                              [numberDataArray]="numberOnIndexInActualMonthName"
                              [isNumberIndexAdvice]="true"
                              (onSelectNumberIndexChange)="onNumberOnIndexInActualMonthNameIndexChange($event)"

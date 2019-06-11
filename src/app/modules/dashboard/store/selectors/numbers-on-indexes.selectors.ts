@@ -94,6 +94,14 @@ export const selectNumberOnIndexInActualMonthName = createSelector(
                 filteredNumbers = mapScoresToNumbersArray(filter(scores, isSameMonthAsTodayInLastYear))(props.numberIndex);
                 break;
             }
+            case DateRange.LAST_MONTH: {
+                filteredNumbers = mapScoresToNumbersArray(filter(scores, isInLastMonth))(props.numberIndex);
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                filteredNumbers = mapScoresToNumbersArray(filter(scores, isInLastWeek))(props.numberIndex);
+                break;
+            }
         }
         return mapNumbersArrayToBallValuePercentage(filteredNumbers);
     },

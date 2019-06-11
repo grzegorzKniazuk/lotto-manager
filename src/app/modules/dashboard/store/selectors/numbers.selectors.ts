@@ -87,18 +87,8 @@ export const selectNumbersFrequencyByDayOfTheWeek = createSelector(
 export const selectNumbersInActualMonthName = createSelector(
     selectNumbersScores,
     (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
-        let filteredScores;
+        let filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsToday))();
 
-        switch (props.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsToday))();
-                break;
-            }
-            case DateRange.LAST_YEAR: {
-                filteredScores = mapScoresToNumbersArray(filter(scores, isSameMonthAsTodayInLastYear))();
-                break;
-            }
-        }
         return mapNumbersArrayToBallValuePercentage(filteredScores);
     },
 );
