@@ -27,6 +27,44 @@ import {
 import { SCORES_BONUS_NUMBER_KEY } from 'src/app/shared/constants';
 import { selectBonusNumbersScores } from 'src/app/modules/dashboard/store/selectors/base-selectors';
 import { countBy, filter } from 'lodash';
+import { filterScore } from 'src/app/shared/utils/score-filters';
+/*
+export const selectBonusNumberFrequency = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
+        let filteredScores;
+
+        switch (props.dateRange) {
+            case DateRange.ENTIRE_RANGE: {
+                filteredScores = scores;
+                break;
+            }
+            case DateRange.LAST_YEAR: {
+                filteredScores = filter(scores, isInLastYear);
+                break;
+            }
+            case DateRange.LAST_MONTH: {
+                filteredScores = filter(scores, isInLastMonth);
+                break;
+            }
+            case DateRange.LAST_WEEK: {
+                filteredScores = filter(scores, isInLastWeek);
+                break;
+            }
+        }
+        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
+    },
+);
+*/
+
+export const selectBonusNumberFrequency = createSelector(
+    selectBonusNumbersScores,
+    (scores: Partial<Score[]>, props: { scoreFilterArray: ((score: Score) => boolean)[] }) => {
+
+        return mapBonusNumbersCountedToBallValuePercentage(
+            countBy(filterScore(scores, props.scoreFilterArray), SCORES_BONUS_NUMBER_KEY))(filterScore(scores, props.scoreFilterArray).length);
+    },
+);
 
 export const selectBonusNumberByDayOfTheWeek = createSelector(
     selectBonusNumbersScores,
@@ -48,33 +86,6 @@ export const selectBonusNumberByDayOfTheWeek = createSelector(
             }
             case DateRange.LAST_WEEK: {
                 filteredScores = filter(scores, isSameWeekDayAsTodayInLastWeek);
-                break;
-            }
-        }
-        return mapBonusNumbersCountedToBallValuePercentage(countBy(filteredScores, SCORES_BONUS_NUMBER_KEY))(filteredScores.length);
-    },
-);
-
-export const selectBonusNumberFrequency = createSelector(
-    selectBonusNumbersScores,
-    (scores: Partial<Score[]>, props: { dateRange: DateRange }) => {
-        let filteredScores;
-
-        switch (props.dateRange) {
-            case DateRange.ENTIRE_RANGE: {
-                filteredScores = scores;
-                break;
-            }
-            case DateRange.LAST_YEAR: {
-                filteredScores = filter(scores, isInLastYear);
-                break;
-            }
-            case DateRange.LAST_MONTH: {
-                filteredScores = filter(scores, isInLastMonth);
-                break;
-            }
-            case DateRange.LAST_WEEK: {
-                filteredScores = filter(scores, isInLastWeek);
                 break;
             }
         }
