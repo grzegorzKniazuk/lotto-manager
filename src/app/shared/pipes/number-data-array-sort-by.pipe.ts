@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { NumberData } from 'src/app/shared/interfaces';
+import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 import { SortBy } from 'src/app/shared/enums';
 import { sortBallNumberAscending, sortValueDescending } from 'src/app/shared/utils';
 
@@ -9,7 +9,7 @@ import { sortBallNumberAscending, sortValueDescending } from 'src/app/shared/uti
 })
 export class NumberDataArraySortByPipe implements PipeTransform {
 
-    transform(numbersData: NumberData[], sortBy: SortBy): NumberData[] {
+    transform(numbersData: NumberBallValuePercentage[], sortBy: SortBy): NumberBallValuePercentage[] {
         switch (sortBy) {
             case SortBy.NUMBER: {
                 return numbersData.sort(sortBallNumberAscending);

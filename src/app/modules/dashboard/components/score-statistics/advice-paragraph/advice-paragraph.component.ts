@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
-import { NumberData, OptionClickEvent } from 'src/app/shared/interfaces';
+import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 
 @Component({
@@ -12,7 +12,7 @@ import { SelectItem } from 'primeng/api';
 export class AdviceParagraphComponent {
 
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
-    @Input() public readonly numberDataArray: NumberData[] = [];
+    @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
     @Input() public readonly title: string;
 
     @Output() public onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();

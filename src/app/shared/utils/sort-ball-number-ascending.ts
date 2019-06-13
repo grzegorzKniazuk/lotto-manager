@@ -1,5 +1,5 @@
-import { NumberData } from 'src/app/shared/interfaces';
+import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 
-export function sortBallNumberAscending(a: NumberData, b: NumberData): number {
+export function sortBallNumberAscending(a: NumberBallValuePercentage, b: NumberBallValuePercentage): number {
     return a.ball - b.ball;
 }
