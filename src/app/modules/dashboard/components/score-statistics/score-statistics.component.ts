@@ -4,21 +4,8 @@ import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AdviceTypeEnum, DateScoreFilter, LabelParamsType } from 'src/app/shared/enums';
-import {
-    selectBonusNumberByFilter,
-    selectNumberOnIndexByEvenDay,
-    selectNumberOnIndexByEvenMonth,
-    selectNumberOnIndexByMonthDayNumber,
-    selectNumberOnIndexByOddDay,
-    selectNumberOnIndexByOddMonth,
-    selectNumberOnIndexByYearDayNumber,
-    selectNumberOnIndexByYearQuarter,
-    selectNumberOnIndexFrequency,
-    selectNumberOnIndexFrequencyByDayOfTheWeek,
-    selectNumberOnIndexInActualMonthName,
-    selectNumbersByFilter,
-} from 'src/app/modules/dashboard/store/selectors';
+import { AdviceTypeEnum, DateScoreFilter } from 'src/app/shared/enums';
+import { selectBonusNumberByFilter, selectNumbersByFilter } from 'src/app/modules/dashboard/store/selectors';
 import { SelectItem } from 'primeng/api';
 import { Memoize } from 'lodash-decorators';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
@@ -102,16 +89,6 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
     }
 
     @Memoize
-    public isEntireRange(dateRange: DateScoreFilter): boolean {
-        return dateRange === DateScoreFilter.ENTIRE_RANGE;
-    }
-
-    @Memoize
-    public isLastYearRange(dateRange: DateScoreFilter): boolean {
-        return dateRange === DateScoreFilter.LAST_YEAR;
-    }
-
-    @Memoize
     private dateRangeLabel(dateRange: DateScoreFilter): string {
         switch (dateRange) {
             case DateScoreFilter.ENTIRE_RANGE: {
@@ -127,20 +104,6 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
                 return 'dla losowań z ostatniego tygodnia';
             }
         }
-    }
-    // TODO DOKONCZYC METODE DO BUDOWANIA LABELEK, PARAMS PRZEKAZYWANE OD KOMPONENTU DZIECKA
-    private buildLabelMessage(labelParams: LabelParamsType[]): string {
-        const labelMessage = ['Częstotliwość losowania'];
-
-        if (labelParams.includes(LabelParamsType.ALL_NUMBERS)) {
-            labelMessage.push('wszystkich');
-        }
-
-        labelMessage.push('liczb');
-
-
-
-        return labelMessage.join('');
     }
 
     /* numbers labels */
@@ -311,6 +274,9 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
     }
 
     private onOptionClick(adviceType: AdviceTypeEnum, dateRange: DateScoreFilter): void {
+        this.adviceType = adviceType;
+        this.dateRange = dateRange;
+
         switch (adviceType) {
             case AdviceTypeEnum.GENERAL: {
                 this.calculateGeneralAdvices(dateRange);
@@ -331,7 +297,6 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
     }
 
     private calculateNumbersAdvices(dateRange: DateScoreFilter): void {
-        /* numbers */
         this.calculateNumbersFrequency(dateRange);
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
         this.calculateNumbersByOddOrEvenDay(dateRange);
@@ -340,7 +305,9 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
             this.calculateNumbersByOddOrEvenMonth(dateRange);
             this.calculateNumbersByYearQuarter(dateRange);
             this.calculateNumbersByMonthDayNumber(dateRange);
-        } else if (this.isEntireRangeDateRange) {
+        }
+
+        if (this.isEntireRangeDateRange) {
             this.calculateNumbersInActualMonthName(dateRange);
             this.calculateNumbersByYearDayNumber(dateRange);
         }
@@ -357,22 +324,29 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
             this.calculateBonusNumberByOddOrEvenMonth(dateRange);
             this.calculateBonusNumberByYearQuarter(dateRange);
             this.calculateBonusNumberByMonthDayNumber(dateRange);
-        } else if (this.isEntireRangeDateRange) {
+        }
+
+        if (this.isEntireRangeDateRange) {
             this.calculateBonusNumberByYearDayNumber(dateRange);
             this.calculateBonusNumberInActualMonthName(dateRange);
         }
     }
 
     private calculateNumberAdvicesForIndexes(numberIndex: number, dateRange: DateScoreFilter): void {
-        /* numbers indexes */
         this.calculateNumberOnIndexFrequency(numberIndex, dateRange);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex, dateRange);
-        this.calculateNumberOnIndexInActualMonthName(numberIndex, dateRange);
         this.calculateNumberOnIndexByOddOrEvenDay(numberIndex, dateRange);
-        this.calculateNumberOnIndexByOddOrEvenMonth(numberIndex, dateRange);
-        this.calculateNumberOnIndexByYearQuarter(numberIndex, dateRange);
-        this.calculateNumberOnIndexByYearDayNumber(numberIndex, dateRange);
-        this.calculateNumberOnIndexByMonthDayNumber(numberIndex, dateRange);
+
+        if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
+            this.calculateNumberOnIndexByOddOrEvenMonth(numberIndex, dateRange);
+            this.calculateNumberOnIndexByYearQuarter(numberIndex, dateRange);
+            this.calculateNumberOnIndexByMonthDayNumber(numberIndex, dateRange);
+        }
+
+        if (this.isEntireRangeDateRange) {
+            this.calculateNumberOnIndexInActualMonthName(numberIndex, dateRange);
+            this.calculateNumberOnIndexByYearDayNumber(numberIndex);
+        }
     }
 
     /* numbers */
@@ -410,47 +384,35 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
 
     /* numbers by indexes */
     private calculateNumberOnIndexFrequency(numberIndex: number, dateRange: DateScoreFilter): void {
-        this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumberOnIndexFrequency, { numberIndex, dateRange }));
+        this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange ]));
     }
 
     private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number, dateRange: DateScoreFilter): void {
-        this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumberOnIndexFrequencyByDayOfTheWeek, { numberIndex, dateRange }));
+        this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
     }
 
     private calculateNumberOnIndexInActualMonthName(numberIndex: number, dateRange: DateScoreFilter): void {
-        this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumberOnIndexInActualMonthName, { numberIndex, dateRange }));
+        this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
     }
 
     private calculateNumberOnIndexByOddOrEvenDay(numberIndex: number, dateRange: DateScoreFilter): void {
-        this.numberOnIndexByOddOrEvenDay$ = this.timeService.isOddDayToday
-            ? this.store.pipe(select(selectNumberOnIndexByOddDay, { numberIndex, dateRange }))
-            : this.store.pipe(select(selectNumberOnIndexByEvenDay, { numberIndex, dateRange }));
+        this.numberOnIndexByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange, this.oddOrEvenDayFilter ]));
     }
 
     private calculateNumberOnIndexByOddOrEvenMonth(numberIndex: number, dateRange: DateScoreFilter): void {
-        if (dateRange === DateScoreFilter.LAST_YEAR || dateRange === DateScoreFilter.ENTIRE_RANGE) {
-            this.numberOnIndexByOddOrEvenMonth$ = this.timeService.isOddDayToday
-                ? this.store.pipe(select(selectNumberOnIndexByOddMonth, { numberIndex, dateRange }))
-                : this.store.pipe(select(selectNumberOnIndexByEvenMonth, { numberIndex, dateRange }));
-        }
+        this.numberOnIndexByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange, this.oddOrEvenMonthFilter ]));
     }
 
     private calculateNumberOnIndexByYearQuarter(numberIndex: number, dateRange: DateScoreFilter): void {
-        if (dateRange === DateScoreFilter.LAST_YEAR || dateRange === DateScoreFilter.ENTIRE_RANGE) {
-            this.numberOnIndexByYearQuarter$ = this.store.pipe(select(selectNumberOnIndexByYearQuarter, { numberIndex, dateRange }));
-        }
+        this.numberOnIndexByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
     }
 
-    private calculateNumberOnIndexByYearDayNumber(numberIndex: number, dateRange: DateScoreFilter): void {
-        if (dateRange === DateScoreFilter.ENTIRE_RANGE) {
-            this.numberOnIndexByYearDayNumber$ = this.store.pipe(select(selectNumberOnIndexByYearDayNumber, { numberIndex, dateRange }));
-        }
+    private calculateNumberOnIndexByYearDayNumber(numberIndex: number): void {
+        this.numberOnIndexByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, DateScoreFilter.ENTIRE_RANGE, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
     }
 
     private calculateNumberOnIndexByMonthDayNumber(numberIndex: number, dateRange: DateScoreFilter): void {
-        if (dateRange === DateScoreFilter.LAST_YEAR || dateRange === DateScoreFilter.ENTIRE_RANGE) {
-            this.numberOnIndexByMonthDayNumber$ = this.store.pipe(select(selectNumberOnIndexByMonthDayNumber, { numberIndex, dateRange }));
-        }
+        this.numberOnIndexByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
     }
 
     /* number by indexes - indexes changes */
@@ -479,7 +441,7 @@ export class ScoreStatisticsComponent implements OnInit, OnDestroy {
     }
 
     public onNumberOnIndexByYearDayIndexChange(numberIndex: number): void {
-        this.calculateNumberOnIndexByYearDayNumber(numberIndex, this.dateRange);
+        this.calculateNumberOnIndexByYearDayNumber(numberIndex);
     }
 
     public onNumberOnIndexByMonthDayIndexChange(numberIndex: number): void {

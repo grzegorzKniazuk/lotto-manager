@@ -1,5 +1,5 @@
 export enum DateScoreFilter {
-    ENTIRE_RANGE,
+    ENTIRE_RANGE = 5,
     LAST_YEAR,
     LAST_MONTH,
     LAST_WEEK,
