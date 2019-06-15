@@ -40,17 +40,11 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         this.calculateNumbersFrequency(dateRange);
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
         this.calculateNumbersByOddOrEvenDay(dateRange);
-
-        if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
-            this.calculateNumbersByOddOrEvenMonth(dateRange);
-            this.calculateNumbersByYearQuarter(dateRange);
-            this.calculateNumbersByMonthDayNumber(dateRange);
-        }
-
-        if (this.isEntireRangeDateRange) {
-            this.calculateNumbersInActualMonthName(dateRange);
-            this.calculateNumbersByYearDayNumber(dateRange);
-        }
+        this.calculateNumbersByOddOrEvenMonth(dateRange);
+        this.calculateNumbersByYearQuarter(dateRange);
+        this.calculateNumbersByMonthDayNumber(dateRange);
+        this.calculateNumbersInActualMonthName(dateRange);
+        this.calculateNumbersByYearDayNumber(dateRange);
     }
 
     public get numbersFrequencyLabel(): string {

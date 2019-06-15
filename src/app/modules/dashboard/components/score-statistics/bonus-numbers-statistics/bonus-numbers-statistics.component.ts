@@ -40,16 +40,12 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
         this.calculateBonusNumbersByDayOfTheWeek(dateRange);
         this.calculateBonusNumberByOddOrEvenDay(dateRange);
 
-        if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
-            this.calculateBonusNumberByOddOrEvenMonth(dateRange);
-            this.calculateBonusNumberByYearQuarter(dateRange);
-            this.calculateBonusNumberByMonthDayNumber(dateRange);
-        }
+        this.calculateBonusNumberByOddOrEvenMonth(dateRange);
+        this.calculateBonusNumberByYearQuarter(dateRange);
+        this.calculateBonusNumberByMonthDayNumber(dateRange);
 
-        if (this.isEntireRangeDateRange) {
-            this.calculateBonusNumberByYearDayNumber(dateRange);
-            this.calculateBonusNumberInActualMonthName(dateRange);
-        }
+        this.calculateBonusNumberByYearDayNumber(dateRange);
+        this.calculateBonusNumberInActualMonthName(dateRange);
     }
 
     public get bonusNumberFrequencyLabel(): string {

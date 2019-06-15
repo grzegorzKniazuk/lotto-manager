@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DateScoreFilter } from 'src/app/shared/enums';
 import { TimeService } from 'src/app/shared/services/time.service';
-import { Memoize } from 'lodash-decorators';
 
 @Component({
     selector: 'lm-base-statistics',
@@ -18,16 +17,6 @@ export class BaseStatisticsComponent {
     constructor(
         protected readonly timeService: TimeService,
     ) {
-    }
-
-    @Memoize
-    public isEntireRangeDateRange(dateRange: DateScoreFilter): boolean {
-        return dateRange === DateScoreFilter.ENTIRE_RANGE;
-    }
-
-    @Memoize
-    public isLastYearRangeDateRange(dateRange: DateScoreFilter): boolean {
-        return dateRange === DateScoreFilter.LAST_YEAR;
     }
 
     protected get oddOrEvenDayFilter(): DateScoreFilter {

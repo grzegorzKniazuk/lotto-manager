@@ -53,18 +53,12 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
     private calculate(): void {
         this.calculateNumberOnIndexFrequency(this.numberIndexMap.get(0));
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numberIndexMap.get(1));
-        this.calculateNumberOnIndexByOddOrEvenDay(this.numberIndexMap.get(2));
-
-        if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
-            this.calculateNumberOnIndexByOddOrEvenMonth(this.numberIndexMap.get(3));
-            this.calculateNumberOnIndexByYearQuarter(this.numberIndexMap.get(4));
-            this.calculateNumberOnIndexByMonthDayNumber(this.numberIndexMap.get(5));
-        }
-
-        if (this.isEntireRangeDateRange) {
-            this.calculateNumberOnIndexInActualMonthName(this.numberIndexMap.get(6));
-            this.calculateNumberOnIndexByYearDayNumber(this.numberIndexMap.get(7));
-        }
+        this.calculateNumberOnIndexInActualMonthName(this.numberIndexMap.get(2));
+        this.calculateNumberOnIndexByOddOrEvenDay(this.numberIndexMap.get(3));
+        this.calculateNumberOnIndexByOddOrEvenMonth(this.numberIndexMap.get(4));
+        this.calculateNumberOnIndexByYearQuarter(this.numberIndexMap.get(5));
+        this.calculateNumberOnIndexByYearDayNumber(this.numberIndexMap.get(6));
+        this.calculateNumberOnIndexByMonthDayNumber(this.numberIndexMap.get(7));
     }
 
     public get numberOnIndexFrequencyLabel(): string {
