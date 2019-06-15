@@ -34,3 +34,15 @@
                      [numberMapArray]="kullbackLeiblerDivergenceScoreNumbersByDate"
                      [isGeneralAdvice]="true"
                      title="Rozbieżność Kullbacka-Leiblera liczb dla poprzedzających się losowań"></lm-advice-paragraph>
+<lm-advice-paragraph *ngIf="greatestCommonDivisorScoreNumbersByDate$ | async as greatestCommonDivisorScoreNumbersByDate"
+                     [numberMapArray]="greatestCommonDivisorScoreNumbersByDate"
+                     [isGeneralAdvice]="true"
+                     title="Największy wspólny dzielnik liczb w losowaniu"></lm-advice-paragraph>
+<lm-advice-paragraph *ngIf="leastCommonMultipleScoreNumbersByDate$ | async as leastCommonMultipleScoreNumbersByDate"
+                     [numberMapArray]="leastCommonMultipleScoreNumbersByDate"
+                     [isGeneralAdvice]="true"
+                     title="Najmniejsza wspólna wielokrotność liczb w losowaniu"></lm-advice-paragraph>
+<lm-advice-paragraph *ngIf="hypotenusScoreNumbersByDate$ | async as hypotenusScoreNumbersByDate"
+                     [numberMapArray]="hypotenusScoreNumbersByDate"
+                     [isGeneralAdvice]="true"
+                     title="Przeciwprostokątna liczb w losowaniu"></lm-advice-paragraph>

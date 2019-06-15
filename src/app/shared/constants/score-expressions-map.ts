@@ -1,6 +1,6 @@
 import { ExpressionScore } from 'src/app/shared/enums';
 import {
-    average, kullbackLeiblerDivergence,
+    average, greatestCommonDivisor, hypotenus, kullbackLeiblerDivergence, leastCommonMultiple,
     medianAbsoluteDeviation,
     medianArray,
     minMaxDifference, multinominalCoefficients,
@@ -18,4 +18,7 @@ export const ScoreExpressionsMap = {
     [ExpressionScore.STANDARD_DEVIATION]: standardDeviation,
     [ExpressionScore.MULTINOMINAL_COEFFICENTS]: multinominalCoefficients,
     [ExpressionScore.KULLBACK_LEIBLER_DIVERGENCE]: kullbackLeiblerDivergence,
+    [ExpressionScore.GREATEST_COMMON_DIVISOR]: greatestCommonDivisor,
+    [ExpressionScore.LEAST_COMMON_MULTIPLE]: leastCommonMultiple,
+    [ExpressionScore.HYPOTENUS]: hypotenus,
 };

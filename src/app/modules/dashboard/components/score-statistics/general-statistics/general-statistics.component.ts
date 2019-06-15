@@ -28,6 +28,9 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
     public standardDeviationScoreNumbersByDate$: Observable<Map<string, number>>;
     public multinominalCoefficientsScoreNumbersByDate$: Observable<Map<string, number>>;
     public kullbackLeiblerDivergenceScoreNumbersByDate$: Observable<Map<string, number>>;
+    public greatestCommonDivisorScoreNumbersByDate$: Observable<Map<string, number>>;
+    public leastCommonMultipleScoreNumbersByDate$: Observable<Map<string, number>>;
+    public hypotenusScoreNumbersByDate$: Observable<Map<string, number>>;
 
     constructor(
         timeService: TimeService,
@@ -46,5 +49,8 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
         this.standardDeviationScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.STANDARD_DEVIATION ] }));
         this.multinominalCoefficientsScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.MULTINOMINAL_COEFFICENTS ] }));
         this.kullbackLeiblerDivergenceScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.KULLBACK_LEIBLER_DIVERGENCE ] }));
+        this.greatestCommonDivisorScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.GREATEST_COMMON_DIVISOR ] }));
+        this.leastCommonMultipleScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.LEAST_COMMON_MULTIPLE ] }));
+        this.hypotenusScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.HYPOTENUS ] }));
     }
 }
