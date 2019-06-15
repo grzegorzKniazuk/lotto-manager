@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import {
-    AdviceParagraphComponent, BaseStatisticsComponent, BonusNumbersStatisticsComponent,
+    AdviceParagraphComponent, BaseStatisticsComponent, BonusNumbersStatisticsComponent, GeneralStatisticsComponent,
     LotteryNumbersSetGeneratorComponent, NumberDataChartComponent, NumbersOnIndexStatisticsComponent, NumbersStatisticsComponent,
     ScoreListComponent,
     ScoreStatisticsComponent,
@@ -24,6 +24,7 @@ const components = [
     BaseStatisticsComponent,
     NumbersStatisticsComponent,
     NumbersOnIndexStatisticsComponent,
+    GeneralStatisticsComponent,
 ];
 
 const modules = [
