@@ -14,7 +14,8 @@
 
     .content {
         @include flex(inline-flex, flex-start, flex-start, row, relative);
-        @include size(100%, 100%);
+        @include size(100%);
+        min-height: 100%;
         margin-left: 275px;
         background: $prime-ng-table-header-color;
     }

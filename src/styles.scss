@@ -16,11 +16,11 @@
 }
 
 html, body {
-    @include size(100%, 100%);
     @include font('small', 400, 'Roboto');
     text-rendering: optimizeLegibility;
     min-width: 100%;
     min-height: 100%;
+    background: $prime-ng-table-header-color;
 
     strong {
         font-weight: 700;

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
 import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
@@ -9,11 +9,13 @@ import { SelectItem } from 'primeng/api';
     styleUrls: [ './advice-paragraph.component.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdviceParagraphComponent {
+export class AdviceParagraphComponent implements OnInit {
     @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
+    @Input() public readonly numberMapArray: Map<string, number>;
     @Input() public readonly title: string;
-    @Output() public onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();
-    @Input() public isNumberIndexAdvice = false;
+    @Input() public readonly isNumberIndexAdvice = false;
+    @Input() public readonly isGeneralAdvice = false;
+    @Output() public readonly onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();
     public numberIndexButtonConfig = this.numberIndexButtonOptions;
     public numberIndex = 0;
     public sortBy: SortBy = SortBy.VALUE;
@@ -61,6 +63,10 @@ export class AdviceParagraphComponent {
             { label: 'Wartości liczbowe', value: ChartDataType.VALUES },
             { label: 'Wartości procentowe', value: ChartDataType.PERCENTAGES },
         ];
+    }
+
+    ngOnInit() {
+        console.log(this.numberMapArray);
     }
 
     public onOptionClick(event: OptionClickEvent): void {

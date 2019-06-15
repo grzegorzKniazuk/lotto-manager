@@ -1,6 +1,6 @@
 <p-accordion>
     <p-accordionTab [header]="title">
-        <nav class="accordion-menu">
+        <nav class="accordion-menu" *ngIf="!isGeneralAdvice">
             <span>
                 <p-selectButton (onChange)="sendSelectedNumberIndex()"
                                 (onOptionClick)="onOptionClick($event)"
@@ -27,7 +27,12 @@
                 <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
             </div>
         </div>
-        <lm-number-data-chart *ngIf="isChartViewType" [chartDataType]="chartDataType" [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy" [sortBy]="sortBy"></lm-number-data-chart>
+        <lm-number-data-chart *ngIf="isChartViewType && !isGeneralAdvice"
+                              [chartDataType]="chartDataType"
+                              [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy"
+                              [sortBy]="sortBy">
+        </lm-number-data-chart>
+        <lm-date-value-chart *ngIf="isGeneralAdvice" [numberMapArray]="numberMapArray"></lm-date-value-chart>
     </p-accordionTab>
 </p-accordion>
 <div #accordionBottomAnchor hidden></div>

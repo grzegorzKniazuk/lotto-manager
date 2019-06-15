@@ -1,3 +1,12 @@
-<p>
-    general-statistics works!
-</p>
+<lm-advice-paragraph *ngIf="sumOfScoreNumbersByDate$ | async as sumOfScoreNumbersByDate"
+                     [numberMapArray]="sumOfScoreNumbersByDate"
+                     [isGeneralAdvice]="true"
+                     title="Suma liczb w losowaniu"></lm-advice-paragraph>
+<lm-advice-paragraph *ngIf="averageOfScoreNumbersByDate$ | async as averageOfScoreNumbersByDate"
+                     [numberMapArray]="averageOfScoreNumbersByDate"
+                     [isGeneralAdvice]="true"
+                     title="Średnia liczb w losowaniu"></lm-advice-paragraph>
+<lm-advice-paragraph *ngIf="minMaxDifferenceScoreNumbersByDate$ | async as minMaxDifferenceScoreNumbersByDate"
+                     [numberMapArray]="minMaxDifferenceScoreNumbersByDate"
+                     [isGeneralAdvice]="true"
+                     title="Różnica pomiędzy największą i najmniejszą liczbą w losowaniu"></lm-advice-paragraph>

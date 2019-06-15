@@ -1,30 +1,22 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
-import { values } from 'lodash';
-import * as R from 'ramda';
-import { mapNumberDataArrayToBallNumberArray, mapNumberDataArrayToPercentageArray, mapNumberDataArrayToValueArray } from 'src/app/shared/utils';
-import { ChartDataType, SortBy } from 'src/app/shared/enums';
 import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT_COLOR, BASE_FONT_SIZE } from 'src/app/shared/constants';
 
 @Component({
-    selector: 'lm-number-data-chart',
-    templateUrl: './number-data-chart.component.html',
+    selector: 'lm-date-value-chart',
+    templateUrl: './date-value-chart.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NumberDataChartComponent {
-
-    @Input() public readonly numberDataArray: NumberBallValuePercentage[];
-    @Input() public readonly chartDataType: ChartDataType;
-    @Input() public readonly sortBy: SortBy;
+export class DateValueChartComponent {
+    @Input() public readonly numberMapArray: Map<string, number>;
 
     public get chartData(): Object {
         return {
-            labels: this.labels,
+            labels: Array.from(this.numberMapArray.keys()),
             datasets: [
                 {
                     backgroundColor: BASE_CHART_BAR_BACKGROUND_COLOR,
                     borderColor: BASE_CHART_BAR_BORDER_COLOR,
-                    data: this.dataSetsByChartDataType,
+                    data: Array.from(this.numberMapArray.values()),
                 },
             ],
         };
@@ -44,7 +36,7 @@ export class NumberDataChartComponent {
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: this.yAxesLabel,
+                        labelString: 'Wynik',
                         fontSize: BASE_FONT_SIZE,
                         fontColor: BASE_FONT_COLOR,
                         fontStyle: 'bold',
@@ -66,25 +58,5 @@ export class NumberDataChartComponent {
                 } ],
             },
         };
-    }
-
-    private get dataSetsByChartDataType(): number[] {
-        return this.chartDataType === ChartDataType.VALUES ? this.valuesData : this.percentageData;
-    }
-
-    private get yAxesLabel(): string {
-        return this.chartDataType === ChartDataType.VALUES ? 'Liczba wystąpień' : 'Procent wystąpień';
-    }
-
-    private get labels(): string[] {
-        return R.compose(values, mapNumberDataArrayToBallNumberArray)(this.numberDataArray);
-    }
-
-    private get valuesData(): number[] {
-        return R.compose(values, mapNumberDataArrayToValueArray)(this.numberDataArray);
-    }
-
-    private get percentageData(): number[] {
-        return R.compose(values, mapNumberDataArrayToPercentageArray)(this.numberDataArray);
     }
 }

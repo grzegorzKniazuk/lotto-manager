@@ -1,7 +1,7 @@
 @import "base.scss";
 
 :host {
-    @include size(100%, 100%);
+    @include size(calc(100% - 30px), 100%);
     color: $base-font-color;
 }
 

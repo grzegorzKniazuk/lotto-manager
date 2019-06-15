@@ -5,7 +5,7 @@ import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.componen
 import {
     AdviceParagraphComponent,
     BaseStatisticsComponent,
-    BonusNumbersStatisticsComponent,
+    BonusNumbersStatisticsComponent, DateValueChartComponent,
     GeneralStatisticsComponent,
     LotteryNumbersSetGeneratorComponent,
     NumberDataChartComponent,
@@ -31,6 +31,7 @@ const components = [
     NumbersStatisticsComponent,
     NumbersOnIndexStatisticsComponent,
     GeneralStatisticsComponent,
+    DateValueChartComponent,
 ];
 
 const modules = [
