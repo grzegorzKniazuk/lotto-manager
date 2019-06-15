@@ -9,10 +9,17 @@ export function dateValueMapByExpression(scores: Score[]): (expressions: Express
         const dateValueMap = new Map<string, number>();
 
         forEach(expressions, (expression: ExpressionScore) => {
-            forEach(scores, (score: Score) => {
-                const calculatedValue = ScoreExpressionsMap[expression](score);
+            forEach(scores, (score: Score, index: number) => {
+                let calculatedValue;
+                if (expression === ExpressionScore.KULLBACK_LEIBLER_DIVERGENCE) {
+                    if (scores[index - 1]) {
+                        calculatedValue = ScoreExpressionsMap[expression](score.numbers, scores[index - 1].numbers);
+                    }
+                } else {
+                    calculatedValue = ScoreExpressionsMap[expression](score.numbers);
+                }
 
-                dateValueMap.set(score.date, calculatedValue as number);
+                dateValueMap.set(score.date, calculatedValue);
             });
         });
 

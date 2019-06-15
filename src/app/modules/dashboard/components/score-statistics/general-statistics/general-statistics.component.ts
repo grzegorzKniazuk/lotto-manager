@@ -22,6 +22,12 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
     public sumOfScoreNumbersByDate$: Observable<Map<string, number>>;
     public averageOfScoreNumbersByDate$: Observable<Map<string, number>>;
     public minMaxDifferenceScoreNumbersByDate$: Observable<Map<string, number>>;
+    public medianScoreNumbersByDate$: Observable<Map<string, number>>;
+    public medianAbsoluteDeviationScoreNumbersByDate$: Observable<Map<string, number>>;
+    public productScoreNumbersByDate$: Observable<Map<string, number>>;
+    public standardDeviationScoreNumbersByDate$: Observable<Map<string, number>>;
+    public multinominalCoefficientsScoreNumbersByDate$: Observable<Map<string, number>>;
+    public kullbackLeiblerDivergenceScoreNumbersByDate$: Observable<Map<string, number>>;
 
     constructor(
         timeService: TimeService,
@@ -34,5 +40,11 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
         this.sumOfScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.SUM ] }));
         this.averageOfScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.AVERAGE ] }));
         this.minMaxDifferenceScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.MIN_MAX_DIFFERENCE ] }));
+        this.medianScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.MEDIAN ] }));
+        this.medianAbsoluteDeviationScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.MEDIAN_ABSOLUTE_DEVIATION ] }));
+        this.productScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.PRODUCT ] }));
+        this.standardDeviationScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.STANDARD_DEVIATION ] }));
+        this.multinominalCoefficientsScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.MULTINOMINAL_COEFFICENTS ] }));
+        this.kullbackLeiblerDivergenceScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.KULLBACK_LEIBLER_DIVERGENCE ] }));
     }
 }

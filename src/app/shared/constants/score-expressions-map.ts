@@ -1,8 +1,21 @@
 import { ExpressionScore } from 'src/app/shared/enums';
-import { averageScoreNumbers, minMaxDifferenceScoreNumbers, sumScoreNumbers } from 'src/app/shared/utils/selectors-utils/expression-utils';
+import {
+    average, kullbackLeiblerDivergence,
+    medianAbsoluteDeviation,
+    medianArray,
+    minMaxDifference, multinominalCoefficients,
+    product, standardDeviation,
+    sumArray,
+} from 'src/app/shared/utils/selectors-utils/expression-utils';
 
 export const ScoreExpressionsMap = {
-    [ExpressionScore.SUM]: sumScoreNumbers,
-    [ExpressionScore.AVERAGE]: averageScoreNumbers,
-    [ExpressionScore.MIN_MAX_DIFFERENCE]: minMaxDifferenceScoreNumbers,
+    [ExpressionScore.SUM]: sumArray,
+    [ExpressionScore.AVERAGE]: average,
+    [ExpressionScore.MIN_MAX_DIFFERENCE]: minMaxDifference,
+    [ExpressionScore.MEDIAN]: medianArray,
+    [ExpressionScore.MEDIAN_ABSOLUTE_DEVIATION]: medianAbsoluteDeviation,
+    [ExpressionScore.PRODUCT]: product,
+    [ExpressionScore.STANDARD_DEVIATION]: standardDeviation,
+    [ExpressionScore.MULTINOMINAL_COEFFICENTS]: multinominalCoefficients,
+    [ExpressionScore.KULLBACK_LEIBLER_DIVERGENCE]: kullbackLeiblerDivergence,
 };

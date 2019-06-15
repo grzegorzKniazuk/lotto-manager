@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
 import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
@@ -9,7 +9,7 @@ import { SelectItem } from 'primeng/api';
     styleUrls: [ './advice-paragraph.component.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdviceParagraphComponent implements OnInit {
+export class AdviceParagraphComponent {
     @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
     @Input() public readonly numberMapArray: Map<string, number>;
     @Input() public readonly title: string;
@@ -63,10 +63,6 @@ export class AdviceParagraphComponent implements OnInit {
             { label: 'Wartości liczbowe', value: ChartDataType.VALUES },
             { label: 'Wartości procentowe', value: ChartDataType.PERCENTAGES },
         ];
-    }
-
-    ngOnInit() {
-        console.log(this.numberMapArray);
     }
 
     public onOptionClick(event: OptionClickEvent): void {
