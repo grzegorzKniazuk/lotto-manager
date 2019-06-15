@@ -1,5 +1,9 @@
 @import "base.scss";
 
+:host {
+    @include size(100%, 100%);
+}
+
 .accordion-menu {
     @include flex(inline-flex, space-between, center, row);
     @include size(100%);
@@ -15,13 +19,15 @@
 }
 
 .ball-data-container {
-    @include flex(inline-flex, center, center, column);
+    @include flex(inline-flex, flex-start, center, row, relative, wrap);
+    @include size(100%);
+    overflow: hidden;
 
     .ball-data {
-        @include flex(inline-flex, center, center, column);
         margin: 0 $margin-m $margin-m 0;
 
         span {
+            display: block;
             text-align: center;
         }
     }

@@ -8,11 +8,11 @@
 .select-container {
     @include flex(flex, space-between, center, row);
     @include size(100%);
-    padding: $padding-l 0;
+    padding: $padding-l;
 }
 
 .tips-container {
-    padding: $padding-l 0;
+    padding: $padding-l;
     background: $prime-ng-table-header-color;
 }
 

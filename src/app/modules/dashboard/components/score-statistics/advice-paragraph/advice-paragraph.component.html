@@ -2,7 +2,12 @@
     <p-accordionTab [header]="title">
         <nav class="accordion-menu">
             <span>
-                <p-selectButton *ngIf="isNumberIndexAdvice" [options]="numberIndexButtonConfig" [(ngModel)]="numberIndex" (onOptionClick)="onOptionClick($event)" (onChange)="sendSelectedNumberIndex()"></p-selectButton>
+                <p-selectButton *ngIf="isNumberIndexAdvice"
+                                [options]="numberIndexButtonConfig"
+                                [(ngModel)]="numberIndex"
+                                (onOptionClick)="onOptionClick($event)"
+                                (onChange)="sendSelectedNumberIndex()">
+                </p-selectButton>
             </span>
             <span>
                 <span *ngIf="isChartViewType">
@@ -16,14 +21,12 @@
             </span>
             </span>
         </nav>
-        <ng-container *ngIf="isNumbersViewType">
-            <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data-container">
-                <div class="ball-data">
-                    <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
-                    <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
-                </div>
+        <div *ngIf="isNumbersViewType" class="ball-data-container">
+            <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data">
+                <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
+                <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
             </div>
-        </ng-container>
+        </div>
         <lm-number-data-chart *ngIf="isChartViewType" [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy" [chartDataType]="chartDataType" [sortBy]="sortBy"></lm-number-data-chart>
     </p-accordionTab>
 </p-accordion>
