@@ -9,4 +9,3 @@ export * from './multinominal-coefficients';
 export * from './kullback-leibler-divergence';
 export * from './greatest-common-divisor';
 export * from './least-common-multiple';
-export * from './hypotenus';

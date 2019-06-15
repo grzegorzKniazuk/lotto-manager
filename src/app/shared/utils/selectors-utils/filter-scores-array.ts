@@ -2,8 +2,8 @@ import { Score } from 'src/app/shared/interfaces/score';
 import { ScoreFilter } from 'src/app/shared/types';
 import { filter, forEach } from 'lodash';
 import { ScoreFilterMap } from 'src/app/shared/constants/score-filters-map';
-import { DateScoreFilter } from 'src/app/shared/enums';
 import { filterScoresNumbersArrayByIndex } from 'src/app/shared/utils/selectors-utils/filter-scores-numbers-array-by-index';
+import { DateScoreFilter } from 'src/app/shared/enums';
 
 export function filterScoresArray(scores: Partial<Score[]>): (scoreFilters: ScoreFilter[]) => [ Array<Score>, number ] {
     let filteredScores: Score[] = [ ...scores ];

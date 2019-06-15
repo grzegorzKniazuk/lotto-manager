@@ -5,8 +5,15 @@ import { ExpressionScore, StoreFeatureNames } from 'src/app/shared/enums';
 import { Score } from 'src/app/shared/interfaces/score';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { pick } from 'lodash';
-import { ScoreFilter } from 'src/app/shared/types';
-import { dateValueMapByExpression, filterScoresArray, mapNumberKeyValueObjectToBallValuePercentage, mapNumbersArrayToBallValuePercentage, scoresCountBy } from 'src/app/shared/utils';
+import { BallIndexes, ScoreFilter } from 'src/app/shared/types';
+import {
+    dateValueMapByExpression,
+    filterScoresArray,
+    filterScoresNumbersArrayByIndex,
+    mapNumberKeyValueObjectToBallValuePercentage,
+    mapNumbersArrayToBallValuePercentage,
+    scoresCountBy,
+} from 'src/app/shared/utils';
 import { scoresNumbersArraysToFlatNumbersArray } from 'src/app/shared/utils/selectors-utils/scores-numbers-arrays-to-flat-numbers-array';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
@@ -55,9 +62,9 @@ export const selectNumbersByFilter = createSelector(
 
 export const selectNumbersByExpression = createSelector(
     selectNumbersScores,
-    (scores: Partial<Score[]>, props: { filters: ScoreFilter[], expressions: ExpressionScore[] }) => {
+    (scores: Partial<Score[]>, props: { filters?: ScoreFilter[], expressions: ExpressionScore[], indexes?: BallIndexes }) => {
 
-        const [ filteredScores ] = filterScoresArray(scores)(props.filters);
+        const [ filteredScores ] = filterScoresArray(props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores)(props.filters);
 
         return dateValueMapByExpression(filteredScores)(props.expressions);
     }
