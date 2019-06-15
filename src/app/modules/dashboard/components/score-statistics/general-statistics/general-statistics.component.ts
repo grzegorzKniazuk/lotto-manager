@@ -11,15 +11,15 @@ import { DateScoreFilter } from 'src/app/shared/enums';
 })
 export class GeneralStatisticsComponent extends BaseStatisticsComponent implements OnInit {
 
-    @Input()
-    public set dateRange(dateRange: DateScoreFilter) {
-        console.log(dateRange);
-    }
-
     constructor(
         timeService: TimeService,
     ) {
         super(timeService);
+    }
+
+    @Input()
+    public set dateRange(dateRange: DateScoreFilter) {
+        console.log(dateRange);
     }
 
     ngOnInit() {

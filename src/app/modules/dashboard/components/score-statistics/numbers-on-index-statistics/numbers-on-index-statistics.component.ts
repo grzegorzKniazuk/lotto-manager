@@ -18,9 +18,6 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
 
     @ViewChildren(AdviceParagraphComponent) public readonly adviceParagraphList: QueryList<AdviceParagraphComponent>;
     @Input() public readonly dateRange: DateScoreFilter;
-
-    private readonly numberIndexMap: Map<number, number> = new Map<number, number>([ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 3, 0 ], [ 4, 0 ], [ 5, 0 ], [ 6, 0 ], [ 7, 0 ] ]);
-
     public numberOnIndexFrequency$: Observable<NumberBallValuePercentage[]>;
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
     public numberOnIndexInActualMonthName$: Observable<NumberBallValuePercentage[]>;
@@ -29,36 +26,13 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
     public numberOnIndexByYearQuarter$: Observable<NumberBallValuePercentage[]>;
     public numberOnIndexByYearDayNumber$: Observable<NumberBallValuePercentage[]>;
     public numberOnIndexByMonthDayNumber$: Observable<NumberBallValuePercentage[]>;
+    private readonly numberIndexMap: Map<number, number> = new Map<number, number>([ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 3, 0 ], [ 4, 0 ], [ 5, 0 ], [ 6, 0 ], [ 7, 0 ] ]);
 
     constructor(
         timeService: TimeService,
         private readonly store: Store<AppState>,
     ) {
         super(timeService);
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        this.updateNumberIndexMap();
-        this.calculate();
-    }
-
-    private updateNumberIndexMap(): void {
-        if (this.adviceParagraphList) {
-            this.adviceParagraphList.forEach((item: AdviceParagraphComponent, index: number) => {
-                this.numberIndexMap.set(index, item.numberIndex);
-            });
-        }
-    }
-
-    private calculate(): void {
-        this.calculateNumberOnIndexFrequency(this.numberIndexMap.get(0));
-        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numberIndexMap.get(1));
-        this.calculateNumberOnIndexInActualMonthName(this.numberIndexMap.get(2));
-        this.calculateNumberOnIndexByOddOrEvenDay(this.numberIndexMap.get(3));
-        this.calculateNumberOnIndexByOddOrEvenMonth(this.numberIndexMap.get(4));
-        this.calculateNumberOnIndexByYearQuarter(this.numberIndexMap.get(5));
-        this.calculateNumberOnIndexByYearDayNumber(this.numberIndexMap.get(6));
-        this.calculateNumberOnIndexByMonthDayNumber(this.numberIndexMap.get(7));
     }
 
     public get numberOnIndexFrequencyLabel(): string {
@@ -111,36 +85,9 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
         return `Częstoliwość losowania liczb w na wybranym indeksie w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculateNumberOnIndexFrequency(numberIndex: number): void {
-        this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange ]));
-    }
-
-    private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number): void {
-        this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
-    }
-
-    private calculateNumberOnIndexInActualMonthName(numberIndex: number): void {
-        this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
-    }
-
-    private calculateNumberOnIndexByOddOrEvenDay(numberIndex: number): void {
-        this.numberOnIndexByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, this.oddOrEvenDayFilter ]));
-    }
-
-    private calculateNumberOnIndexByOddOrEvenMonth(numberIndex: number): void {
-        this.numberOnIndexByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, this.oddOrEvenMonthFilter ]));
-    }
-
-    private calculateNumberOnIndexByYearQuarter(numberIndex: number): void {
-        this.numberOnIndexByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
-    }
-
-    private calculateNumberOnIndexByYearDayNumber(numberIndex: number): void {
-        this.numberOnIndexByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, DateScoreFilter.ENTIRE_RANGE, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
-    }
-
-    private calculateNumberOnIndexByMonthDayNumber(numberIndex: number): void {
-        this.numberOnIndexByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
+    ngOnChanges(changes: SimpleChanges): void {
+        this.updateNumberIndexMap();
+        this.calculate();
     }
 
     public onNumberOnIndexFrequencyIndexChange(numberIndex: number): void {
@@ -173,6 +120,57 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
 
     public onNumberOnIndexByMonthDayIndexChange(numberIndex: number): void {
         this.calculateNumberOnIndexByMonthDayNumber(numberIndex);
+    }
+
+    private updateNumberIndexMap(): void {
+        if (this.adviceParagraphList) {
+            this.adviceParagraphList.forEach((item: AdviceParagraphComponent, index: number) => {
+                this.numberIndexMap.set(index, item.numberIndex);
+            });
+        }
+    }
+
+    private calculate(): void {
+        this.calculateNumberOnIndexFrequency(this.numberIndexMap.get(0));
+        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numberIndexMap.get(1));
+        this.calculateNumberOnIndexInActualMonthName(this.numberIndexMap.get(2));
+        this.calculateNumberOnIndexByOddOrEvenDay(this.numberIndexMap.get(3));
+        this.calculateNumberOnIndexByOddOrEvenMonth(this.numberIndexMap.get(4));
+        this.calculateNumberOnIndexByYearQuarter(this.numberIndexMap.get(5));
+        this.calculateNumberOnIndexByYearDayNumber(this.numberIndexMap.get(6));
+        this.calculateNumberOnIndexByMonthDayNumber(this.numberIndexMap.get(7));
+    }
+
+    private calculateNumberOnIndexFrequency(numberIndex: number): void {
+        this.numberOnIndexFrequency$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange ]));
+    }
+
+    private calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex: number): void {
+        this.numberOnIndexFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
+    }
+
+    private calculateNumberOnIndexInActualMonthName(numberIndex: number): void {
+        this.numberOnIndexInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
+    }
+
+    private calculateNumberOnIndexByOddOrEvenDay(numberIndex: number): void {
+        this.numberOnIndexByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, this.oddOrEvenDayFilter ]));
+    }
+
+    private calculateNumberOnIndexByOddOrEvenMonth(numberIndex: number): void {
+        this.numberOnIndexByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, this.oddOrEvenMonthFilter ]));
+    }
+
+    private calculateNumberOnIndexByYearQuarter(numberIndex: number): void {
+        this.numberOnIndexByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
+    }
+
+    private calculateNumberOnIndexByYearDayNumber(numberIndex: number): void {
+        this.numberOnIndexByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, DateScoreFilter.ENTIRE_RANGE, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
+    }
+
+    private calculateNumberOnIndexByMonthDayNumber(numberIndex: number): void {
+        this.numberOnIndexByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ numberIndex, this.dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
     }
 
 }

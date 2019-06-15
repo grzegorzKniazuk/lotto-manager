@@ -2,7 +2,7 @@
     <form [formGroup]="generatorForm" class="coupon-container">
         <lm-coupon-control formControlName="lotteryNumbers"></lm-coupon-control>
         <div class="form-actions">
-            <button pButton (click)="generate()" class="ui-button-raised" label="Wygeneruj liczby"></button>
+            <button (click)="generate()" class="ui-button-raised" label="Wygeneruj liczby" pButton></button>
         </div>
     </form>
 </div>

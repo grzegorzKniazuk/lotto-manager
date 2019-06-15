@@ -10,23 +10,27 @@ import { SelectItem } from 'primeng/api';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
-    @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
     @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
     @Input() public readonly title: string;
-
     @Output() public onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();
     @Input() public isNumberIndexAdvice = false;
     public numberIndexButtonConfig = this.numberIndexButtonOptions;
     public numberIndex = 0;
-
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
-
     public viewType: DataViewType = DataViewType.NUMBERS;
     public viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
-
     public chartDataType: ChartDataType = ChartDataType.VALUES;
     public chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
+    @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
+
+    public get isChartViewType(): boolean {
+        return this.viewType === DataViewType.CHART;
+    }
+
+    public get isNumbersViewType(): boolean {
+        return this.viewType === DataViewType.NUMBERS;
+    }
 
     private get sorTypesButtonOptions(): SelectItem[] {
         return [
@@ -59,21 +63,13 @@ export class AdviceParagraphComponent {
         ];
     }
 
-    public get isChartViewType(): boolean {
-        return this.viewType === DataViewType.CHART;
-    }
-
-    public get isNumbersViewType(): boolean {
-        return this.viewType === DataViewType.NUMBERS;
-    }
-
     public onOptionClick(event: OptionClickEvent): void {
         event.originalEvent.stopImmediatePropagation();
         this.accordionBottomAnchor.nativeElement.focus();
     }
 
     public sendSelectedNumberIndex(): void {
-       this.onSelectNumberIndexChange.emit(this.numberIndex);
+        this.onSelectNumberIndexChange.emit(this.numberIndex);
     }
 }
 

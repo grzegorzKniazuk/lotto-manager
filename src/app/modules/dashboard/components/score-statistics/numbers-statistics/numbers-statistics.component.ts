@@ -15,11 +15,6 @@ import { AppState } from 'src/app/store';
 })
 export class NumbersStatisticsComponent extends BaseStatisticsComponent {
 
-    @Input()
-    public set dateRange(dateRange: DateScoreFilter) {
-        this.calculate(dateRange);
-    }
-
     public numbersFrequency$: Observable<NumberBallValuePercentage[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
     public numbersInActualMonthName$: Observable<NumberBallValuePercentage[]>;
@@ -36,15 +31,9 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         super(timeService);
     }
 
-    private calculate(dateRange) {
-        this.calculateNumbersFrequency(dateRange);
-        this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
-        this.calculateNumbersByOddOrEvenDay(dateRange);
-        this.calculateNumbersByOddOrEvenMonth(dateRange);
-        this.calculateNumbersByYearQuarter(dateRange);
-        this.calculateNumbersByMonthDayNumber(dateRange);
-        this.calculateNumbersInActualMonthName(dateRange);
-        this.calculateNumbersByYearDayNumber(dateRange);
+    @Input()
+    public set dateRange(dateRange: DateScoreFilter) {
+        this.calculate(dateRange);
     }
 
     public get numbersFrequencyLabel(): string {
@@ -90,6 +79,17 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
 
     public get numbersByMonthDayNumberLabel(): string {
         return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
+    }
+
+    private calculate(dateRange) {
+        this.calculateNumbersFrequency(dateRange);
+        this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
+        this.calculateNumbersByOddOrEvenDay(dateRange);
+        this.calculateNumbersByOddOrEvenMonth(dateRange);
+        this.calculateNumbersByYearQuarter(dateRange);
+        this.calculateNumbersByMonthDayNumber(dateRange);
+        this.calculateNumbersInActualMonthName(dateRange);
+        this.calculateNumbersByYearDayNumber(dateRange);
     }
 
     private calculateNumbersFrequency(dateRange: DateScoreFilter): void {

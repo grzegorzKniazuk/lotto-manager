@@ -15,10 +15,6 @@ import { TimeService } from 'src/app/shared/services/time.service';
 })
 export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
 
-    @Input() public set dateRange(dateRange: DateScoreFilter) {
-        this.calculate(dateRange);
-    }
-
     public bonusNumberFrequency$: Observable<NumberBallValuePercentage[]>;
     public bonusNumberByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
     public bonusNumberInActualMonthName$: Observable<NumberBallValuePercentage[]>;
@@ -35,17 +31,9 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
         super(timeService);
     }
 
-    private calculate(dateRange: DateScoreFilter): void {
-        this.calculateBonusNumberFrequency(dateRange);
-        this.calculateBonusNumbersByDayOfTheWeek(dateRange);
-        this.calculateBonusNumberByOddOrEvenDay(dateRange);
-
-        this.calculateBonusNumberByOddOrEvenMonth(dateRange);
-        this.calculateBonusNumberByYearQuarter(dateRange);
-        this.calculateBonusNumberByMonthDayNumber(dateRange);
-
-        this.calculateBonusNumberByYearDayNumber(dateRange);
-        this.calculateBonusNumberInActualMonthName(dateRange);
+    @Input()
+    public set dateRange(dateRange: DateScoreFilter) {
+        this.calculate(dateRange);
     }
 
     public get bonusNumberFrequencyLabel(): string {
@@ -91,6 +79,19 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
 
     public get bonusNumberByMonthDayNumberLabel(): string {
         return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca`;
+    }
+
+    private calculate(dateRange: DateScoreFilter): void {
+        this.calculateBonusNumberFrequency(dateRange);
+        this.calculateBonusNumbersByDayOfTheWeek(dateRange);
+        this.calculateBonusNumberByOddOrEvenDay(dateRange);
+
+        this.calculateBonusNumberByOddOrEvenMonth(dateRange);
+        this.calculateBonusNumberByYearQuarter(dateRange);
+        this.calculateBonusNumberByMonthDayNumber(dateRange);
+
+        this.calculateBonusNumberByYearDayNumber(dateRange);
+        this.calculateBonusNumberInActualMonthName(dateRange);
     }
 
     private calculateBonusNumberFrequency(dateRange: DateScoreFilter): void {
