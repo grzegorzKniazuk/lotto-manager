@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { select, Store } from '@ngrx/store';
@@ -13,7 +13,9 @@ import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
     templateUrl: './numbers-on-index-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent implements OnInit {
+export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent implements OnInit, OnChanges {
+
+    @Input() public dateRange: DateScoreFilter;
 
     public numberOnIndexFrequency$: Observable<NumberBallValuePercentage[]>;
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -31,61 +33,11 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
         super(timeService);
     }
 
-    ngOnInit() {
-        this.calculateNumberAdvicesForIndexes(0);
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.calculate(0);
     }
 
-    public numberOnIndexFrequencyLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb na wybranym indeksie ${this.dateRangeLabel(dateRange)}`;
-    }
-
-    public numberOnIndexFrequencyByDayOfTheWeekLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb na wybranym indeksie w dniu ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
-    }
-
-    public numberOnIndexInActualMonthNameLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb na wybranym indeksie w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
-    }
-
-    public numberOnIndexByOddOrEvenDayLabel(dateRange: DateScoreFilter): string {
-        return this.timeService.isOddDayToday
-            ? `Częstotliwość losowania liczb na wybranym indeksie w dni nieparzyste ${this.dateRangeLabel(dateRange)}`
-            : `Częstotliwość losowania liczb na wybranym indeksie w dni parzyste ${this.dateRangeLabel(dateRange)}`;
-
-    }
-
-    public numberOnIndexByOddOrEvenMonthLabel(dateRange: DateScoreFilter): string {
-        return this.timeService.isOddDayToday
-            ? `Częstotliwość losowania liczb na wybranym indeksie w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}`
-            : `Częstotliwość losowania liczb na wybranym indeksie w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
-    }
-
-    public numberOnIndexByYearQuarterLabel(dateRange: DateScoreFilter): string {
-        switch (this.timeService.todayYearQuarter) {
-            case 1: {
-                return `Częstotliwość losowania liczb na wybranym indeksie w pierwszym kwartale roku ${this.dateRangeLabel(dateRange)}`;
-            }
-            case 2: {
-                return `Częstotliwość losowania liczb na wybranym indeksie w drugim kwartale roku ${this.dateRangeLabel(dateRange)}`;
-            }
-            case 3: {
-                return `Częstotliwość losowania liczb na wybranym indeksie w trzecim kwartale roku ${this.dateRangeLabel(dateRange)}`;
-            }
-            case 4: {
-                return `Częstotliwość losowania liczb na wybranym indeksie w czwartym kwartale roku ${this.dateRangeLabel(dateRange)}`;
-            }
-        }
-    }
-
-    public numberOnIndexByYearDayNumberLabel(dateRange: DateScoreFilter): string {
-        return `Częstoliwość losowania liczb na wybranym indeksie w ${this.timeService.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
-    }
-
-    public numberOnIndexByMonthDayNumberLabel(dateRange: DateScoreFilter): string {
-        return `Częstoliwość losowania liczb w na wybranym indeksie w ${this.timeService.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel(dateRange)}`;
-    }
-
-    private calculateNumberAdvicesForIndexes(numberIndex: number): void {
+    private calculate(numberIndex: number): void {
         this.calculateNumberOnIndexFrequency(numberIndex);
         this.calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex);
         this.calculateNumberOnIndexByOddOrEvenDay(numberIndex);
@@ -100,6 +52,60 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
             this.calculateNumberOnIndexInActualMonthName(numberIndex);
             this.calculateNumberOnIndexByYearDayNumber(numberIndex);
         }
+    }
+
+    ngOnInit() {
+        this.calculate(0);
+    }
+
+    public get numberOnIndexFrequencyLabel(): string {
+        return `Częstotliwość losowania liczb na wybranym indeksie`;
+    }
+
+    public get numberOnIndexFrequencyByDayOfTheWeekLabel(): string {
+        return `Częstotliwość losowania liczb na wybranym indeksie w dniu ${this.todayDayName}`;
+    }
+
+    public get numberOnIndexInActualMonthNameLabel(): string {
+        return `Częstotliwość losowania liczb na wybranym indeksie w miesiącu ${this.todayMonthName}`;
+    }
+
+    public get numberOnIndexByOddOrEvenDayLabel(): string {
+        return this.timeService.isOddDayToday
+            ? `Częstotliwość losowania liczb na wybranym indeksie w dni nieparzyste`
+            : `Częstotliwość losowania liczb na wybranym indeksie w dni parzyste`;
+
+    }
+
+    public get numberOnIndexByOddOrEvenMonthLabel(): string {
+        return this.timeService.isOddDayToday
+            ? `Częstotliwość losowania liczb na wybranym indeksie w miesiące nieparzyste`
+            : `Częstotliwość losowania liczb na wybranym indeksie w miesiące parzyste`;
+    }
+
+    public get numberOnIndexByYearQuarterLabel(): string {
+        switch (this.timeService.todayYearQuarter) {
+            case 1: {
+                return `Częstotliwość losowania liczb na wybranym indeksie w pierwszym kwartale roku`;
+            }
+            case 2: {
+                return `Częstotliwość losowania liczb na wybranym indeksie w drugim kwartale roku`;
+            }
+            case 3: {
+                return `Częstotliwość losowania liczb na wybranym indeksie w trzecim kwartale roku`;
+            }
+            case 4: {
+                return `Częstotliwość losowania liczb na wybranym indeksie w czwartym kwartale roku`;
+            }
+        }
+    }
+
+    public get numberOnIndexByYearDayNumberLabel(): string {
+        return `Częstoliwość losowania liczb na wybranym indeksie w ${this.timeService.todayYearDayNumber} dniu roku`;
+    }
+
+    public get numberOnIndexByMonthDayNumberLabel(): string {
+        return `Częstoliwość losowania liczb w na wybranym indeksie w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
     private calculateNumberOnIndexFrequency(numberIndex: number): void {

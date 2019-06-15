@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 import { DateScoreFilter } from 'src/app/shared/enums';
@@ -7,14 +7,17 @@ import { selectBonusNumberByFilter } from 'src/app/modules/dashboard/store/selec
 import { AppState } from 'src/app/store';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
-import Bind from 'lodash-decorators';
 
 @Component({
     selector: 'lm-bonus-numbers-statistics',
     templateUrl: './bonus-numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent implements OnInit {
+export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
+
+    @Input() public set dateRange(dateRange: DateScoreFilter) {
+        this.calculate(dateRange);
+    }
 
     public bonusNumberFrequency$: Observable<NumberBallValuePercentage[]>;
     public bonusNumberByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -32,103 +35,98 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent imp
         super(timeService);
     }
 
-    ngOnInit() {
-
-    }
-
-    @Bind
-    private calculate(): void {
-        this.calculateBonusNumberFrequency();
-        this.calculateBonusNumbersByDayOfTheWeek();
-        this.calculateBonusNumberByOddOrEvenDay();
+    private calculate(dateRange: DateScoreFilter): void {
+        this.calculateBonusNumberFrequency(dateRange);
+        this.calculateBonusNumbersByDayOfTheWeek(dateRange);
+        this.calculateBonusNumberByOddOrEvenDay(dateRange);
 
         if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
-            this.calculateBonusNumberByOddOrEvenMonth();
-            this.calculateBonusNumberByYearQuarter();
-            this.calculateBonusNumberByMonthDayNumber();
+            this.calculateBonusNumberByOddOrEvenMonth(dateRange);
+            this.calculateBonusNumberByYearQuarter(dateRange);
+            this.calculateBonusNumberByMonthDayNumber(dateRange);
         }
 
         if (this.isEntireRangeDateRange) {
-            this.calculateBonusNumberByYearDayNumber();
-            this.calculateBonusNumberInActualMonthName();
+            this.calculateBonusNumberByYearDayNumber(dateRange);
+            this.calculateBonusNumberInActualMonthName(dateRange);
         }
     }
 
-    public bonusNumberFrequencyLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb bonusowych ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberFrequencyLabel(): string {
+        return `Częstotliwość losowania liczb bonusowych`;
     }
 
-    public bonusNumberByDayOfTheWeekLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberByDayOfTheWeekLabel(): string {
+        return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName}`;
     }
 
-    public bonusNumberInActualMonthNameLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb bonusowych w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberInActualMonthNameLabel(): string {
+        return `Częstotliwość losowania liczb bonusowych w miesiącu ${this.todayMonthName}`;
     }
 
-    public bonusNumberByOddOrEvenDayLabel(dateRange: DateScoreFilter): string {
-        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczby bonusowej w dni nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczby bonusowej w dni parzyste ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberByOddOrEvenDayLabel(): string {
+        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczby bonusowej w dni nieparzyste` : `Częstotliwość losowania liczby bonusowej w dni parzyste`;
     }
 
-    public bonusNumberByOddOrEvenMonthLabel(dateRange: DateScoreFilter): string {
-        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczby bonusowej w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczby bonusowej w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberByOddOrEvenMonthLabel(): string {
+        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczby bonusowej w miesiące nieparzyste` : `Częstotliwość losowania liczby bonusowej w miesiące parzyste`;
     }
 
-    public bonusNumberByYearQuarterLabel(dateRange: DateScoreFilter): string {
+    public get bonusNumberByYearQuarterLabel(): string {
         switch (this.timeService.todayYearQuarter) {
             case 1: {
-                return `Częstotliwość losowania liczby bonusowej w pierwszym kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczby bonusowej w pierwszym kwartale roku`;
             }
             case 2: {
-                return `Częstotliwość losowania liczby bonusowej w drugim kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczby bonusowej w drugim kwartale roku`;
             }
             case 3: {
-                return `Częstotliwość losowania liczby bonusowej w trzecim kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczby bonusowej w trzecim kwartale roku`;
             }
             case 4: {
-                return `Częstotliwość losowania liczby bonusowej w czwartym kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczby bonusowej w czwartym kwartale roku`;
             }
         }
     }
 
-    public bonusNumberByYearDayNumberLabel(dateRange: DateScoreFilter): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberByYearDayNumberLabel(): string {
+        return `Częstoliwość losowania liczby bonusowej w ${this.todayYearDayNumber} dniu roku`;
     }
 
-    public bonusNumberByMonthDayNumberLabel(dateRange: DateScoreFilter): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel(dateRange)}`;
+    public get bonusNumberByMonthDayNumberLabel(): string {
+        return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculateBonusNumberFrequency(): void {
-        this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange ]));
+    private calculateBonusNumberFrequency(dateRange: DateScoreFilter): void {
+        this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange ]));
     }
 
-    private calculateBonusNumbersByDayOfTheWeek(): void {
-        this.bonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
+    private calculateBonusNumbersByDayOfTheWeek(dateRange: DateScoreFilter): void {
+        this.bonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
     }
 
-    private calculateBonusNumberInActualMonthName(): void {
-        this.bonusNumberInActualMonthName$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
+    private calculateBonusNumberInActualMonthName(dateRange: DateScoreFilter): void {
+        this.bonusNumberInActualMonthName$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
     }
 
-    private calculateBonusNumberByOddOrEvenDay(): void {
-        this.bonusNumberByOddOrEvenDay$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, this.oddOrEvenDayFilter ]));
+    private calculateBonusNumberByOddOrEvenDay(dateRange: DateScoreFilter): void {
+        this.bonusNumberByOddOrEvenDay$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, this.oddOrEvenDayFilter ]));
     }
 
-    private calculateBonusNumberByOddOrEvenMonth(): void {
-        this.bonusNumberByOddOrEvenMonth$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, this.oddOrEvenMonthFilter ]));
+    private calculateBonusNumberByOddOrEvenMonth(dateRange: DateScoreFilter): void {
+        this.bonusNumberByOddOrEvenMonth$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, this.oddOrEvenMonthFilter ]));
     }
 
-    private calculateBonusNumberByYearQuarter(): void {
-        this.bonusNumberByYearQuarter$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
+    private calculateBonusNumberByYearQuarter(dateRange: DateScoreFilter): void {
+        this.bonusNumberByYearQuarter$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
     }
 
-    private calculateBonusNumberByYearDayNumber(): void {
-        this.bonusNumberByYearDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
+    private calculateBonusNumberByYearDayNumber(dateRange: DateScoreFilter): void {
+        this.bonusNumberByYearDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
     }
 
-    private calculateBonusNumberByMonthDayNumber(): void {
-        this.bonusNumberByMonthDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ this.dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
+    private calculateBonusNumberByMonthDayNumber(dateRange: DateScoreFilter): void {
+        this.bonusNumberByMonthDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
     }
 
 }

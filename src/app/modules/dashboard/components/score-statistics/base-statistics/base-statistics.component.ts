@@ -1,16 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AdviceTypeEnum, DateScoreFilter } from 'src/app/shared/enums';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DateScoreFilter } from 'src/app/shared/enums';
 import { TimeService } from 'src/app/shared/services/time.service';
+import { Memoize } from 'lodash-decorators';
 
 @Component({
     selector: 'lm-base-statistics',
     template: 'there is no template!',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseStatisticsComponent implements OnInit {
-
-    public adviceType: AdviceTypeEnum = AdviceTypeEnum.GENERAL;
-    public dateRange: DateScoreFilter = DateScoreFilter.ENTIRE_RANGE;
+export class BaseStatisticsComponent {
 
     protected readonly todayDayName: string = this.timeService.todayDayName;
     protected readonly todayMonthName: string = this.timeService.todayMonthName;
@@ -22,36 +20,14 @@ export class BaseStatisticsComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
+    @Memoize
+    public isEntireRangeDateRange(dateRange: DateScoreFilter): boolean {
+        return dateRange === DateScoreFilter.ENTIRE_RANGE;
     }
 
-    public onOptionClick(): void {
-        console.log(this.dateRange);
-    }
-
-    protected dateRangeLabel(dateRange: DateScoreFilter): string {
-        switch (dateRange) {
-            case DateScoreFilter.ENTIRE_RANGE: {
-                return 'dla wszystkich losowań';
-            }
-            case DateScoreFilter.LAST_YEAR: {
-                return 'dla losowań z ostatniego roku';
-            }
-            case DateScoreFilter.LAST_MONTH: {
-                return 'dla losowań z ostatniego miesiąca';
-            }
-            case DateScoreFilter.LAST_WEEK: {
-                return 'dla losowań z ostatniego tygodnia';
-            }
-        }
-    }
-
-    public get isEntireRangeDateRange(): boolean {
-        return this.dateRange === DateScoreFilter.ENTIRE_RANGE;
-    }
-
-    public get isLastYearRangeDateRange(): boolean {
-        return this.dateRange === DateScoreFilter.LAST_YEAR;
+    @Memoize
+    public isLastYearRangeDateRange(dateRange: DateScoreFilter): boolean {
+        return dateRange === DateScoreFilter.LAST_YEAR;
     }
 
     protected get oddOrEvenDayFilter(): DateScoreFilter {

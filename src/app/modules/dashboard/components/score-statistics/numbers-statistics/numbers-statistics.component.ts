@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { Observable } from 'rxjs';
@@ -13,7 +13,12 @@ import { AppState } from 'src/app/store';
     templateUrl: './numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NumbersStatisticsComponent extends BaseStatisticsComponent implements OnInit {
+export class NumbersStatisticsComponent extends BaseStatisticsComponent {
+
+    @Input()
+    public set dateRange(dateRange: DateScoreFilter) {
+        this.calculate(dateRange);
+    }
 
     public numbersFrequency$: Observable<NumberBallValuePercentage[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -31,97 +36,97 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent implemen
         super(timeService);
     }
 
-    ngOnInit() {
-        this.calculateNumbersFrequency();
-        this.calculateNumbersFrequencyByDayOfTheWeek();
-        this.calculateNumbersByOddOrEvenDay();
+    private calculate(dateRange) {
+        this.calculateNumbersFrequency(dateRange);
+        this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
+        this.calculateNumbersByOddOrEvenDay(dateRange);
 
         if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
-            this.calculateNumbersByOddOrEvenMonth();
-            this.calculateNumbersByYearQuarter();
-            this.calculateNumbersByMonthDayNumber();
+            this.calculateNumbersByOddOrEvenMonth(dateRange);
+            this.calculateNumbersByYearQuarter(dateRange);
+            this.calculateNumbersByMonthDayNumber(dateRange);
         }
 
         if (this.isEntireRangeDateRange) {
-            this.calculateNumbersInActualMonthName();
-            this.calculateNumbersByYearDayNumber();
+            this.calculateNumbersInActualMonthName(dateRange);
+            this.calculateNumbersByYearDayNumber(dateRange);
         }
     }
 
-    public numbersFrequencyLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania wszystkich liczb ${this.dateRangeLabel(dateRange)}`;
+    public get numbersFrequencyLabel(): string {
+        return `Częstotliwość losowania wszystkich liczb`;
     }
 
-    public numbersFrequencyByDayOfTheWeekLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania wszystkich liczb w dniu tygodnia ${this.todayDayName} ${this.dateRangeLabel(dateRange)}`;
+    public get numbersFrequencyByDayOfTheWeekLabel(): string {
+        return `Częstotliwość losowania wszystkich liczb w dniu tygodnia ${this.todayDayName}`;
     }
 
-    public numbersInActualMonthNameLabel(dateRange: DateScoreFilter): string {
-        return `Częstotliwość losowania liczb w miesiącu ${this.todayMonthName} ${this.dateRangeLabel(dateRange)}`;
+    public get numbersInActualMonthNameLabel(): string {
+        return `Częstotliwość losowania liczb w miesiącu ${this.todayMonthName}`;
     }
 
-    public numbersByOddOrEvenDayLabel(dateRange: DateScoreFilter): string {
-        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczb w dni nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczb w dni parzyste ${this.dateRangeLabel(dateRange)}`;
+    public get numbersByOddOrEvenDayLabel(): string {
+        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczb w dni nieparzyste` : `Częstotliwość losowania liczb w dni parzyste`;
     }
 
-    public numbersByOddOrEvenMonthLabel(dateRange: DateScoreFilter): string {
-        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczb w miesiące nieparzyste ${this.dateRangeLabel(dateRange)}` : `Częstotliwość losowania liczb w miesiące parzyste ${this.dateRangeLabel(dateRange)}`;
+    public get numbersByOddOrEvenMonthLabel(): string {
+        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczb w miesiące nieparzyste` : `Częstotliwość losowania liczb w miesiące parzyste`;
     }
 
-    public numbersByYearQuarterLabel(dateRange: DateScoreFilter): string {
+    public get numbersByYearQuarterLabel(): string {
         switch (this.timeService.todayYearQuarter) {
             case 1: {
-                return `Częstotliwość losowania liczb w pierwszym kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczb w pierwszym kwartale roku`;
             }
             case 2: {
-                return `Częstotliwość losowania liczb w drugim kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczb w drugim kwartale roku`;
             }
             case 3: {
-                return `Częstotliwość losowania liczb w trzecim kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczb w trzecim kwartale roku`;
             }
             case 4: {
-                return `Częstotliwość losowania liczb w czwartym kwartale roku ${this.dateRangeLabel(dateRange)}`;
+                return `Częstotliwość losowania liczb w czwartym kwartale roku`;
             }
         }
     }
 
-    public numbersByYearDayNumberLabel(dateRange: DateScoreFilter): string {
-        return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku ${this.dateRangeLabel(dateRange)}`;
+    public get numbersByYearDayNumberLabel(): string {
+        return `Częstoliwość losowania liczb w ${this.timeService.todayYearDayNumber} dniu roku`;
     }
 
-    public numbersByMonthDayNumberLabel(dateRange: DateScoreFilter): string {
-        return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca ${this.dateRangeLabel(dateRange)}`;
+    public get numbersByMonthDayNumberLabel(): string {
+        return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculateNumbersFrequency(): void {
-        this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange ]));
+    private calculateNumbersFrequency(dateRange: DateScoreFilter): void {
+        this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange ]));
     }
 
-    private calculateNumbersFrequencyByDayOfTheWeek(): void {
-        this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
+    private calculateNumbersFrequencyByDayOfTheWeek(dateRange: DateScoreFilter): void {
+        this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
     }
 
-    private calculateNumbersInActualMonthName(): void {
-        this.numbersInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
+    private calculateNumbersInActualMonthName(dateRange: DateScoreFilter): void {
+        this.numbersInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
     }
 
-    private calculateNumbersByOddOrEvenDay(): void {
-        this.numbersByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, this.oddOrEvenDayFilter ]));
+    private calculateNumbersByOddOrEvenDay(dateRange: DateScoreFilter): void {
+        this.numbersByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, this.oddOrEvenDayFilter ]));
     }
 
-    private calculateNumbersByOddOrEvenMonth(): void {
-        this.numbersByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, this.oddOrEvenMonthFilter ]));
+    private calculateNumbersByOddOrEvenMonth(dateRange: DateScoreFilter): void {
+        this.numbersByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, this.oddOrEvenMonthFilter ]));
     }
 
-    private calculateNumbersByYearQuarter(): void {
-        this.numbersByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
+    private calculateNumbersByYearQuarter(dateRange: DateScoreFilter): void {
+        this.numbersByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
     }
 
-    private calculateNumbersByYearDayNumber(): void {
-        this.numbersByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
+    private calculateNumbersByYearDayNumber(dateRange: DateScoreFilter): void {
+        this.numbersByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
     }
 
-    private calculateNumbersByMonthDayNumber(): void {
-        this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ this.dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
+    private calculateNumbersByMonthDayNumber(dateRange: DateScoreFilter): void {
+        this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
     }
 }

@@ -1,16 +1,16 @@
 <div class="select-container">
-    <p-selectButton [(ngModel)]="adviceType" (onOptionClick)="onOptionClick()" [options]="adviceTypes"></p-selectButton>
-    <p-selectButton [(ngModel)]="dateRange" (onOptionClick)="onOptionClick()" [options]="dateRangeTypes"></p-selectButton>
+    <p-selectButton [(ngModel)]="adviceType" [options]="adviceTypes"></p-selectButton>
+    <p-selectButton [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
 </div>
 <div class="tips-container">
     <ng-container *ngIf="adviceType === 'general'">
 
     </ng-container>
     <ng-container *ngIf="adviceType === 'numbers'">
-        <lm-numbers-statistics></lm-numbers-statistics>
+        <lm-numbers-statistics [dateRange]="dateRange"></lm-numbers-statistics>
         <div>Dla numerów indeksów</div>
-        <lm-numbers-on-index-statistics></lm-numbers-on-index-statistics>
+        <lm-numbers-on-index-statistics [dateRange]="dateRange"></lm-numbers-on-index-statistics>
 
     </ng-container>
-    <lm-bonus-numbers-statistics *ngIf="adviceType === 'bonus_number'"></lm-bonus-numbers-statistics>
+    <lm-bonus-numbers-statistics *ngIf="adviceType === 'bonus_number'" [dateRange]="dateRange"></lm-bonus-numbers-statistics>
 </div>

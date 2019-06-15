@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TimeService } from 'src/app/shared/services/time.service';
-import { AdviceTypeEnum, DateScoreFilter } from 'src/app/shared/enums';
+import { AdviceType, DateScoreFilter } from 'src/app/shared/enums';
 import { SelectItem } from 'primeng/api';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 
@@ -11,6 +11,9 @@ import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/sc
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScoreStatisticsComponent extends BaseStatisticsComponent {
+
+    public adviceType: AdviceType = AdviceType.GENERAL;
+    public dateRange: DateScoreFilter = DateScoreFilter.ENTIRE_RANGE;
 
     public readonly adviceTypes: SelectItem[] = this.adviceTypeSelectOptions;
     public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
@@ -32,9 +35,9 @@ export class ScoreStatisticsComponent extends BaseStatisticsComponent {
 
     private get adviceTypeSelectOptions(): SelectItem[] {
         return [
-            { label: 'Ogólne', value: AdviceTypeEnum.GENERAL },
-            { label: 'Liczby 5-35', value: AdviceTypeEnum.NUMBERS },
-            { label: 'Liczba bonusowa', value: AdviceTypeEnum.BONUS_NUMBER },
+            { label: 'Ogólne', value: AdviceType.GENERAL },
+            { label: 'Liczby 5-35', value: AdviceType.NUMBERS },
+            { label: 'Liczba bonusowa', value: AdviceType.BONUS_NUMBER },
         ];
     }
 }
