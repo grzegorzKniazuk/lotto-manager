@@ -10,7 +10,7 @@ export * from './selectors-utils/extract-ball-number-from-number-data';
 export * from './selectors-utils/extract-percentage-from-number-data';
 export * from './selectors-utils/extract-value-from-number-data';
 export * from './selectors-utils/map-numbers-array-to-ball-value-percentage';
-export * from './selectors-utils/map-bonus-numbers-counted-to-ball-value-percentage';
+export * from 'src/app/shared/utils/selectors-utils/map-number-key-value-object-to-ball-value-percentage';
 export * from './selectors-utils/pick-numbers';
 export * from './selectors-utils/filter-scores-numbers-array-by-index';
 export * from './selectors-utils/filter-scores-array';

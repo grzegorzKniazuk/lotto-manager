@@ -6,7 +6,7 @@ import { Score } from 'src/app/shared/interfaces/score';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { pick } from 'lodash';
 import { ScoreFilter } from 'src/app/shared/types';
-import { filterScoresArray, mapBonusNumbersCountedToBallValuePercentage, mapNumbersArrayToBallValuePercentage, scoresCountBy } from 'src/app/shared/utils';
+import { filterScoresArray, mapNumberKeyValueObjectToBallValuePercentage, mapNumbersArrayToBallValuePercentage, scoresCountBy } from 'src/app/shared/utils';
 import { scoresNumbersArraysToFlatNumbersArray } from 'src/app/shared/utils/selectors-utils/scores-numbers-arrays-to-flat-numbers-array';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
@@ -38,7 +38,7 @@ export const selectBonusNumberByFilter = createSelector(
         const [ filteredScores, arrayLength ] = filterScoresArray(scores)(filters);
         const scoresCountedByBonusNumber = scoresCountBy(filteredScores)(SCORES_BONUS_NUMBER_KEY);
 
-        return mapBonusNumbersCountedToBallValuePercentage(scoresCountedByBonusNumber)(arrayLength);
+        return mapNumberKeyValueObjectToBallValuePercentage(scoresCountedByBonusNumber)(arrayLength);
     },
 );
 

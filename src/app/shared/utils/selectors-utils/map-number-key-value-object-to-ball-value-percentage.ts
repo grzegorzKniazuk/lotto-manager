@@ -2,7 +2,7 @@ import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 import { percentage } from 'src/app/shared/utils/percentage';
 import { mapValues } from 'lodash';
 
-export function mapBonusNumbersCountedToBallValuePercentage(values: { [key: string]: number }): (numberOfElements: number) => NumberBallValuePercentage[] {
+export function mapNumberKeyValueObjectToBallValuePercentage(values: { [key: string]: number }): (numberOfElements: number) => NumberBallValuePercentage[] {
     const resultArray = [];
 
     return function (numberOfElements: number): NumberBallValuePercentage[] {

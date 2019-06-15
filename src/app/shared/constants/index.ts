@@ -9,3 +9,4 @@ export * from './base-chart-bar-border-color';
 export * from './first-draw-date';
 export * from './score-filters-map';
 export * from './score-numbers-array-index';
+export * from './one-day-in-milliseconds';

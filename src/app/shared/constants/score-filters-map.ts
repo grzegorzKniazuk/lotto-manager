@@ -12,19 +12,8 @@ import {
     isSameYearDayNumber,
     isSameYearQuarter,
 } from 'src/app/shared/utils/selectors-utils/date-utils';
-import { filterScoresNumbersArrayByIndex } from 'src/app/shared/utils';
-import { Score } from 'src/app/shared/interfaces/score';
 
 export const ScoreFilterMap = {
-    // filtry indeksow
-    /*
-    0: (score: Score) => filterScoresNumbersArrayByIndex(score, 0),
-    1: (score: Score) => filterScoresNumbersArrayByIndex(score, 1),
-    2: (score: Score) => filterScoresNumbersArrayByIndex(score, 2),
-    3: (score: Score) => filterScoresNumbersArrayByIndex(score, 3),
-    4: (score: Score) => filterScoresNumbersArrayByIndex(score, 4),
-*/
-    // filtry dat
     [DateScoreFilter.ENTIRE_RANGE]: () => true,
     [DateScoreFilter.LAST_YEAR]: isInLastYear,
     [DateScoreFilter.LAST_WEEK]: isInLastWeek,

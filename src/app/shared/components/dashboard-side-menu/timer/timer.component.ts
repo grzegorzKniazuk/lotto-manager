@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { Bind } from 'lodash-decorators';
 
@@ -6,7 +6,6 @@ import { Bind } from 'lodash-decorators';
     selector: 'lm-timer',
     templateUrl: './timer.component.html',
     styleUrls: [ './timer.component.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit, OnDestroy {
 

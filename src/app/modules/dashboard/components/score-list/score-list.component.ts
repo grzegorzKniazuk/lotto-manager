@@ -8,7 +8,7 @@ import { TableColumn } from 'src/app/shared/interfaces';
 import { Table } from 'primeng/table';
 import { TableFilterMatchModeEnum } from 'src/app/shared/enums';
 import { SelectItem } from 'primeng/api';
-import { FIRST_DRAW_DATE, SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_ID_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
+import { FIRST_DRAW_DATE, ONE_DAY_IN_MILLISECONDS, SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_ID_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-score-list',
@@ -76,9 +76,9 @@ export class ScoreListComponent implements OnInit {
             let endDate;
 
             if (this.dateRangeFilter[1]) {
-                endDate = this.dateRangeFilter[1].getTime() + 86400000;
+                endDate = this.dateRangeFilter[1].getTime() + ONE_DAY_IN_MILLISECONDS;
             } else {
-                endDate = startDate + 86400000;
+                endDate = startDate + ONE_DAY_IN_MILLISECONDS;
             }
 
             return value.getTime() >= startDate && value.getTime() <= endDate;
