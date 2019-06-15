@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { select, Store } from '@ngrx/store';
@@ -7,15 +7,19 @@ import { DateScoreFilter } from 'src/app/shared/enums';
 import { selectNumbersByFilter } from 'src/app/modules/dashboard/store/selectors';
 import { Observable } from 'rxjs';
 import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
+import { AdviceParagraphComponent } from 'src/app/modules/dashboard/components/score-statistics/advice-paragraph/advice-paragraph.component';
 
 @Component({
     selector: 'lm-numbers-on-index-statistics',
     templateUrl: './numbers-on-index-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent implements OnInit, OnChanges {
+export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent implements OnChanges {
 
-    @Input() public dateRange: DateScoreFilter;
+    @ViewChildren(AdviceParagraphComponent) public readonly adviceParagraphList: QueryList<AdviceParagraphComponent>;
+    @Input() public readonly dateRange: DateScoreFilter;
+
+    private readonly numberIndexMap: Map<number, number> = new Map<number, number>([ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 3, 0 ], [ 4, 0 ], [ 5, 0 ], [ 6, 0 ], [ 7, 0 ] ]);
 
     public numberOnIndexFrequency$: Observable<NumberBallValuePercentage[]>;
     public numberOnIndexFrequencyByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -33,29 +37,34 @@ export class NumbersOnIndexStatisticsComponent extends BaseStatisticsComponent i
         super(timeService);
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        this.calculate(0);
+    ngOnChanges(changes: SimpleChanges): void {
+        this.updateNumberIndexMap();
+        this.calculate();
     }
 
-    private calculate(numberIndex: number): void {
-        this.calculateNumberOnIndexFrequency(numberIndex);
-        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(numberIndex);
-        this.calculateNumberOnIndexByOddOrEvenDay(numberIndex);
+    private updateNumberIndexMap(): void {
+        if (this.adviceParagraphList) {
+            this.adviceParagraphList.forEach((item: AdviceParagraphComponent, index: number) => {
+                this.numberIndexMap.set(index, item.numberIndex);
+            });
+        }
+    }
+
+    private calculate(): void {
+        this.calculateNumberOnIndexFrequency(this.numberIndexMap.get(0));
+        this.calculateNumberOnIndexFrequencyByDayOfTheWeek(this.numberIndexMap.get(1));
+        this.calculateNumberOnIndexByOddOrEvenDay(this.numberIndexMap.get(2));
 
         if (this.isEntireRangeDateRange || this.isLastYearRangeDateRange) {
-            this.calculateNumberOnIndexByOddOrEvenMonth(numberIndex);
-            this.calculateNumberOnIndexByYearQuarter(numberIndex);
-            this.calculateNumberOnIndexByMonthDayNumber(numberIndex);
+            this.calculateNumberOnIndexByOddOrEvenMonth(this.numberIndexMap.get(3));
+            this.calculateNumberOnIndexByYearQuarter(this.numberIndexMap.get(4));
+            this.calculateNumberOnIndexByMonthDayNumber(this.numberIndexMap.get(5));
         }
 
         if (this.isEntireRangeDateRange) {
-            this.calculateNumberOnIndexInActualMonthName(numberIndex);
-            this.calculateNumberOnIndexByYearDayNumber(numberIndex);
+            this.calculateNumberOnIndexInActualMonthName(this.numberIndexMap.get(6));
+            this.calculateNumberOnIndexByYearDayNumber(this.numberIndexMap.get(7));
         }
-    }
-
-    ngOnInit() {
-        this.calculate(0);
     }
 
     public get numberOnIndexFrequencyLabel(): string {

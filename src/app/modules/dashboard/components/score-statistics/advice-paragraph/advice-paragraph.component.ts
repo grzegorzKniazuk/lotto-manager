@@ -10,7 +10,6 @@ import { SelectItem } from 'primeng/api';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
-
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
     @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
     @Input() public readonly title: string;
