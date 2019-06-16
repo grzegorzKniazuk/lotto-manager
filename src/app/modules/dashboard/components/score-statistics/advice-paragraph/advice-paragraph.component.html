@@ -8,16 +8,17 @@
                 </p-selectButton>
             </span>
         </div>
-        <div *ngIf="!isGeneralAdvice" class="accordion-menu-bottom-level">
+        <div class="accordion-menu-bottom-level">
             <span>
                 <p-selectButton (onChange)="sendSelectedNumberIndex()"
                                 (onOptionClick)="onOptionClick($event)"
                                 *ngIf="isNumberIndexAdvice"
                                 [(ngModel)]="numberIndex"
+                                multiple="multiple"
                                 [options]="numberIndexButtonConfig">
                 </p-selectButton>
             </span>
-            <span>
+            <span *ngIf="!isGeneralAdvice">
                 <span *ngIf="isChartViewType">
                     <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="chartDataType" [options]="chartTypesButtonConfig"></p-selectButton>
                 </span>
