@@ -17,7 +17,6 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
 
     @Input()
     public set dateRange(dateRange: DateScoreFilter) {
-        this.clearMaps();
         this.calculate(dateRange);
     }
 
@@ -33,26 +32,11 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
     public greatestCommonDivisorScoreNumbersByDate$: Observable<DateValueMap>;
     public leastCommonMultipleScoreNumbersByDate$: Observable<DateValueMap>;
 
-    // pierwsza i druga liczba zestawu
-    public sumOfScoreNumbersOnIndexByDateObservablesMap: Map<number, Observable<DateValueMap>> = new Map<number, Observable<DateValueMap>>();
-    public averageOfScoreNumbersOnIndexByDateObservablesMap: Map<number, Observable<DateValueMap>> = new Map<number, Observable<DateValueMap>>();
-    public minMaxDifferenceScoreNumbersByDateObservablesMap: Map<number, Observable<DateValueMap>> = new Map<number, Observable<DateValueMap>>();
-
-
-    public leastCommonMultipleScoreNumbersByDateObservablesMap: Map<number, Observable<DateValueMap>> = new Map<number, Observable<DateValueMap>>();
-
     constructor(
         timeService: TimeService,
         private readonly store: Store<AppState>,
     ) {
         super(timeService);
-    }
-
-    private clearMaps(): void {
-        this.sumOfScoreNumbersOnIndexByDateObservablesMap.clear();
-        this.averageOfScoreNumbersOnIndexByDateObservablesMap.clear();
-        this.minMaxDifferenceScoreNumbersByDateObservablesMap.clear();
-        this.leastCommonMultipleScoreNumbersByDateObservablesMap.clear();
     }
 
     private calculate(dateRange: DateScoreFilter): void {
@@ -70,39 +54,5 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
         }));
         this.greatestCommonDivisorScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.GREATEST_COMMON_DIVISOR ] }));
         this.leastCommonMultipleScoreNumbersByDate$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], expressions: [ ExpressionScore.LEAST_COMMON_MULTIPLE ] }));
-
-        for (let i = 0; i < 4; i++) {
-            this.sumOfScoreNumbersOnIndexByDateObservablesMap.set(
-                i,
-                this.store.pipe(select(selectNumbersByExpression, {
-                    filters: [ dateRange ],
-                    expressions: [ ExpressionScore.SUM ],
-                    indexes: [ i, i + 1 ],
-                })));
-            this.averageOfScoreNumbersOnIndexByDateObservablesMap.set(
-                i,
-                this.store.pipe(select(selectNumbersByExpression, {
-                    filters: [ dateRange ],
-                    expressions: [ ExpressionScore.AVERAGE ],
-                    indexes: [ i, i + 1 ],
-                })));
-            this.minMaxDifferenceScoreNumbersByDateObservablesMap.set(
-                i,
-                this.store.pipe(select(selectNumbersByExpression, {
-                    filters: [ dateRange ],
-                    expressions: [ ExpressionScore.MIN_MAX_DIFFERENCE ],
-                    indexes: [ i, i + 1 ],
-                })));
-
-
-
-            this.leastCommonMultipleScoreNumbersByDateObservablesMap.set(
-                i,
-                this.store.pipe(select(selectNumbersByExpression, {
-                    filters: [ dateRange ],
-                    expressions: [ ExpressionScore.LEAST_COMMON_MULTIPLE ],
-                    indexes: [ i, i + 1 ],
-                })));
-        }
     }
 }

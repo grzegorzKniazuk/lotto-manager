@@ -42,27 +42,3 @@
                      [numberMapArray]="leastCommonMultipleScoreNumbersByDate"
                      [isGeneralAdvice]="true"
                      title="Najmniejsza wspólna wielokrotność liczb w losowaniu"></lm-advice-paragraph>
-<ng-container *ngIf="sumOfScoreNumbersOnIndexByDateObservablesMap.size">
-    <lm-advice-paragraph *ngFor="let stream of sumOfScoreNumbersOnIndexByDateObservablesMap.values(); let i = index"
-                         [numberMapArray]="stream | async"
-                         [isGeneralAdvice]="true"
-                         [title]="'Suma '+ (i + 1) +  ' i ' + (i + 2) + ' liczby w losowaniu'"></lm-advice-paragraph>
-</ng-container>
-<ng-container *ngIf="averageOfScoreNumbersOnIndexByDateObservablesMap.size">
-    <lm-advice-paragraph *ngFor="let stream of averageOfScoreNumbersOnIndexByDateObservablesMap.values(); let i = index"
-                         [numberMapArray]="stream | async"
-                         [isGeneralAdvice]="true"
-                         [title]="'Średnia '+ (i + 1) +  ' i ' + (i + 2) + ' liczby w losowaniu'"></lm-advice-paragraph>
-</ng-container>
-<ng-container *ngIf="minMaxDifferenceScoreNumbersByDateObservablesMap.size">
-    <lm-advice-paragraph *ngFor="let stream of minMaxDifferenceScoreNumbersByDateObservablesMap.values(); let i = index"
-                         [numberMapArray]="stream | async"
-                         [isGeneralAdvice]="true"
-                         [title]="'Różnica pomiędzy '+ (i + 1) +  ' a ' + (i + 2) + ' liczbą w losowaniu'"></lm-advice-paragraph>
-</ng-container>
-<ng-container *ngIf="leastCommonMultipleScoreNumbersByDateObservablesMap.size">
-    <lm-advice-paragraph *ngFor="let stream of leastCommonMultipleScoreNumbersByDateObservablesMap.values(); let i = index"
-                         [numberMapArray]="stream | async"
-                         [isGeneralAdvice]="true"
-                         [title]="'Najmniejsza wspólna wielokrotność liczb '+ (i + 1) +  ' a ' + (i + 2) + ' w losowaniu'"></lm-advice-paragraph>
-</ng-container>
