@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ChartDataType, DataViewType, SortBy } from 'src/app/shared/enums';
+import { ChartDataType, DataViewType, DateScoreFilter, SortBy } from 'src/app/shared/enums';
 import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
+import { DateRangeFilterWithBallIndexesArray } from 'src/app/shared/types';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -15,19 +16,22 @@ export class AdviceParagraphComponent {
     @Input() public readonly title: string;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
-    @Output() public readonly onSelectNumberIndexChange: EventEmitter<number[]> = new EventEmitter<number[]>();
+    @Output() public readonly onSelectNumberIndexChange: EventEmitter<DateRangeFilterWithBallIndexesArray> = new EventEmitter<DateRangeFilterWithBallIndexesArray>();
 
-    public numberIndexButtonConfig = this.numberIndexButtonOptions;
     public numberIndex = [ 0, 1, 2, 3, 4 ];
+    public readonly numberIndexButtonConfig = this.numberIndexButtonOptions;
+
+    public dateRange: DateScoreFilter = DateScoreFilter.ENTIRE_RANGE;
+    public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
 
     public sortBy: SortBy = SortBy.VALUE;
-    public sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
+    public readonly sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
 
     public viewType: DataViewType = DataViewType.NUMBERS;
-    public viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
+    public readonly viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
 
     public chartDataType: ChartDataType = ChartDataType.VALUES;
-    public chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
+    public readonly chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
 
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
 
@@ -39,13 +43,6 @@ export class AdviceParagraphComponent {
         return this.viewType === DataViewType.NUMBERS;
     }
 
-    private get sorTypesButtonOptions(): SelectItem[] {
-        return [
-            { label: 'Sortuj wg. numeru', value: SortBy.NUMBER },
-            { label: 'Sortuj wg. wartości', value: SortBy.VALUE },
-        ];
-    }
-
     private get numberIndexButtonOptions(): SelectItem[] {
         return [
             { label: 'Wszystkie', value: [ 0, 1, 2, 3, 4 ] },
@@ -54,6 +51,22 @@ export class AdviceParagraphComponent {
             { label: '3', value: [ 2 ] },
             { label: '4', value: [ 3 ] },
             { label: '5', value: [ 4 ] },
+        ];
+    }
+
+    private get dateRangeSelectOptions(): SelectItem[] {
+        return [
+            { label: 'Wszystkie losowania', value: DateScoreFilter.ENTIRE_RANGE },
+            { label: 'Ostatni rok', value: DateScoreFilter.LAST_YEAR },
+            { label: 'Ostatni miesiąc', value: DateScoreFilter.LAST_MONTH },
+            { label: 'Ostatni tydzień', value: DateScoreFilter.LAST_WEEK },
+        ];
+    }
+
+    private get sorTypesButtonOptions(): SelectItem[] {
+        return [
+            { label: 'Sortuj wg. numeru', value: SortBy.NUMBER },
+            { label: 'Sortuj wg. wartości', value: SortBy.VALUE },
         ];
     }
 
@@ -77,7 +90,7 @@ export class AdviceParagraphComponent {
     }
 
     public sendSelectedNumberIndex(): void {
-        this.onSelectNumberIndexChange.emit(this.numberIndex);
+        this.onSelectNumberIndexChange.emit([ this.dateRange, this.numberIndex ]);
     }
 }
 

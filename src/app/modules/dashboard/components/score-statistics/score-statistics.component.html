@@ -1,9 +1,8 @@
 <div class="select-container">
     <p-selectButton [(ngModel)]="adviceType" [options]="adviceTypes"></p-selectButton>
-    <p-selectButton [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
 </div>
 <div class="tips-container">
-    <lm-general-statistics *ngIf="adviceType === 'general'" [dateRange]="dateRange"></lm-general-statistics>
-    <lm-numbers-statistics *ngIf="adviceType === 'numbers'" [dateRange]="dateRange"></lm-numbers-statistics>
-    <lm-bonus-numbers-statistics *ngIf="adviceType === 'bonus_number'" [dateRange]="dateRange"></lm-bonus-numbers-statistics>
+    <lm-general-statistics *ngIf="adviceType === 'general'"></lm-general-statistics>
+    <lm-numbers-statistics *ngIf="adviceType === 'numbers'"></lm-numbers-statistics>
+    <lm-bonus-numbers-statistics *ngIf="adviceType === 'bonus_number'"></lm-bonus-numbers-statistics>
 </div>

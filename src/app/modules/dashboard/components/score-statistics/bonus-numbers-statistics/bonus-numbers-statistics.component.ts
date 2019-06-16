@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 import { DateScoreFilter } from 'src/app/shared/enums';
@@ -7,13 +7,15 @@ import { selectBonusNumberByFilter } from 'src/app/modules/dashboard/store/selec
 import { AppState } from 'src/app/store';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
+import { DateRangeFilterWithBallIndexesArray } from 'src/app/shared/types';
+import { DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-bonus-numbers-statistics',
     templateUrl: './bonus-numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
+export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent implements OnInit {
 
     public bonusNumberFrequency$: Observable<NumberBallValuePercentage[]>;
     public bonusNumberByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -29,15 +31,6 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
         private readonly store: Store<AppState>,
     ) {
         super(timeService);
-    }
-
-    @Input()
-    public set dateRange(dateRange: DateScoreFilter) {
-        this.calculate(dateRange);
-    }
-
-    public get bonusNumberFrequencyLabel(): string {
-        return `Częstotliwość losowania liczb bonusowych`;
     }
 
     public get bonusNumberByDayOfTheWeekLabel(): string {
@@ -81,48 +74,52 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
         return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculate(dateRange: DateScoreFilter): void {
-        this.calculateBonusNumberFrequency(dateRange);
-        this.calculateBonusNumbersByDayOfTheWeek(dateRange);
-        this.calculateBonusNumberByOddOrEvenDay(dateRange);
-
-        this.calculateBonusNumberByOddOrEvenMonth(dateRange);
-        this.calculateBonusNumberByYearQuarter(dateRange);
-        this.calculateBonusNumberByMonthDayNumber(dateRange);
-
-        this.calculateBonusNumberByYearDayNumber(dateRange);
-        this.calculateBonusNumberInActualMonthName(dateRange);
+    public ngOnInit(): void {
+        this.calculate();
     }
 
-    private calculateBonusNumberFrequency(dateRange: DateScoreFilter): void {
+    private calculate(): void {
+        this.calculateBonusNumberFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumbersByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+
+        this.calculateBonusNumberByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+
+        this.calculateBonusNumberByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+    }
+
+    public calculateBonusNumberFrequency([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange ]));
     }
 
-    private calculateBonusNumbersByDayOfTheWeek(dateRange: DateScoreFilter): void {
+    public calculateBonusNumbersByDayOfTheWeek([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
     }
 
-    private calculateBonusNumberInActualMonthName(dateRange: DateScoreFilter): void {
+    public calculateBonusNumberInActualMonthName([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberInActualMonthName$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
     }
 
-    private calculateBonusNumberByOddOrEvenDay(dateRange: DateScoreFilter): void {
+    public calculateBonusNumberByOddOrEvenDay([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByOddOrEvenDay$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, this.oddOrEvenDayFilter ]));
     }
 
-    private calculateBonusNumberByOddOrEvenMonth(dateRange: DateScoreFilter): void {
+    public calculateBonusNumberByOddOrEvenMonth([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByOddOrEvenMonth$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, this.oddOrEvenMonthFilter ]));
     }
 
-    private calculateBonusNumberByYearQuarter(dateRange: DateScoreFilter): void {
+    public calculateBonusNumberByYearQuarter([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByYearQuarter$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
     }
 
-    private calculateBonusNumberByYearDayNumber(dateRange: DateScoreFilter): void {
+    public calculateBonusNumberByYearDayNumber([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByYearDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
     }
 
-    private calculateBonusNumberByMonthDayNumber(dateRange: DateScoreFilter): void {
+    public calculateBonusNumberByMonthDayNumber([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByMonthDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
     }
 

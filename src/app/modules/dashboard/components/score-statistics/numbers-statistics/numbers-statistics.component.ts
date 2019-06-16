@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { Observable } from 'rxjs';
@@ -7,13 +7,15 @@ import { DateScoreFilter } from 'src/app/shared/enums';
 import { select, Store } from '@ngrx/store';
 import { selectNumbersByFilter } from 'src/app/modules/dashboard/store/selectors';
 import { AppState } from 'src/app/store';
+import { DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY } from 'src/app/shared/constants';
+import { DateRangeFilterWithBallIndexesArray } from 'src/app/shared/types';
 
 @Component({
     selector: 'lm-numbers-statistics',
     templateUrl: './numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NumbersStatisticsComponent extends BaseStatisticsComponent {
+export class NumbersStatisticsComponent extends BaseStatisticsComponent implements OnInit {
 
     public numbersFrequency$: Observable<NumberBallValuePercentage[]>;
     public numbersFrequencyByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -31,9 +33,8 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         super(timeService);
     }
 
-    @Input()
-    public set dateRange(dateRange: DateScoreFilter) {
-        this.calculate(dateRange);
+    public ngOnInit(): void {
+        this.calculate();
     }
 
     public get numbersFrequencyByDayOfTheWeekLabel(): string {
@@ -77,50 +78,46 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculate(dateRange: DateScoreFilter) {
-        this.calculateNumbersFrequency(dateRange);
-        /*
-        this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
-        this.calculateNumbersByOddOrEvenDay(dateRange);
-        this.calculateNumbersByOddOrEvenMonth(dateRange);
-        this.calculateNumbersByYearQuarter(dateRange);
-        this.calculateNumbersByMonthDayNumber(dateRange);
-        this.calculateNumbersInActualMonthName(dateRange);
-        this.calculateNumbersByYearDayNumber(dateRange);
-        */
+    private calculate() {
+        this.calculateNumbersFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersFrequencyByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
     }
 
-    public calculateNumbersFrequency(dateRange: DateScoreFilter): void {
-        this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange ], indexes: [ 0, 1, 2, 3, 4 ] }));
+    public calculateNumbersFrequency([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange ], indexes: ballIndexes }));
     }
 
-    /*
-    private calculateNumbersFrequencyByDayOfTheWeek(dateRange: DateScoreFilter): void {
-        this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
+    public calculateNumbersFrequencyByDayOfTheWeek([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ], indexes: ballIndexes }));
     }
 
-    private calculateNumbersInActualMonthName(dateRange: DateScoreFilter): void {
-        this.numbersInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
+    public calculateNumbersInActualMonthName([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersInActualMonthName$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ], indexes: ballIndexes }));
     }
 
-    private calculateNumbersByOddOrEvenDay(dateRange: DateScoreFilter): void {
-        this.numbersByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, this.oddOrEvenDayFilter ]));
+    public calculateNumbersByOddOrEvenDay([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersByOddOrEvenDay$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, this.oddOrEvenDayFilter ], indexes: ballIndexes }));
     }
 
-    private calculateNumbersByOddOrEvenMonth(dateRange: DateScoreFilter): void {
-        this.numbersByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, this.oddOrEvenMonthFilter ]));
+    public calculateNumbersByOddOrEvenMonth([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersByOddOrEvenMonth$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, this.oddOrEvenMonthFilter ], indexes: ballIndexes }));
     }
 
-    private calculateNumbersByYearQuarter(dateRange: DateScoreFilter): void {
-        this.numbersByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
+    public calculateNumbersByYearQuarter([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersByYearQuarter$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, DateScoreFilter.SAME_YEAR_QUARTER ], indexes: ballIndexes }));
     }
 
-    private calculateNumbersByYearDayNumber(dateRange: DateScoreFilter): void {
-        this.numbersByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
+    public calculateNumbersByYearDayNumber([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersByYearDayNumber$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ], indexes: ballIndexes }));
     }
 
-    private calculateNumbersByMonthDayNumber(dateRange: DateScoreFilter): void {
-        this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
+    public calculateNumbersByMonthDayNumber([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
+        this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ], indexes: ballIndexes }));
     }
-    */
 }

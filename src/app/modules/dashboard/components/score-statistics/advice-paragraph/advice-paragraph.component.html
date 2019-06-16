@@ -1,6 +1,14 @@
 <p-accordion>
     <p-accordionTab [header]="title">
-        <nav *ngIf="!isGeneralAdvice" class="accordion-menu">
+        <div class="accordion-menu-top-level">
+            <span>
+                <p-selectButton (onChange)="sendSelectedNumberIndex()"
+                                [(ngModel)]="dateRange"
+                                [options]="dateRangeTypes">
+                </p-selectButton>
+            </span>
+        </div>
+        <div *ngIf="!isGeneralAdvice" class="accordion-menu-bottom-level">
             <span>
                 <p-selectButton (onChange)="sendSelectedNumberIndex()"
                                 (onOptionClick)="onOptionClick($event)"
@@ -11,16 +19,16 @@
             </span>
             <span>
                 <span *ngIf="isChartViewType">
-                <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="chartDataType" [options]="chartTypesButtonConfig"></p-selectButton>
+                    <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="chartDataType" [options]="chartTypesButtonConfig"></p-selectButton>
+                </span>
+                <span>
+                    <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="sortBy" [options]="sortTypesButtonConfig"></p-selectButton>
+                </span>
+                <span>
+                    <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="viewType" [options]="viewTypesButtonConfig"></p-selectButton>
+                </span>
             </span>
-            <span>
-                <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="sortBy" [options]="sortTypesButtonConfig"></p-selectButton>
-            </span>
-            <span>
-                <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="viewType" [options]="viewTypesButtonConfig"></p-selectButton>
-            </span>
-            </span>
-        </nav>
+        </div>
         <div *ngIf="isNumbersViewType" class="ball-data-container">
             <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data">
                 <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>

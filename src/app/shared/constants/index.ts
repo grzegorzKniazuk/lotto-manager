@@ -10,3 +10,5 @@ export * from './first-draw-date';
 export * from './score-filters-map';
 export * from './one-day-in-milliseconds';
 export * from './score-expressions-map';
+export * from './score-numbers-indexes-array';
+export * from './default-date-range-filter-with-ball-indexes-array';

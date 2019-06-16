@@ -4,7 +4,21 @@
     @include size(100%, 100%);
 }
 
-.accordion-menu {
+.accordion-menu-top-level {
+    @include flex(inline-flex, flex-start, center, row);
+    @include size(100%);
+    padding: $padding-l 0;
+
+    span {
+        span {
+            &:not(:last-of-type) {
+                margin-right: $margin-m;
+            }
+        }
+    }
+}
+
+.accordion-menu-bottom-level {
     @include flex(inline-flex, space-between, center, row);
     @include size(100%);
     padding: $padding-l 0;
