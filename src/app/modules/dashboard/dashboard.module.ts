@@ -9,7 +9,6 @@ import {
     GeneralStatisticsComponent,
     LotteryNumbersSetGeneratorComponent,
     NumberDataChartComponent,
-    NumbersOnIndexStatisticsComponent,
     NumbersStatisticsComponent,
     ScoreListComponent,
     ScoreStatisticsComponent,
@@ -29,7 +28,6 @@ const components = [
     BonusNumbersStatisticsComponent,
     BaseStatisticsComponent,
     NumbersStatisticsComponent,
-    NumbersOnIndexStatisticsComponent,
     GeneralStatisticsComponent,
     DateValueChartComponent,
 ];

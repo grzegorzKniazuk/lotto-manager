@@ -51,9 +51,10 @@ export const selectBonusNumberByFilter = createSelector(
 
 export const selectNumbersByFilter = createSelector(
     selectNumbersScores,
-    (scores: Partial<Score[]>, filters: ScoreFilter[]) => {
+    (scores: Partial<Score[]>, props: { filters: ScoreFilter[], indexes: BallIndexes }) => {
 
-        const [ filteredScores ] = filterScoresArray(scores)(filters);
+        const scoresFilteredByIndexes = props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores;
+        const [ filteredScores ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
         const flatScoresNumbers = scoresNumbersArraysToFlatNumbersArray(filteredScores);
 
         return mapNumbersArrayToBallValuePercentage(flatScoresNumbers);
@@ -62,9 +63,11 @@ export const selectNumbersByFilter = createSelector(
 
 export const selectNumbersByExpression = createSelector(
     selectNumbersScores,
-    (scores: Partial<Score[]>, props: { filters?: ScoreFilter[], expressions: ExpressionScore[], indexes?: BallIndexes }) => {
+    (scores: Partial<Score[]>, props: { filters: ScoreFilter[], expressions: ExpressionScore[], indexes: BallIndexes }) => {
 
-        const [ filteredScores ] = filterScoresArray(props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores)(props.filters);
+        const scoresFilteredByIndexes = props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores;
+
+        const [ filteredScores ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
 
         return dateValueMapByExpression(filteredScores)(props.expressions);
     },

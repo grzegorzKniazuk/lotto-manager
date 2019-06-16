@@ -92,8 +92,10 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         this.calculateNumbersByYearDayNumber(dateRange);
     }
 
-    private calculateNumbersFrequency(dateRange: DateScoreFilter): void {
-        this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange ]));
+    public calculateNumbersFrequency(numberIndexes: number[]): (dateRange: DateScoreFilter) => void {
+        return (dateRange: DateScoreFilter) => {
+            this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange ], indexes: numberIndexes }));
+        };
     }
 
     private calculateNumbersFrequencyByDayOfTheWeek(dateRange: DateScoreFilter): void {

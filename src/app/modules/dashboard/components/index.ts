@@ -6,6 +6,5 @@ export * from './score-statistics/advice-paragraph/number-data-chart/number-data
 export * from './score-statistics/bonus-numbers-statistics/bonus-numbers-statistics.component';
 export * from './score-statistics/base-statistics/base-statistics.component';
 export * from './score-statistics/numbers-statistics/numbers-statistics.component';
-export * from './score-statistics/numbers-on-index-statistics/numbers-on-index-statistics.component';
 export * from './score-statistics/general-statistics/general-statistics.component';
 export * from './score-statistics/advice-paragraph/date-value-chart/date-value-chart.component';

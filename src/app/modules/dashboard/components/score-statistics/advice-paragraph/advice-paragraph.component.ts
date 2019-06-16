@@ -15,15 +15,20 @@ export class AdviceParagraphComponent {
     @Input() public readonly title: string;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
-    @Output() public readonly onSelectNumberIndexChange: EventEmitter<number> = new EventEmitter<number>();
+    @Output() public readonly onSelectNumberIndexChange: EventEmitter<number[]> = new EventEmitter<number[]>();
+
     public numberIndexButtonConfig = this.numberIndexButtonOptions;
-    public numberIndex = 0;
+    public numberIndex = [ 0, 1, 2, 3, 4 ];
+
     public sortBy: SortBy = SortBy.VALUE;
     public sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
+
     public viewType: DataViewType = DataViewType.NUMBERS;
     public viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
+
     public chartDataType: ChartDataType = ChartDataType.VALUES;
     public chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
+
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
 
     public get isChartViewType(): boolean {
@@ -43,11 +48,12 @@ export class AdviceParagraphComponent {
 
     private get numberIndexButtonOptions(): SelectItem[] {
         return [
-            { label: '1', value: 0 },
-            { label: '2', value: 1 },
-            { label: '3', value: 2 },
-            { label: '4', value: 3 },
-            { label: '5', value: 4 },
+            { label: 'Wszystkie', value: [ 0, 1, 2, 3, 4 ] },
+            { label: '1', value: [ 0 ] },
+            { label: '2', value: [ 1 ] },
+            { label: '3', value: [ 2 ] },
+            { label: '4', value: [ 3 ] },
+            { label: '5', value: [ 4 ] },
         ];
     }
 

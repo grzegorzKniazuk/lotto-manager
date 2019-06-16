@@ -4,10 +4,6 @@
 </div>
 <div class="tips-container">
     <lm-general-statistics *ngIf="adviceType === 'general'" [dateRange]="dateRange"></lm-general-statistics>
-    <ng-container *ngIf="adviceType === 'numbers'">
-        <lm-numbers-statistics [dateRange]="dateRange"></lm-numbers-statistics>
-        <div>Dla numerów indeksów</div>
-        <lm-numbers-on-index-statistics [dateRange]="dateRange"></lm-numbers-on-index-statistics>
-    </ng-container>
+    <lm-numbers-statistics *ngIf="adviceType === 'numbers'" [dateRange]="dateRange"></lm-numbers-statistics>
     <lm-bonus-numbers-statistics *ngIf="adviceType === 'bonus_number'" [dateRange]="dateRange"></lm-bonus-numbers-statistics>
 </div>
