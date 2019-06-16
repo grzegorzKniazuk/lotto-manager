@@ -23,8 +23,6 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent implemen
     public medianAbsoluteDeviationScoreNumbers$: Observable<DateValueMap>;
     public productScoreNumbers$: Observable<DateValueMap>;
     public standardDeviationScoreNumbers$: Observable<DateValueMap>;
-    public multinominalCoefficientsScoreNumbers$: Observable<DateValueMap>;
-    public kullbackLeiblerDivergenceScoreNumbers$: Observable<DateValueMap>;
     public greatestCommonDivisorScoreNumbers$: Observable<DateValueMap>;
     public leastCommonMultipleScoreNumbers$: Observable<DateValueMap>;
 
@@ -47,8 +45,6 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent implemen
         this.calculateMedianAbsoluteDeviationScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateProductScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateStandardDeviationScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateMultinominalCoefficientsScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateKullbackLeiblerDivergenceScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateGreatestCommonDivisorScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateLeastCommonMultipleScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
     }
@@ -87,22 +83,6 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent implemen
 
     public calculateStandardDeviationScoreNumbers([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
         this.standardDeviationScoreNumbers$ = this.store.pipe(select(selectNumbersByExpression, { filters: [ dateRange ], indexes: ballIndexes, expressions: [ ExpressionScore.STANDARD_DEVIATION ] }));
-    }
-
-    public calculateMultinominalCoefficientsScoreNumbers([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
-        this.multinominalCoefficientsScoreNumbers$ = this.store.pipe(select(selectNumbersByExpression, {
-            filters: [ dateRange ],
-            indexes: ballIndexes,
-            expressions: [ ExpressionScore.MULTINOMINAL_COEFFICENTS ],
-        }));
-    }
-
-    public calculateKullbackLeiblerDivergenceScoreNumbers([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
-        this.kullbackLeiblerDivergenceScoreNumbers$ = this.store.pipe(select(selectNumbersByExpression, {
-            filters: [ dateRange ],
-            indexes: ballIndexes,
-            expressions: [ ExpressionScore.KULLBACK_LEIBLER_DIVERGENCE ],
-        }));
     }
 
     public calculateGreatestCommonDivisorScoreNumbers([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {

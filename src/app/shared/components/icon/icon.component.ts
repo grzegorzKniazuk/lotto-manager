@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, Output } from '@angular/core';
 import { MaterialIconColor, MaterialIconSize } from 'src/app/shared/enums';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
@@ -10,8 +10,9 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 })
 export class IconComponent {
 
-    @Input() public iconSize: MaterialIconSize | string = MaterialIconSize.MD_24;
-    @Input() public iconColor: MaterialIconColor | string = MaterialIconColor.MD_DARK;
+    @Input() public readonly iconSize: MaterialIconSize | string = MaterialIconSize.MD_24;
+    @Input() public readonly iconColor: MaterialIconColor | string = MaterialIconColor.MD_DARK;
+    @Input() public readonly clickable = false;
 
     constructor(
         private readonly domSanitizer: DomSanitizer,
@@ -19,7 +20,11 @@ export class IconComponent {
     }
 
     public get cssClasses(): string {
-        return `material-icons ${this.iconSize} ${this.iconColor}`;
+        if (this.clickable) {
+            return `material-icons clickable ${this.iconSize} ${this.iconColor}`;
+        } else {
+            return `material-icons ${this.iconSize} ${this.iconColor}`;
+        }
     }
 
     @HostBinding('style')
@@ -38,6 +43,5 @@ export class IconComponent {
                 return this.domSanitizer.bypassSecurityTrustStyle(`height: 48px; width: 48px;`);
             }
         }
-
     }
 }

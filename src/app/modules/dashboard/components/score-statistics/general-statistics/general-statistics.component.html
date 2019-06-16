@@ -27,7 +27,7 @@
                      [isNumberIndexAdvice]="true"
                      [numberMapArray]="medianAbsoluteDeviationScoreNumbers"
                      (onSelectNumberIndexChange)="calculateMedianAbsoluteDeviationScoreNumbers($event)"
-                     title="Mediana bezwzględnego odchylenia liczb w losowaniu"></lm-advice-paragraph>
+                     title="Średnie odchylenie bezwzględne liczb w losowaniu"></lm-advice-paragraph>
 <lm-advice-paragraph *ngIf="productScoreNumbers$ | async as productScoreNumbers"
                      [isGeneralAdvice]="true"
                      [isNumberIndexAdvice]="true"
@@ -40,18 +40,6 @@
                      [numberMapArray]="standardDeviationScoreNumbers"
                      (onSelectNumberIndexChange)="calculateStandardDeviationScoreNumbers($event)"
                      title="Odchylenie standardowe liczb w losowaniu"></lm-advice-paragraph>
-<lm-advice-paragraph *ngIf="multinominalCoefficientsScoreNumbers$ | async as multinominalCoefficientsScoreNumbers"
-                     [isGeneralAdvice]="true"
-                     [isNumberIndexAdvice]="true"
-                     [numberMapArray]="multinominalCoefficientsScoreNumbers"
-                     (onSelectNumberIndexChange)="calculateMultinominalCoefficientsScoreNumbers($event)"
-                     title="Współczynnik wielomianowy liczb w losowaniu"></lm-advice-paragraph>
-<lm-advice-paragraph *ngIf="kullbackLeiblerDivergenceScoreNumbers$ | async as kullbackLeiblerDivergenceScoreNumbers"
-                     [isGeneralAdvice]="true"
-                     [isNumberIndexAdvice]="true"
-                     [numberMapArray]="kullbackLeiblerDivergenceScoreNumbers"
-                     (onSelectNumberIndexChange)="calculateKullbackLeiblerDivergenceScoreNumbers($event)"
-                     title="Rozbieżność Kullbacka-Leiblera liczb dla poprzedzających się losowań"></lm-advice-paragraph>
 <lm-advice-paragraph *ngIf="greatestCommonDivisorScoreNumbers$ | async as greatestCommonDivisorScoreNumbers"
                      [isGeneralAdvice]="true"
                      [isNumberIndexAdvice]="true"

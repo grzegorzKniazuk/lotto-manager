@@ -1,24 +1,17 @@
 <p-accordion>
     <p-accordionTab [header]="title">
-        <div class="accordion-menu-top-level">
-            <span>
-                <p-selectButton (onChange)="sendSelectedNumberIndex()"
-                                [(ngModel)]="dateRange"
-                                [options]="dateRangeTypes">
-                </p-selectButton>
+        <nav class="accordion-menu">
+            <span class="accordion-menu-item">
+                <span>
+                    <p-selectButton (onChange)="sendSelectedNumberIndex()" [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
+                </span>
+                <span>
+                    <p-selectButton *ngIf="isNumberIndexAdvice" (onChange)="sendSelectedNumberIndex()" (onOptionClick)="onOptionClick($event)" [(ngModel)]="numberIndex" multiple="multiple"
+                                    [options]="numberIndexButtonConfig"></p-selectButton>
+                </span>
             </span>
-        </div>
-        <div class="accordion-menu-bottom-level">
-            <span>
-                <p-selectButton (onChange)="sendSelectedNumberIndex()"
-                                (onOptionClick)="onOptionClick($event)"
-                                *ngIf="isNumberIndexAdvice"
-                                [(ngModel)]="numberIndex"
-                                multiple="multiple"
-                                [options]="numberIndexButtonConfig">
-                </p-selectButton>
-            </span>
-            <span *ngIf="!isGeneralAdvice">
+
+            <span *ngIf="!isGeneralAdvice" class="accordion-menu-item">
                 <span *ngIf="isChartViewType">
                     <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="chartDataType" [options]="chartTypesButtonConfig"></p-selectButton>
                 </span>
@@ -29,7 +22,7 @@
                     <p-selectButton (onOptionClick)="onOptionClick($event)" [(ngModel)]="viewType" [options]="viewTypesButtonConfig"></p-selectButton>
                 </span>
             </span>
-        </div>
+        </nav>
         <div *ngIf="isNumbersViewType" class="ball-data-container">
             <div *ngFor="let numberData of (numberDataArray | numberDataArraySortBy:sortBy)" class="ball-data">
                 <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>

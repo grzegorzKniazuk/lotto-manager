@@ -5,7 +5,5 @@ export * from 'src/app/shared/utils/selectors-utils/expression-utils/median';
 export * from 'src/app/shared/utils/selectors-utils/expression-utils/median-absolute-deviation';
 export * from 'src/app/shared/utils/selectors-utils/expression-utils/product';
 export * from 'src/app/shared/utils/selectors-utils/expression-utils/standard-deviation';
-export * from './multinominal-coefficients';
-export * from './kullback-leibler-divergence';
 export * from './greatest-common-divisor';
 export * from './least-common-multiple';

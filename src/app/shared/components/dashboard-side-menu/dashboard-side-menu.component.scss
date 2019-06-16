@@ -7,6 +7,8 @@
     .logo {
         @include flex(flex, flex-start, center, row, relative);
         @include size(100%, 57px);
+        color: $base-font-color;
+        padding-left: $padding-m;
 
         img {
             @include size(45px, 45px);
@@ -16,7 +18,10 @@
         span {
             @include font('medium');
             margin-left: $margin-m;
-            color: $white;
+        }
+
+        &.menu-closed {
+            padding-left: $padding-s;
         }
     }
 
@@ -28,9 +33,10 @@
             @include flex(flex, flex-start, center, row, relative);
             @include size(100%, 44.6833px);
             padding-left: $padding-m;
-            color: $white;
+            color: $base-font-color;
             user-select: none;
             cursor: pointer;
+            text-wrap: none;
 
             &.active {
                 background: $primary;
@@ -38,6 +44,16 @@
 
             span {
                 margin-left: $margin-m;
+            }
+        }
+
+        &.menu-closed {
+            li {
+                padding-left: $padding-s;
+            }
+
+            span {
+                color: $prime-ng-table-header-color;
             }
         }
     }

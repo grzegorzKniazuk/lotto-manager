@@ -6,17 +6,30 @@
 
     .side-menu {
         position: fixed;
-        @include size(275px, 100%);
+        @include size(300px, 100%);
         top: 0;
         left: 0;
         background: $prime-ng-table-header-color;
+        transition: width 150ms ease-in;
+        overflow: hidden;
+
+        &.menu-closed {
+            @include size(46px, 100%);
+            transition: width 150ms ease-out;
+        }
     }
 
     .content {
         @include flex(inline-flex, flex-start, flex-start, row, relative);
         @include size(100%);
         min-height: 100%;
-        margin-left: 275px;
         background: $prime-ng-table-header-color;
+        margin-left: 300px;
+        transition: margin-left 150ms ease-in;
+
+        &.menu-closed {
+            margin-left: 46px;
+            transition: margin-left 150ms ease-out;
+        }
     }
 }

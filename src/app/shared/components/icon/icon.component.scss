@@ -1,0 +1,9 @@
+@import "base.scss";
+
+.clickable {
+    &:hover {
+        cursor: pointer;
+        color: $primary;
+        transition: color 150ms ease-in;
+    }
+}

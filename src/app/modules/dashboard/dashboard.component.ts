@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
     styleUrls: [ './dashboard.component.scss' ],
 })
 export class DashboardComponent {
+
+    public isMenuClosed = false;
+
+    public toggleMenu(): void {
+        this.isMenuClosed = !this.isMenuClosed;
+    }
 }

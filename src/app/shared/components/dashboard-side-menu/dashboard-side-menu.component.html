@@ -1,9 +1,10 @@
 <div class="side-menu-container">
-    <div class="logo">
+    <div class="logo" [ngClass]="{ 'menu-closed': isMenuClosed }">
+        <lm-icon [iconSize]="'md-36'" [clickable]="true" (click)="hamburgerIconClick()">menu</lm-icon>
         <img alt="" src="../../assets/images/app-logo.svg">
         <span>Game Manager</span>
     </div>
-    <ul class="router-menu">
+    <ul class="router-menu" [ngClass]="{ 'menu-closed': isMenuClosed }">
         <li routerLink="score-list" routerLinkActive="active">
             <lm-icon iconSize="md-36">table_chart</lm-icon>
             <span>Tabela wyników losowań</span></li>
@@ -17,7 +18,7 @@
             <lm-icon iconSize="md-36">videogame_asset</lm-icon>
             <span>Moje kupony</span></li>
     </ul>
-    <div class="timer-container">
+    <div class="timer-container" *ngIf="!isMenuClosed">
         <lm-timer></lm-timer>
     </div>
 </div>
