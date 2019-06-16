@@ -15,11 +15,6 @@ import { DateValueMap } from 'src/app/shared/types';
 })
 export class GeneralStatisticsComponent extends BaseStatisticsComponent {
 
-    @Input()
-    public set dateRange(dateRange: DateScoreFilter) {
-        this.calculate(dateRange);
-    }
-
     public sumOfScoreNumbersByDate$: Observable<DateValueMap>;
     public averageOfScoreNumbersByDate$: Observable<DateValueMap>;
     public minMaxDifferenceScoreNumbersByDate$: Observable<DateValueMap>;
@@ -37,6 +32,11 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent {
         private readonly store: Store<AppState>,
     ) {
         super(timeService);
+    }
+
+    @Input()
+    public set dateRange(dateRange: DateScoreFilter) {
+        this.calculate(dateRange);
     }
 
     private calculate(dateRange: DateScoreFilter): void {

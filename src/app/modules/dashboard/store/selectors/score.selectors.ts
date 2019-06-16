@@ -67,5 +67,5 @@ export const selectNumbersByExpression = createSelector(
         const [ filteredScores ] = filterScoresArray(props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores)(props.filters);
 
         return dateValueMapByExpression(filteredScores)(props.expressions);
-    }
+    },
 );

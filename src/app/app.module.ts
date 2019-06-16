@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from 'src/app/store';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor, HttpErrorInterceptor } from 'src/app/shared/interceptors';
 import { ToastrModule } from 'ngx-toastr';
 import { NgProgressInterceptor, NgProgressModule } from 'ngx-progressbar';
+import { AuthInterceptor, HttpErrorInterceptor } from '@shared/interceptors';
 
 @NgModule({
     declarations: [

@@ -1,10 +1,15 @@
 import { ExpressionScore } from 'src/app/shared/enums';
 import {
-    average, greatestCommonDivisor, kullbackLeiblerDivergence, leastCommonMultiple,
+    average,
+    greatestCommonDivisor,
+    kullbackLeiblerDivergence,
+    leastCommonMultiple,
     medianAbsoluteDeviation,
     medianArray,
-    minMaxDifference, multinominalCoefficients,
-    product, standardDeviation,
+    minMaxDifference,
+    multinominalCoefficients,
+    product,
+    standardDeviation,
     sumArray,
 } from 'src/app/shared/utils/selectors-utils/expression-utils';
 

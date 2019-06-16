@@ -1,6 +1,6 @@
 <p-accordion>
     <p-accordionTab [header]="title">
-        <nav class="accordion-menu" *ngIf="!isGeneralAdvice">
+        <nav *ngIf="!isGeneralAdvice" class="accordion-menu">
             <span>
                 <p-selectButton (onChange)="sendSelectedNumberIndex()"
                                 (onOptionClick)="onOptionClick($event)"
