@@ -1,8 +1,8 @@
 <lm-advice-paragraph *ngIf="numbersFrequency$ | async as numbersFrequency"
                      [numberDataArray]="numbersFrequency"
                      [isNumberIndexAdvice]="true"
-                     (onSelectNumberIndexChange)="calculateNumbersFrequency($event)()"
-                     [title]="numbersFrequencyLabel"></lm-advice-paragraph>
+                     (onSelectNumberIndexChange)="calculateNumbersFrequency($event)"
+                     title="Częstotliwość losowania wszystkich liczb"></lm-advice-paragraph>
 <lm-advice-paragraph *ngIf="numbersFrequencyByDayOfTheWeek$ | async as numbersFrequencyByDayOfTheWeek"
                      [numberDataArray]="numbersFrequencyByDayOfTheWeek"
                      [isNumberIndexAdvice]="true"

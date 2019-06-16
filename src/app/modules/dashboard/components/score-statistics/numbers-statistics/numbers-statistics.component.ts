@@ -36,10 +36,6 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         this.calculate(dateRange);
     }
 
-    public get numbersFrequencyLabel(): string {
-        return `Częstotliwość losowania wszystkich liczb`;
-    }
-
     public get numbersFrequencyByDayOfTheWeekLabel(): string {
         return `Częstotliwość losowania wszystkich liczb w dniu tygodnia ${this.todayDayName}`;
     }
@@ -81,8 +77,9 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculate(dateRange) {
+    private calculate(dateRange: DateScoreFilter) {
         this.calculateNumbersFrequency(dateRange);
+        /*
         this.calculateNumbersFrequencyByDayOfTheWeek(dateRange);
         this.calculateNumbersByOddOrEvenDay(dateRange);
         this.calculateNumbersByOddOrEvenMonth(dateRange);
@@ -90,14 +87,14 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
         this.calculateNumbersByMonthDayNumber(dateRange);
         this.calculateNumbersInActualMonthName(dateRange);
         this.calculateNumbersByYearDayNumber(dateRange);
+        */
     }
 
-    public calculateNumbersFrequency(numberIndexes: number[]): (dateRange: DateScoreFilter) => void {
-        return (dateRange: DateScoreFilter) => {
-            this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange ], indexes: numberIndexes }));
-        };
+    public calculateNumbersFrequency(dateRange: DateScoreFilter): void {
+        this.numbersFrequency$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange ], indexes: [ 0, 1, 2, 3, 4 ] }));
     }
 
+    /*
     private calculateNumbersFrequencyByDayOfTheWeek(dateRange: DateScoreFilter): void {
         this.numbersFrequencyByDayOfTheWeek$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
     }
@@ -125,4 +122,5 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent {
     private calculateNumbersByMonthDayNumber(dateRange: DateScoreFilter): void {
         this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
     }
+    */
 }

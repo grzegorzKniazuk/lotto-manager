@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
-import { ExpressionScore, StoreFeatureNames } from 'src/app/shared/enums';
+import { DateScoreFilter, ExpressionScore, StoreFeatureNames } from 'src/app/shared/enums';
 import { Score } from 'src/app/shared/interfaces/score';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { pick } from 'lodash';
@@ -42,8 +42,8 @@ export const selectBonusNumberByFilter = createSelector(
     selectBonusNumbersScores,
     (scores: Partial<Score[]>, filters: ScoreFilter[]) => {
 
-        const [ filteredScores, arrayLength ] = filterScoresArray(scores)(filters);
-        const scoresCountedByBonusNumber = scoresCountBy(filteredScores)(SCORES_BONUS_NUMBER_KEY);
+        const [ scoresFilteredByFilters, arrayLength ] = filterScoresArray(scores)(filters);
+        const scoresCountedByBonusNumber = scoresCountBy(scoresFilteredByFilters)(SCORES_BONUS_NUMBER_KEY);
 
         return mapNumberKeyValueObjectToBallValuePercentage(scoresCountedByBonusNumber)(arrayLength);
     },
@@ -54,8 +54,8 @@ export const selectNumbersByFilter = createSelector(
     (scores: Partial<Score[]>, props: { filters: ScoreFilter[], indexes: BallIndexes }) => {
 
         const scoresFilteredByIndexes = props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores;
-        const [ filteredScores ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
-        const flatScoresNumbers = scoresNumbersArraysToFlatNumbersArray(filteredScores);
+        const [ scoresFilteredByFilters ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
+        const flatScoresNumbers = scoresNumbersArraysToFlatNumbersArray(scoresFilteredByFilters);
 
         return mapNumbersArrayToBallValuePercentage(flatScoresNumbers);
     },
@@ -63,12 +63,11 @@ export const selectNumbersByFilter = createSelector(
 
 export const selectNumbersByExpression = createSelector(
     selectNumbersScores,
-    (scores: Partial<Score[]>, props: { filters: ScoreFilter[], expressions: ExpressionScore[], indexes: BallIndexes }) => {
+    (scores: Partial<Score[]>, props: { filters: ScoreFilter[], indexes: BallIndexes, expressions: ExpressionScore[] }) => {
 
         const scoresFilteredByIndexes = props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores;
+        const [ scoresFilteredByFilters ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
 
-        const [ filteredScores ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
-
-        return dateValueMapByExpression(filteredScores)(props.expressions);
+        return dateValueMapByExpression(scoresFilteredByFilters)(props.expressions);
     },
 );

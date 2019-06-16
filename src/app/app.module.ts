@@ -13,7 +13,7 @@ import { metaReducers, reducers } from 'src/app/store';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NgProgressInterceptor, NgProgressModule } from 'ngx-progressbar';
-import { AuthInterceptor, HttpErrorInterceptor } from '@shared/interceptors';
+import { AuthInterceptor, HttpErrorInterceptor } from 'src/app/shared/interceptors';
 
 @NgModule({
     declarations: [
