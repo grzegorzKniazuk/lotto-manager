@@ -38,6 +38,7 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent implemen
     }
 
     private calculate(): void {
+        /*
         this.calculateSumOfScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateAverageOfScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateMinMaxDifferenceScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
@@ -47,6 +48,7 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent implemen
         this.calculateStandardDeviationScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateGreatestCommonDivisorScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateLeastCommonMultipleScoreNumbers(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        */
     }
 
     public calculateSumOfScoreNumbers([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {

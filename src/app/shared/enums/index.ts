@@ -12,3 +12,4 @@ export * from './data-view-type.enum';
 export * from './chart-data-type.enum';
 export * from './label-params-type.enum';
 export * from 'src/app/shared/enums/expression-score.enum';
+export * from './score-expression.enum';

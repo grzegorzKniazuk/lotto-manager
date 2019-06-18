@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ChartDataType, DataViewType, DateScoreFilter, SortBy } from 'src/app/shared/enums';
+import { ChartDataType, DataViewType, DateScoreFilter, ScoreExpression, SortBy } from 'src/app/shared/enums';
 import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 import { DateRangeFilterWithBallIndexesArray } from 'src/app/shared/types';
+import { ScoreService } from '../../../../../shared/services/score.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -16,6 +18,7 @@ export class AdviceParagraphComponent {
     @Input() public readonly title: string;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
+    @Input() public readonly scoreExpression: ScoreExpression;
     @Output() public readonly onSelectNumberIndexChange: EventEmitter<DateRangeFilterWithBallIndexesArray> = new EventEmitter<DateRangeFilterWithBallIndexesArray>();
 
     public numberIndex = [ 0, 1, 2, 3, 4 ];
@@ -34,6 +37,13 @@ export class AdviceParagraphComponent {
     public readonly chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
 
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
+
+    public numbersDateValueArray$: Observable<[string, number][]>;
+
+    constructor(
+        private readonly scoreService: ScoreService,
+    ) {
+    }
 
     public get isChartViewType(): boolean {
         return this.viewType === DataViewType.CHART;
@@ -90,6 +100,12 @@ export class AdviceParagraphComponent {
 
     public sendSelectedNumberIndex(): void {
         this.onSelectNumberIndexChange.emit([ this.dateRange, this.numberIndex ]);
+    }
+
+    public onAccordionOpen(): void {
+        this.numbersDateValueArray$ = this.scoreService.scoreNumbersDateValueArray({
+            expression: ScoreExpression.SUM,
+        });
     }
 }
 

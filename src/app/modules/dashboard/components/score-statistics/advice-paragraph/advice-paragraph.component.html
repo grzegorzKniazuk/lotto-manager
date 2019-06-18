@@ -1,4 +1,4 @@
-<p-accordion>
+<p-accordion (onOpen)="onAccordionOpen()">
     <p-accordionTab [header]="title">
         <nav class="accordion-menu">
             <span class="accordion-menu-item">
@@ -34,7 +34,7 @@
                               [numberDataArray]="numberDataArray | numberDataArraySortBy:sortBy"
                               [sortBy]="sortBy">
         </lm-number-data-chart>
-        <lm-date-value-chart *ngIf="isGeneralAdvice" [numberMapArray]="numberMapArray"></lm-date-value-chart>
+        <lm-date-value-chart *ngIf="isGeneralAdvice && this.numbersDateValueArray$ | async as numbersDateValueArray" [numbersDateValueArray]="numbersDateValueArray"></lm-date-value-chart>
     </p-accordionTab>
 </p-accordion>
 <div #accordionBottomAnchor hidden></div>

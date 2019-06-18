@@ -12,3 +12,4 @@ export * from './one-day-in-milliseconds';
 export * from './score-expressions-map';
 export * from './score-numbers-indexes-array';
 export * from './default-date-range-filter-with-ball-indexes-array';
+export * from './score-query-params-expression-key';

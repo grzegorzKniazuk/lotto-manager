@@ -1,7 +1,6 @@
-<lm-advice-paragraph *ngIf="sumOfScoreNumbers$ | async as sumOfScoreNumbers"
-                     [isGeneralAdvice]="true"
+<lm-advice-paragraph [isGeneralAdvice]="true"
                      [isNumberIndexAdvice]="true"
-                     [numberMapArray]="sumOfScoreNumbers"
+                     [scoreExpression]="'sum'"
                      (onSelectNumberIndexChange)="calculateSumOfScoreNumbers($event)"
                      title="Suma liczb w losowaniu"></lm-advice-paragraph>
 <lm-advice-paragraph *ngIf="averageOfScoreNumbers$ | async as averageOfScoreNumbers"
