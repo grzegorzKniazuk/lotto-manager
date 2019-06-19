@@ -33,10 +33,6 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent implemen
         super(timeService);
     }
 
-    public ngOnInit(): void {
-        this.calculate();
-    }
-
     public get numbersFrequencyByDayOfTheWeekLabel(): string {
         return `Częstotliwość losowania wszystkich liczb w dniu tygodnia ${this.todayDayName}`;
     }
@@ -78,15 +74,8 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent implemen
         return `Częstoliwość losowania liczb w ${this.timeService.todayMonthDayNumber} dniu miesiąca`;
     }
 
-    private calculate() {
-        this.calculateNumbersFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersFrequencyByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateNumbersByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+    public ngOnInit(): void {
+        this.calculate();
     }
 
     public calculateNumbersFrequency([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
@@ -119,5 +108,16 @@ export class NumbersStatisticsComponent extends BaseStatisticsComponent implemen
 
     public calculateNumbersByMonthDayNumber([ dateRange, ballIndexes ]: DateRangeFilterWithBallIndexesArray): void {
         this.numbersByMonthDayNumber$ = this.store.pipe(select(selectNumbersByFilter, { filters: [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ], indexes: ballIndexes }));
+    }
+
+    private calculate() {
+        this.calculateNumbersFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersFrequencyByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateNumbersByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
     }
 }

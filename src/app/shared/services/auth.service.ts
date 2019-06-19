@@ -27,19 +27,19 @@ export class AuthService {
 
     public register(user: Partial<User>): void {
         this.httpClient.post(`${API_URL}/${this.endpoint}/register`, user)
-        .subscribe(() => {
-            this.router.navigateByUrl('login').then(() => {
-                this.toastService.success('Konto użytkownika zostało utworzone');
+            .subscribe(() => {
+                this.router.navigateByUrl('login').then(() => {
+                    this.toastService.success('Konto użytkownika zostało utworzone');
+                });
             });
-        });
     }
 
     public login({ username, password }: Partial<User>): void {
         this.httpClient.post(`${API_URL}/${this.endpoint}/login`, { username, password })
-        .subscribe(({ username, token }: { username: string, token: string }) => {
-            this.store.dispatch(new LOGIN({ username, token }));
-            this.router.navigateByUrl('dashboard');
-        });
+            .subscribe(({ username, token }: { username: string, token: string }) => {
+                this.store.dispatch(new LOGIN({ username, token }));
+                this.router.navigateByUrl('dashboard');
+            });
     }
 
     public authorize(token: string): Observable<boolean> {

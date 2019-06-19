@@ -5,7 +5,8 @@ import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.componen
 import {
     AdviceParagraphComponent,
     BaseStatisticsComponent,
-    BonusNumbersStatisticsComponent, DateValueChartComponent,
+    BonusNumbersStatisticsComponent,
+    DateValueChartComponent,
     GeneralStatisticsComponent,
     LotteryNumbersSetGeneratorComponent,
     NumberDataChartComponent,

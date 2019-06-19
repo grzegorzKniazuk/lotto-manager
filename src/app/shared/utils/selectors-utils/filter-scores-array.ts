@@ -8,7 +8,7 @@ import { DateScoreFilter } from 'src/app/shared/enums';
 export function filterScoresArray(scores: Partial<Score[]>): (scoreFilters: ScoreFilter[]) => [ Array<Score>, number ] {
     let filteredScores: Score[] = [ ...scores ];
 
-    return function (scoreFilters: ScoreFilter[] = []): [ Array<Score>, number ] {
+    return function(scoreFilters: ScoreFilter[] = []): [ Array<Score>, number ] {
 
         forEach(scoreFilters, (scoreFilter: ScoreFilter) => {
             if (scoreFilter in DateScoreFilter) {

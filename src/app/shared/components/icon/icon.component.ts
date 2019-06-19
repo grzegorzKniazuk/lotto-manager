@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { MaterialIconColor, MaterialIconSize } from 'src/app/shared/enums';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 

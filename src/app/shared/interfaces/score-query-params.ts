@@ -1,7 +1,7 @@
-import { ScoreExpression } from '../enums';
+import { ScoreNumbersExpression } from '../enums';
 
 export interface ScoreQueryParams {
-    expression: ScoreExpression;
+    expression: ScoreNumbersExpression;
     startDate?: string;
     endDate?: string;
     indexes?: number[];

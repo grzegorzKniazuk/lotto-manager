@@ -16,4 +16,3 @@ export * from './selectors-utils/filter-scores-numbers-array-by-index';
 export * from './selectors-utils/filter-scores-array';
 export * from './selectors-utils/scores-count-by';
 export * from './selectors-utils/scores-numbers-arrays-to-flat-numbers-array';
-export * from './selectors-utils/date-value-map-by-expression';

@@ -9,7 +9,7 @@ export * from './base-chart-bar-border-color';
 export * from './first-draw-date';
 export * from './score-filters-map';
 export * from './one-day-in-milliseconds';
-export * from './score-expressions-map';
 export * from './score-numbers-indexes-array';
 export * from './default-date-range-filter-with-ball-indexes-array';
 export * from './score-query-params-expression-key';
+export * from './general-statistics-titles-map';

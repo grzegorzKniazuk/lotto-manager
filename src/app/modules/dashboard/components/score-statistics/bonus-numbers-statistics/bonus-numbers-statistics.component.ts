@@ -78,19 +78,6 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent imp
         this.calculate();
     }
 
-    private calculate(): void {
-        this.calculateBonusNumberFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumbersByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-
-        this.calculateBonusNumberByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-
-        this.calculateBonusNumberByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-    }
-
     public calculateBonusNumberFrequency([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange ]));
     }
@@ -121,6 +108,19 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent imp
 
     public calculateBonusNumberByMonthDayNumber([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
         this.bonusNumberByMonthDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
+    }
+
+    private calculate(): void {
+        this.calculateBonusNumberFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumbersByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+
+        this.calculateBonusNumberByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+
+        this.calculateBonusNumberByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
+        this.calculateBonusNumberInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
     }
 
 }

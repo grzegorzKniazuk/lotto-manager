@@ -5,7 +5,7 @@ import { mapValues } from 'lodash';
 export function mapNumberKeyValueObjectToBallValuePercentage(values: { [key: string]: number }): (numberOfElements: number) => NumberBallValuePercentage[] {
     const resultArray = [];
 
-    return function (numberOfElements: number): NumberBallValuePercentage[] {
+    return function(numberOfElements: number): NumberBallValuePercentage[] {
         if (values) {
             mapValues(values, (value, index) => {
                 resultArray.push({

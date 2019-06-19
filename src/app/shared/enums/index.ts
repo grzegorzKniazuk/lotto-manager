@@ -1,6 +1,5 @@
 export * from './material-icon-size.enum';
 export * from './material-icon-color.enum';
-export * from './input-add-on-theme.enum';
 export * from './form-control-status.enum';
 export * from './store-feature-names.enum';
 export * from './api-status-code.enum';
@@ -10,6 +9,4 @@ export * from './advice.type.enum';
 export * from './sort-by.enum';
 export * from './data-view-type.enum';
 export * from './chart-data-type.enum';
-export * from './label-params-type.enum';
-export * from 'src/app/shared/enums/expression-score.enum';
-export * from './score-expression.enum';
+export * from './score-numbers-expression.enum';

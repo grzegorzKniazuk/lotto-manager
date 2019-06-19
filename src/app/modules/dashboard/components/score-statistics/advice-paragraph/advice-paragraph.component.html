@@ -3,11 +3,11 @@
         <nav class="accordion-menu">
             <span class="accordion-menu-item">
                 <span>
-                    <p-selectButton (onChange)="sendSelectedNumberIndex()" [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
+                    <p-selectButton [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
                 </span>
                 <span>
-                    <p-selectButton *ngIf="isNumberIndexAdvice" (onChange)="sendSelectedNumberIndex()" (onOptionClick)="onOptionClick($event)" [(ngModel)]="numberIndex" multiple="multiple"
-                                    [options]="numberIndexButtonConfig"></p-selectButton>
+                    <p-selectButton (onOptionClick)="onOptionClick($event)" *ngIf="isNumberIndexAdvice" [(ngModel)]="numberIndex" [options]="numberIndexButtonConfig"
+                                    multiple="multiple"></p-selectButton>
                 </span>
             </span>
 

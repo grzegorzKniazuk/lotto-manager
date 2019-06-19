@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ChartDataType, DataViewType, DateScoreFilter, ScoreExpression, SortBy } from 'src/app/shared/enums';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChartDataType, DataViewType, DateScoreFilter, ScoreNumbersExpression, SortBy } from 'src/app/shared/enums';
 import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
-import { DateRangeFilterWithBallIndexesArray } from 'src/app/shared/types';
-import { ScoreService } from '../../../../../shared/services/score.service';
+import { ScoreService } from 'src/app/shared/services/score.service';
 import { Observable } from 'rxjs';
+import { DateValueArray } from 'src/app/shared/types';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -14,14 +14,11 @@ import { Observable } from 'rxjs';
 })
 export class AdviceParagraphComponent {
     @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
-    @Input() public readonly numberMapArray: Map<string, number>;
     @Input() public readonly title: string;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
-    @Input() public readonly scoreExpression: ScoreExpression;
-    @Output() public readonly onSelectNumberIndexChange: EventEmitter<DateRangeFilterWithBallIndexesArray> = new EventEmitter<DateRangeFilterWithBallIndexesArray>();
+    @Input() public readonly scoreExpression: ScoreNumbersExpression;
 
-    public numberIndex = [ 0, 1, 2, 3, 4 ];
     public readonly numberIndexButtonConfig = this.numberIndexButtonOptions;
 
     public dateRange: DateScoreFilter = DateScoreFilter.ENTIRE_RANGE;
@@ -35,10 +32,8 @@ export class AdviceParagraphComponent {
 
     public chartDataType: ChartDataType = ChartDataType.VALUES;
     public readonly chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
-
+    public numbersDateValueArray$: Observable<DateValueArray>;
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
-
-    public numbersDateValueArray$: Observable<[string, number][]>;
 
     constructor(
         private readonly scoreService: ScoreService,
@@ -98,13 +93,9 @@ export class AdviceParagraphComponent {
         this.accordionBottomAnchor.nativeElement.focus();
     }
 
-    public sendSelectedNumberIndex(): void {
-        this.onSelectNumberIndexChange.emit([ this.dateRange, this.numberIndex ]);
-    }
-
     public onAccordionOpen(): void {
         this.numbersDateValueArray$ = this.scoreService.scoreNumbersDateValueArray({
-            expression: ScoreExpression.SUM,
+            expression: this.scoreExpression,
         });
     }
 }

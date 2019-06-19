@@ -7,7 +7,7 @@ import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateValueChartComponent {
-    @Input() public readonly numbersDateValueArray: [string, number][];
+    @Input() public readonly numbersDateValueArray: [ string, number ][];
 
     public get chartData(): Object {
         return {
@@ -61,10 +61,10 @@ export class DateValueChartComponent {
     }
 
     private get dateLabels(): string[] {
-        return this.numbersDateValueArray.map((data: [string, number]) => data[0]);
+        return this.numbersDateValueArray.map((data: [ string, number ]) => data[0]);
     }
 
     private get values(): number[] {
-        return this.numbersDateValueArray.map((data: [string, number]) => data[1]);
+        return this.numbersDateValueArray.map((data: [ string, number ]) => data[1]);
     }
 }

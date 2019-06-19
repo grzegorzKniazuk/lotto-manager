@@ -1,8 +1,8 @@
 <div class="container">
-    <div class="side-menu" [ngClass]="{ 'menu-closed': isMenuClosed }">
+    <div [ngClass]="{ 'menu-closed': isMenuClosed }" class="side-menu">
         <lm-dashboard-side-menu (onMenuIconClick)="toggleMenu()"></lm-dashboard-side-menu>
     </div>
-    <div class="content" [ngClass]="{ 'menu-closed': isMenuClosed }">
+    <div [ngClass]="{ 'menu-closed': isMenuClosed }" class="content">
         <router-outlet></router-outlet>
     </div>
 </div>

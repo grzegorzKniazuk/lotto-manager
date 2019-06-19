@@ -1,19 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ScoreState } from 'src/app/modules/dashboard/store/reducers/score.reducer';
 import * as scoreEntitySelectors from '../reducers/score.reducer';
-import { ExpressionScore, StoreFeatureNames } from 'src/app/shared/enums';
+import { StoreFeatureNames } from 'src/app/shared/enums';
 import { Score } from 'src/app/shared/interfaces/score';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { pick } from 'lodash';
 import { BallIndexes, ScoreFilter } from 'src/app/shared/types';
-import {
-    dateValueMapByExpression,
-    filterScoresArray,
-    filterScoresNumbersArrayByIndex,
-    mapNumberKeyValueObjectToBallValuePercentage,
-    mapNumbersArrayToBallValuePercentage,
-    scoresCountBy,
-} from 'src/app/shared/utils';
+import { filterScoresArray, filterScoresNumbersArrayByIndex, mapNumberKeyValueObjectToBallValuePercentage, mapNumbersArrayToBallValuePercentage, scoresCountBy } from 'src/app/shared/utils';
 import { scoresNumbersArraysToFlatNumbersArray } from 'src/app/shared/utils/selectors-utils/scores-numbers-arrays-to-flat-numbers-array';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
@@ -58,16 +51,5 @@ export const selectNumbersByFilter = createSelector(
         const flatScoresNumbers = scoresNumbersArraysToFlatNumbersArray(scoresFilteredByFilters);
 
         return mapNumbersArrayToBallValuePercentage(flatScoresNumbers);
-    },
-);
-
-export const selectNumbersByExpression = createSelector(
-    selectNumbersScores,
-    (scores: Partial<Score[]>, props: { filters: ScoreFilter[], indexes: BallIndexes, expressions: ExpressionScore[] }) => {
-
-        const scoresFilteredByIndexes = props.indexes ? filterScoresNumbersArrayByIndex(scores, props.indexes) : scores;
-        const [ scoresFilteredByFilters ] = filterScoresArray(scoresFilteredByIndexes)(props.filters);
-
-        return dateValueMapByExpression(scoresFilteredByFilters)(props.expressions);
     },
 );
