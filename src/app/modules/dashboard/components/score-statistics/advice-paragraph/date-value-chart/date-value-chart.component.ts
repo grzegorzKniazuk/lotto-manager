@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT_COLOR, BASE_FONT_SIZE } from 'src/app/shared/constants';
+import { DateValueArray } from 'src/app/shared/types';
 
 @Component({
     selector: 'lm-date-value-chart',
@@ -7,7 +8,7 @@ import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateValueChartComponent {
-    @Input() public readonly numbersDateValueArray: [ string, number ][];
+    @Input() public readonly numbersDateValueArray: DateValueArray;
 
     public get chartData(): Object {
         return {
