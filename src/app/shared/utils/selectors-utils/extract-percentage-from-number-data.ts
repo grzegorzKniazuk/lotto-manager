@@ -1,5 +1,5 @@
-import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
+import { BallValuePercentage } from 'src/app/shared/interfaces';
 
-export function extractPercentageFromNumberData(numberData: NumberBallValuePercentage): number {
+export function extractPercentageFromNumberData(numberData: BallValuePercentage): number {
     return numberData.percentage;
 }

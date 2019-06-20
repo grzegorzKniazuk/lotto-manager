@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_URL, SCORE_QUERY_PARAMS_EXPRESSION_KEY } from 'src/app/shared/constants';
-import { Score } from 'src/app/shared/interfaces/score';
+import { API_URL } from 'src/app/shared/constants';
 import { Observable } from 'rxjs';
-import { ScoreQueryParams } from '../interfaces';
-import { omit } from 'lodash';
+import { Score, ScoreQueryParams } from 'src/app/shared/interfaces';
 import { shareReplay } from 'rxjs/operators';
+import { ScoreNumbersExpression, ScoreNumbersFilters } from 'src/app/shared/enums';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +20,11 @@ export class ScoreService {
         return this.httpClient.get<Score[]>(`${API_URL}/scores`);
     }
 
-    public scoreNumbersDateValueArray(scoreQueryParams: ScoreQueryParams): Observable<[ string, number ][]> {
-        return this.httpClient.post<[ string, number ][]>(`${API_URL}/scores/${scoreQueryParams.expression}`, omit(scoreQueryParams, SCORE_QUERY_PARAMS_EXPRESSION_KEY)).pipe(shareReplay());
+    public scoreNumbersDateValueArray<T>(expression: ScoreNumbersExpression, scoreQueryParams: ScoreQueryParams): Observable<T> {
+        return this.httpClient.post<T>(`${API_URL}/scores/${expression}`, scoreQueryParams).pipe(shareReplay());
+    }
+
+    public scoreNumbersBallValuePercentageArray<T>(filter: ScoreNumbersFilters, scoreQueryParams: ScoreQueryParams): Observable<T> {
+        return this.httpClient.post<T>(`${API_URL}/scores/${filter}`, scoreQueryParams).pipe(shareReplay());
     }
 }

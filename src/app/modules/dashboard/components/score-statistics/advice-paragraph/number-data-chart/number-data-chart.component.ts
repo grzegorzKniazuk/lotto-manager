@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
 import { values } from 'lodash';
 import * as R from 'ramda';
 import { mapNumberDataArrayToBallNumberArray, mapNumberDataArrayToPercentageArray, mapNumberDataArrayToValueArray } from 'src/app/shared/utils';
@@ -13,7 +12,7 @@ import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT
 })
 export class NumberDataChartComponent {
 
-    @Input() public readonly numberDataArray: NumberBallValuePercentage[];
+    @Input() public readonly numberDataArray: BallValuePercentageArray;
     @Input() public readonly chartDataType: ChartDataType;
     @Input() public readonly sortBy: SortBy;
 

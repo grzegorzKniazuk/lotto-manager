@@ -1,33 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
-import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
-import { TimeService } from 'src/app/shared/services/time.service';
 
 @Component({
     selector: 'lm-bonus-numbers-statistics',
     templateUrl: './bonus-numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
+export class BonusNumbersStatisticsComponent {
 
-    public bonusNumberFrequency$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberInActualMonthName$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberByOddOrEvenDay$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberByOddOrEvenMonth$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberByYearQuarter$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberByYearDayNumber$: Observable<NumberBallValuePercentage[]>;
-    public bonusNumberByMonthDayNumber$: Observable<NumberBallValuePercentage[]>;
-
-    constructor(
-        timeService: TimeService,
-        private readonly store: Store<AppState>,
-    ) {
-        super(timeService);
-    }
+    public bonusNumberFrequency$: Observable<BallValuePercentageArray>;
+    public bonusNumberByDayOfTheWeek$: Observable<BallValuePercentageArray>;
+    public bonusNumberInActualMonthName$: Observable<BallValuePercentageArray>;
+    public bonusNumberByOddOrEvenDay$: Observable<BallValuePercentageArray>;
+    public bonusNumberByOddOrEvenMonth$: Observable<BallValuePercentageArray>;
+    public bonusNumberByYearQuarter$: Observable<BallValuePercentageArray>;
+    public bonusNumberByYearDayNumber$: Observable<BallValuePercentageArray>;
+    public bonusNumberByMonthDayNumber$: Observable<BallValuePercentageArray>;
 
     /*
     public get bonusNumberByDayOfTheWeekLabel(): string {

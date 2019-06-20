@@ -4,7 +4,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import {
     AdviceParagraphComponent,
-    BaseStatisticsComponent,
     BonusNumbersStatisticsComponent,
     DateValueChartComponent,
     GeneralStatisticsComponent,
@@ -27,7 +26,6 @@ const components = [
     AdviceParagraphComponent,
     NumberDataChartComponent,
     BonusNumbersStatisticsComponent,
-    BaseStatisticsComponent,
     NumbersStatisticsComponent,
     GeneralStatisticsComponent,
     DateValueChartComponent,

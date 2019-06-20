@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ChartDataType, DataViewType, ScoreNumbersExpression, ScoreNumbersFilters, SortBy } from 'src/app/shared/enums';
-import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
+import { OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 import { ScoreService } from 'src/app/shared/services/score.service';
 import { merge, Observable } from 'rxjs';
-import { DateValueArray } from 'src/app/shared/types';
+import { BallValuePercentageArray, DateValueArray } from 'src/app/shared/types';
 import { FIRST_DRAW_DATE, SCORE_NUMBERS_INDEXES_ARRAY } from 'src/app/shared/constants';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
@@ -18,7 +18,6 @@ import { ToastService } from 'src/app/shared/services/toast.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
-    public numberDataArray: NumberBallValuePercentage[] = [];
     @Input() public readonly title: string;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
@@ -27,22 +26,19 @@ export class AdviceParagraphComponent {
     @Input() public readonly scoreFilter: ScoreNumbersFilters;
 
     public readonly dateIndexesFilterForm: FormGroup = this.buildFilterForm;
-    private lastIndexesControlValue: number[];
-
     public readonly numberIndexButtonConfig = this.numberIndexButtonOptions;
     public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
-
     public sortBy: SortBy = SortBy.VALUE;
     public readonly sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
-
     public viewType: DataViewType = DataViewType.NUMBERS;
     public readonly viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
-
     public chartDataType: ChartDataType = ChartDataType.VALUES;
     public readonly chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
 
+    public numberBallValuePercentageArray$: Observable<BallValuePercentageArray>;
     public numbersDateValueArray$: Observable<DateValueArray>;
 
+    private lastIndexesControlValue: number[];
     @ViewChild('accordionBottomAnchor', { static: true }) private accordionBottomAnchor: ElementRef;
 
     constructor(
@@ -51,6 +47,14 @@ export class AdviceParagraphComponent {
         private readonly formBuilder: FormBuilder,
         private readonly toastService: ToastService,
     ) {
+    }
+
+    public get isChartViewType(): boolean {
+        return this.viewType === DataViewType.CHART;
+    }
+
+    public get isNumbersViewType(): boolean {
+        return this.viewType === DataViewType.NUMBERS;
     }
 
     private get buildFilterForm(): FormGroup {
@@ -66,14 +70,6 @@ export class AdviceParagraphComponent {
 
     private get indexesControl(): AbstractControl {
         return this.dateIndexesFilterForm.controls['indexes'];
-    }
-
-    public get isChartViewType(): boolean {
-        return this.viewType === DataViewType.CHART;
-    }
-
-    public get isNumbersViewType(): boolean {
-        return this.viewType === DataViewType.NUMBERS;
     }
 
     private get numberIndexButtonOptions(): SelectItem[] {
@@ -122,7 +118,19 @@ export class AdviceParagraphComponent {
     }
 
     public onAccordionOpen(): void {
-        this.numbersDateValueArray$ = merge(
+        if (this.scoreExpression) {
+            this.numbersDateValueArray$ = this.initStream<DateValueArray>();
+        } else if (this.scoreFilter) {
+            this.numberBallValuePercentageArray$ = this.initStream<BallValuePercentageArray>();
+        }
+    }
+
+    public onDateRangeSelectButtonChange(startDate: string): void {
+        this.dateRangeControl.setValue([ new Date(startDate), new Date() ]);
+    }
+
+    private initStream<T>(): Observable<T> {
+        return merge(
             this.dateRangeControl.valueChanges,
             this.indexesControl.valueChanges,
         ).pipe(
@@ -137,17 +145,24 @@ export class AdviceParagraphComponent {
             }),
             startWith([]),
             tap(() => this.lastIndexesControlValue = this.indexesControl.value),
-            switchMap(() => this.scoreService.scoreNumbersDateValueArray({
-                expression: this.scoreExpression,
-                startDate: this.dateRangeControl.value[0],
-                endDate: this.dateRangeControl.value[1],
-                indexes: this.indexesControl.value,
-            })),
+            switchMap(() => this.switchToExpressionOrFilter<T>()),
         );
     }
 
-    public onDateRangeSelectButtonChange(startDate: string): void {
-        this.dateRangeControl.setValue([ new Date(startDate), new Date() ]);
+    private switchToExpressionOrFilter<T>(): Observable<T> {
+        if (this.scoreExpression) {
+            return this.scoreService.scoreNumbersDateValueArray<T>(this.scoreExpression, {
+                startDate: this.dateRangeControl.value[0],
+                endDate: this.dateRangeControl.value[1],
+                indexes: this.indexesControl.value,
+            });
+        } else {
+            return this.scoreService.scoreNumbersBallValuePercentageArray<T>(this.scoreFilter, {
+                startDate: this.dateRangeControl.value[0],
+                endDate: this.dateRangeControl.value[1],
+                indexes: this.indexesControl.value,
+            });
+        }
     }
 }
 

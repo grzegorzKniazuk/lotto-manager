@@ -4,7 +4,7 @@ import { lotteryCouponValidity } from 'src/app/shared/validators/lottery-coupon-
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { TimeService } from 'src/app/shared/services/time.service';
-import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
+import { BallValuePercentage } from 'src/app/shared/interfaces';
 import { forEach, forIn, sortBy } from 'lodash';
 import { Bind } from 'lodash-decorators';
 
@@ -34,10 +34,10 @@ export class LotteryNumbersSetGeneratorComponent implements OnInit {
     }
 
     @Bind
-    private calculateNumberDrawFrequency(data: Partial<NumberBallValuePercentage>[]): void {
+    private calculateNumberDrawFrequency(data: Partial<BallValuePercentage>[]): void {
         const results = {};
 
-        forEach(data, (numberData: Partial<NumberBallValuePercentage>) => {
+        forEach(data, (numberData: Partial<BallValuePercentage>) => {
             if (results.hasOwnProperty(numberData.ball)) {
                 results[numberData.ball] = results[numberData.ball] + numberData.value;
             } else {

@@ -5,9 +5,6 @@ import { StoreFeatureNames } from 'src/app/shared/enums';
 import { Score } from 'src/app/shared/interfaces/score';
 import { SCORES_BONUS_NUMBER_KEY, SCORES_DATE_KEY, SCORES_NUMBERS_KEY } from 'src/app/shared/constants';
 import { pick } from 'lodash';
-import { BallIndexes, ScoreFilter } from 'src/app/shared/types';
-import { filterScoresArray, filterScoresNumbersArrayByIndex, mapNumberKeyValueObjectToBallValuePercentage, mapNumbersArrayToBallValuePercentage, scoresCountBy } from 'src/app/shared/utils';
-import { scoresNumbersArraysToFlatNumbersArray } from 'src/app/shared/utils/selectors-utils/scores-numbers-arrays-to-flat-numbers-array';
 
 export const selectScoreState = createFeatureSelector<ScoreState>(StoreFeatureNames.SCORE);
 
@@ -30,7 +27,7 @@ export const selectNumbersScores = createSelector(
     selectScores,
     (scores: Score[]) => scores.map(score => pick(score, [ SCORES_DATE_KEY, SCORES_NUMBERS_KEY ])),
 );
-
+/*
 export const selectBonusNumberByFilter = createSelector(
     selectBonusNumbersScores,
     (scores: Partial<Score[]>, filters: ScoreFilter[]) => {
@@ -41,6 +38,7 @@ export const selectBonusNumberByFilter = createSelector(
         return mapNumberKeyValueObjectToBallValuePercentage(scoresCountedByBonusNumber)(arrayLength);
     },
 );
+
 
 export const selectNumbersByFilter = createSelector(
     selectNumbersScores,
@@ -53,3 +51,4 @@ export const selectNumbersByFilter = createSelector(
         return mapNumbersArrayToBallValuePercentage(flatScoresNumbers);
     },
 );
+*/
