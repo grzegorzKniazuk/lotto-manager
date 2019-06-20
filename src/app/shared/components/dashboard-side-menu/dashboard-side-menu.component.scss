@@ -1,5 +1,7 @@
 @import "base.scss";
 
+$li-menu-height: 44.6833px;
+
 .side-menu-container {
     @include flex(flex, flex-start, center, column, relative);
     @include size(100%, 100%);
@@ -31,19 +33,54 @@
 
         li {
             @include flex(flex, flex-start, center, row, relative);
-            @include size(100%, 44.6833px);
+            @include size(100%, $li-menu-height);
             padding-left: $padding-m;
             color: $base-font-color;
             user-select: none;
             cursor: pointer;
-            text-wrap: none;
+            z-index: 1;
 
             &.active {
                 background: $primary;
             }
 
-            span {
+            span:not(.table-list-menu) {
                 margin-left: $margin-m;
+            }
+
+            &.table-list-menu {
+                @include flex(flex, center, flex-start, column, relative);
+                @include size(100%, 2 * $li-menu-height);
+                transition: height 150ms ease-in;
+                padding-left: $padding-m;
+
+                .table-list-menu-item {
+                    @include flex(flex, flex-start, center, row, relative);
+                    @include size(100%, $li-menu-height);
+                    overflow: hidden;
+                    margin-left: -$margin-m;
+
+                    img {
+                        margin-left: $margin-m;
+                        @include size(36px, 36px);
+                    }
+
+                    &.active {
+                        background: $primary;
+                    }
+                }
+
+                &.list-closed {
+                    height: 0;
+                    overflow: hidden;
+                    transition: height 150ms ease-out;
+                }
+
+                &.menu-closed:not(.list-closed) {
+                    .table-list-menu-item {
+                        width: 50px;
+                    }
+                }
             }
         }
 

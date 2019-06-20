@@ -10,14 +10,14 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class ScoreService {
 
-    private readonly featureUrl = 'scores';
+    private readonly featureUrl = 'ekstra_pensja';
 
     constructor(
         private readonly httpClient: HttpClient,
     ) {
     }
 
-    public loadScores(): Observable<Score[]> {
+    public ekstraPensjaScores(): Observable<Score[]> {
         return this.httpClient.get<Score[]>(`${API_URL}/${this.featureUrl}`);
     }
 

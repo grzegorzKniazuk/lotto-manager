@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
-import { LotteryNumbersSetGeneratorComponent, ScoreListComponent, ScoreStatisticsComponent } from 'src/app/modules/dashboard/components';
-import { ScoreListResolver } from 'src/app/shared/resolvers';
+import { EkstraPensjaListComponent, EkstraPremiaListComponent, LotteryNumbersSetGeneratorComponent, ScoreStatisticsComponent } from 'src/app/modules/dashboard/components';
+import { EkstraPensjaListResolver } from 'src/app/shared/resolvers';
 
 const routes: Routes = [
     {
-        path: '', component: DashboardComponent, resolve: { scores: ScoreListResolver }, children: [
+        path: '', component: DashboardComponent, children: [
             { path: '', redirectTo: 'score-list', pathMatch: 'full' },
-            { path: 'score-list', component: ScoreListComponent },
+            { path: 'ekstra-pensja-list', resolve: { scores: EkstraPensjaListResolver }, component: EkstraPensjaListComponent },
+            { path: 'ekstra-premia-list', component: EkstraPremiaListComponent },
             { path: 'score-statistics', component: ScoreStatisticsComponent },
             { path: 'number-set-generator', component: LotteryNumbersSetGeneratorComponent },
         ],

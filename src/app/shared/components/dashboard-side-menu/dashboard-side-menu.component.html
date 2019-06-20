@@ -1,22 +1,36 @@
 <div class="side-menu-container">
     <div [ngClass]="{ 'menu-closed': isMenuClosed }" class="logo">
         <lm-icon (click)="hamburgerIconClick()" [clickable]="true" [iconSize]="'md-36'">menu</lm-icon>
-        <img alt="" src="../../assets/images/app-logo.svg">
+        <img alt="" src="../../assets/images/ekstra-pensja-logo.svg">
         <span>Game Manager</span>
     </div>
     <ul [ngClass]="{ 'menu-closed': isMenuClosed }" class="router-menu">
-        <li routerLink="score-list" routerLinkActive="active">
+        <li (click)="toggleTableList()">
             <lm-icon iconSize="md-36">table_chart</lm-icon>
-            <span>Tabela wyników losowań</span></li>
+            <span>Tabele wyników losowań</span>
+        </li>
+        <li class="table-list-menu" [ngClass]="{ 'list-closed': isTableListClosed, 'menu-closed': isMenuClosed }">
+            <span class="table-list-menu-item" routerLink="ekstra-pensja-list" routerLinkActive="active">
+                <img src="../../assets/images/ekstra-pensja-logo.svg" alt="">
+                <span>Wyniki Ekstra Pensja</span>
+            </span>
+            <span class="table-list-menu-item" routerLink="ekstra-premia-list" routerLinkActive="active">
+                <img src="../../assets/images/ekstra-premia-logo.svg" alt="">
+                <span>Wyniki Ekstra Premia</span>
+            </span>
+        </li>
         <li routerLink="score-statistics" routerLinkActive="active">
             <lm-icon iconSize="md-36">show_chart</lm-icon>
-            <span>Statystyki wyników losowań</span></li>
+            <span>Statystyki wyników losowań</span>
+        </li>
         <li routerLink="number-set-generator" routerLinkActive="active">
             <lm-icon iconSize="md-36">games</lm-icon>
-            <span>Generuj zestaw liczb</span></li>
+            <span>Generuj zestaw liczb</span>
+        </li>
         <li routerLink="my-coupons-list" routerLinkActive="active">
             <lm-icon iconSize="md-36">videogame_asset</lm-icon>
-            <span>Moje kupony</span></li>
+            <span>Moje kupony</span>
+        </li>
     </ul>
     <div *ngIf="!isMenuClosed" class="timer-container">
         <lm-timer></lm-timer>

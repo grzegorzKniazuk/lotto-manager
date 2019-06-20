@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root',
 })
-export class ScoreListResolver implements Resolve<Score[]> {
+export class EkstraPensjaListResolver implements Resolve<Score[]> {
 
     constructor(
         private readonly scoreService: ScoreService,
@@ -20,7 +20,7 @@ export class ScoreListResolver implements Resolve<Score[]> {
     }
 
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Score[]> | Promise<Score[]> | Score[] {
-        return this.scoreService.loadScores().pipe(
+        return this.scoreService.ekstraPensjaScores().pipe(
             tap((scores: Score[]) => {
                 this.store.dispatch(new SET_SCORES({ scores }));
             }),

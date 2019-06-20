@@ -14,7 +14,7 @@
         overflow: hidden;
 
         &.menu-closed {
-            @include size(46px, 100%);
+            @include size(50px, 100%);
             transition: width 150ms ease-out;
         }
     }
@@ -28,7 +28,7 @@
         transition: margin-left 150ms ease-in;
 
         &.menu-closed {
-            margin-left: 46px;
+            margin-left: 50px;
             transition: margin-left 150ms ease-out;
         }
     }

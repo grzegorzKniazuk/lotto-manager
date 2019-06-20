@@ -6,6 +6,8 @@ import {
     AdviceParagraphComponent,
     BonusNumbersStatisticsComponent,
     DateValueChartComponent,
+    EkstraPensjaListComponent,
+    EkstraPremiaListComponent,
     GeneralStatisticsComponent,
     LotteryNumbersSetGeneratorComponent,
     NumberDataChartComponent,
@@ -29,6 +31,8 @@ const components = [
     NumbersStatisticsComponent,
     GeneralStatisticsComponent,
     DateValueChartComponent,
+    EkstraPensjaListComponent,
+    EkstraPremiaListComponent,
 ];
 
 const modules = [

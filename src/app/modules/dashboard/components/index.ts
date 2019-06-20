@@ -7,3 +7,5 @@ export * from './score-statistics/bonus-numbers-statistics/bonus-numbers-statist
 export * from './score-statistics/numbers-statistics/numbers-statistics.component';
 export * from './score-statistics/general-statistics/general-statistics.component';
 export * from './score-statistics/advice-paragraph/date-value-chart/date-value-chart.component';
+export * from './score-list/ekstra-pensja-list/ekstra-pensja-list.component';
+export * from './score-list/ekstra-premia-list/ekstra-premia-list.component';
