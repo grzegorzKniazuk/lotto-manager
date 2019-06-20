@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import { ToastService } from 'src/app/shared/services';
 import { ErrorApiResponse } from 'src/app/shared/interfaces';
 import { Router } from '@angular/router';
 import { ApiStatusCode } from 'src/app/shared/enums';

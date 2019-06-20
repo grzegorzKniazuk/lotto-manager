@@ -1,4 +1,5 @@
 <lm-advice-paragraph *ngFor="let scoresFilters of scoresFilterArray"
                      [isNumberIndexAdvice]="true"
+                     [scoreQueryType]="scoreQueryType"
                      [scoreFilter]="scoresFilters.scoreFilter"
                      [title]="scoresFilters.title"></lm-advice-paragraph>

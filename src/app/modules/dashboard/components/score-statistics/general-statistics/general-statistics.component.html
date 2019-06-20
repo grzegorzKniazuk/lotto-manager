@@ -1,5 +1,6 @@
 <lm-advice-paragraph *ngFor="let scoresExpressionItem of scoresExpressionArray"
                      [isGeneralAdvice]="true"
                      [isNumberIndexAdvice]="true"
+                     [scoreQueryType]="scoreQueryType"
                      [scoreExpression]="scoresExpressionItem.scoreExpression"
                      [title]="scoresExpressionItem.title"></lm-advice-paragraph>

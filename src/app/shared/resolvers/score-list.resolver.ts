@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Score } from 'src/app/shared/interfaces/score';
 import { Observable } from 'rxjs';
-import { ScoreService } from 'src/app/shared/services/score.service';
+import { ScoreService } from 'src/app/shared/services';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { tap } from 'rxjs/operators';

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lotteryCouponValidity } from 'src/app/shared/validators/lottery-coupon-validity.validator';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { TimeService } from 'src/app/shared/services/time.service';
+import { TimeService } from 'src/app/shared/services';
 import { BallValuePercentage } from 'src/app/shared/interfaces';
 import { forEach, forIn, sortBy } from 'lodash';
 import { Bind } from 'lodash-decorators';

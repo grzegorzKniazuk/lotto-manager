@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { forEach } from 'lodash';
-import { ScoreNumbersExpression } from 'src/app/shared/enums';
+import { ScoreNumbersExpression, ScoreQueryType } from 'src/app/shared/enums';
 import { GeneralStatisticsTitlesMap } from 'src/app/shared/constants';
 
 @Component({
@@ -10,6 +10,7 @@ import { GeneralStatisticsTitlesMap } from 'src/app/shared/constants';
 })
 export class GeneralStatisticsComponent implements OnInit {
 
+    public readonly scoreQueryType = ScoreQueryType.DATE_VALUE;
     public readonly scoresExpressionArray: { title: string, scoreExpression: ScoreNumbersExpression }[] = [];
 
     public ngOnInit(): void {

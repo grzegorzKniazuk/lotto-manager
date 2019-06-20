@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ScoreNumbersFilter } from 'src/app/shared/enums';
+import { ScoreNumbersFilter, ScoreQueryType } from 'src/app/shared/enums';
 import { BonusNumberTitlesMap } from 'src/app/shared/constants';
 import { forEach } from 'lodash';
 
@@ -10,6 +10,7 @@ import { forEach } from 'lodash';
 })
 export class BonusNumbersStatisticsComponent implements OnInit {
 
+    public readonly scoreQueryType = ScoreQueryType.BALL_VALUE_PERCENTAGE;
     public readonly scoresFilterArray: { title: string, scoreFilter: ScoreNumbersFilter }[] = [];
 
     public ngOnInit(): void {

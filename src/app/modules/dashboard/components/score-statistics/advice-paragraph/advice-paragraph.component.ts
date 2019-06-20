@@ -2,14 +2,12 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from
 import { ChartDataType, DataViewType, QueryableScoreField, ScoreNumbersExpression, ScoreNumbersFilter, ScoreQueryType, SortBy } from 'src/app/shared/enums';
 import { OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
-import { ScoreService } from 'src/app/shared/services/score.service';
 import { merge, Observable } from 'rxjs';
 import { BallValuePercentageArray, DateValueArray } from 'src/app/shared/types';
 import { FIRST_DRAW_DATE, SCORE_NUMBERS_INDEXES_ARRAY } from 'src/app/shared/constants';
-import { TimeService } from 'src/app/shared/services/time.service';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { filter, startWith, switchMap, tap } from 'rxjs/operators';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import { ScoreService, TimeService, ToastService } from 'src/app/shared/services';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -20,6 +18,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 export class AdviceParagraphComponent {
     @Input() public readonly title: string;
 
+    @Input() public readonly scoreQueryType: ScoreQueryType;
     @Input() public readonly isBonusNumberAdvice = false;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
@@ -156,25 +155,15 @@ export class AdviceParagraphComponent {
     }
 
     private switchToExpressionOrFilter<T>(): Observable<T> {
-        if (this.scoreExpression) {
-            return this.scoreService.scoreNumbersByQueryParams<T>({
-                queryType: ScoreQueryType.DATE_VALUE,
-                byField: this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS,
-                startDate: this.dateRangeControl.value[0],
-                endDate: this.dateRangeControl.value[1],
-                indexes: this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value,
-                expression: this.scoreExpression,
-            });
-        } else if (this.scoreFilter) {
-            return this.scoreService.scoreNumbersByQueryParams<T>({
-                queryType: ScoreQueryType.BALL_VALUE_PERCENTAGE,
-                byField: this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS,
-                startDate: this.dateRangeControl.value[0],
-                endDate: this.dateRangeControl.value[1],
-                indexes: this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value,
-                filter: this.scoreFilter,
-            });
-        }
+        return this.scoreService.scoreNumbersByQueryParams<T>({
+            queryType: this.scoreQueryType,
+            byField: this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS,
+            startDate: this.dateRangeControl.value[0],
+            endDate: this.dateRangeControl.value[1],
+            indexes: this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value,
+            filter: this.scoreFilter,
+            expression: this.scoreExpression,
+        });
     }
 }
 

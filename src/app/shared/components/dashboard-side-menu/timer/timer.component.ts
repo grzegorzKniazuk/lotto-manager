@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { TimeService } from 'src/app/shared/services/time.service';
+import { TimeService } from 'src/app/shared/services';
 import { Bind } from 'lodash-decorators';
 
 @Component({
