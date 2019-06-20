@@ -14,3 +14,8 @@ export const selectTotalScores = createSelector(
     selectScoreState,
     scoreEntitySelectors.selectTotal,
 );
+
+export const selectIsScoresLoaded = createSelector(
+    selectScoreState,
+    (state: ScoreState) => state.isLoaded,
+);

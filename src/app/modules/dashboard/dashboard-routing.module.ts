@@ -8,7 +8,7 @@ const routes: Routes = [
     {
         path: '', component: DashboardComponent, children: [
             { path: '', redirectTo: 'score-list', pathMatch: 'full' },
-            { path: 'ekstra-pensja-list', resolve: { scores: EkstraPensjaListResolver }, component: EkstraPensjaListComponent },
+            { path: 'ekstra-pensja-list', resolve: { scores: EkstraPensjaListResolver }, component: EkstraPensjaListComponent, runGuardsAndResolvers: 'always' },
             { path: 'ekstra-premia-list', component: EkstraPremiaListComponent },
             { path: 'score-statistics', component: ScoreStatisticsComponent },
             { path: 'number-set-generator', component: LotteryNumbersSetGeneratorComponent },

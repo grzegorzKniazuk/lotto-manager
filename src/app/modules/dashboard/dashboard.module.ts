@@ -12,7 +12,6 @@ import {
     LotteryNumbersSetGeneratorComponent,
     NumberDataChartComponent,
     NumbersStatisticsComponent,
-    ScoreListComponent,
     ScoreStatisticsComponent,
 } from 'src/app/modules/dashboard/components';
 import { StoreModule } from '@ngrx/store';
@@ -22,7 +21,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 const components = [
     DashboardComponent,
-    ScoreListComponent,
     ScoreStatisticsComponent,
     LotteryNumbersSetGeneratorComponent,
     AdviceParagraphComponent,
