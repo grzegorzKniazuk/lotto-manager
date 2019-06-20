@@ -4,10 +4,16 @@
             <div class="accordion-menu-item">
                 <form [formGroup]="dateIndexesFilterForm" class="date-index-inputs">
                     <span>
-                        <p-calendar [(ngModel)]="dateRange" [showIcon]="true"></p-calendar>
+                        <p-calendar formControlName="dateRange"
+                                    [readonlyInput]="true"
+                                    dateFormat="yy-mm-dd"
+                                    selectionMode="range"
+                                    [showIcon]="true"></p-calendar>
                     </span>
                     <span>
-                        <p-selectButton formControlName="dateRange"
+                        <p-selectButton #dateRange
+                                        (onChange)="onOptionClick($event);
+                                        onDateRangeSelectButtonChange(dateRange.value)"
                                         [options]="dateRangeTypes">
                         </p-selectButton>
                     </span>

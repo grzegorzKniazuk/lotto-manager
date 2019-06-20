@@ -8,7 +8,8 @@ import { DateValueArray } from 'src/app/shared/types';
 import { FIRST_DRAW_DATE, SCORE_NUMBERS_INDEXES_ARRAY } from 'src/app/shared/constants';
 import { TimeService } from 'src/app/shared/services/time.service';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, startWith, switchMap, tap } from 'rxjs/operators';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -24,6 +25,7 @@ export class AdviceParagraphComponent {
     @Input() public readonly scoreExpression: ScoreNumbersExpression;
 
     public readonly dateIndexesFilterForm: FormGroup = this.buildFilterForm;
+    private lastIndexesControlValue: number[];
 
     public readonly numberIndexButtonConfig = this.numberIndexButtonOptions;
     public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
@@ -45,12 +47,13 @@ export class AdviceParagraphComponent {
         private readonly scoreService: ScoreService,
         private readonly timeService: TimeService,
         private readonly formBuilder: FormBuilder,
+        private readonly toastService: ToastService,
     ) {
     }
 
     private get buildFilterForm(): FormGroup {
         return this.formBuilder.group({
-            dateRange: [ FIRST_DRAW_DATE ],
+            dateRange: [ [ new Date(FIRST_DRAW_DATE), new Date() ] ],
             indexes: [ SCORE_NUMBERS_INDEXES_ARRAY ],
         });
     }
@@ -121,17 +124,28 @@ export class AdviceParagraphComponent {
             this.dateRangeControl.valueChanges,
             this.indexesControl.valueChanges,
         ).pipe(
+            filter(() => {
+                if (!this.indexesControl.value.length) {
+                    this.toastService.error('Przynajmniej jeden z indeksów musi być wybrany do obliczenia statystyk');
+                    this.indexesControl.patchValue(this.lastIndexesControlValue);
+                    return false;
+                } else {
+                    return true;
+                }
+            }),
             startWith([]),
+            tap(() => this.lastIndexesControlValue = this.indexesControl.value),
             switchMap(() => this.scoreService.scoreNumbersDateValueArray({
                 expression: this.scoreExpression,
-                startDate: this.dateRangeControl.value,
+                startDate: this.dateRangeControl.value[0],
+                endDate: this.dateRangeControl.value[1],
                 indexes: this.indexesControl.value,
             })),
         );
     }
 
-    public dateRangeSplitButtonChange(event: any): void {
-        console.log(event);
+    public onDateRangeSelectButtonChange(startDate: string): void {
+        this.dateRangeControl.setValue([ new Date(startDate), new Date() ]);
     }
 }
 

@@ -39,7 +39,7 @@
                             [(ngModel)]="dateRangeFilter"
                             [readonlyInput]="false"
                             [showIcon]="true"
-                            dateFormat="yy/mm/dd"
+                            dateFormat="yy-mm-dd"
                             selectionMode="range">
                 </p-calendar>
                 <p-multiSelect (onChange)="table.filter($event.value, col.field, col.filterMatchMode)"
