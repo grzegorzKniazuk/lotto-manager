@@ -8,6 +8,7 @@ import { FIRST_DRAW_DATE, SCORE_NUMBERS_INDEXES_ARRAY } from 'src/app/shared/con
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { filter, startWith, switchMap, tap } from 'rxjs/operators';
 import { ScoreService, TimeService, ToastService } from 'src/app/shared/services';
+import { Bind } from 'lodash-decorators';
 
 @Component({
     selector: 'lm-advice-paragraph',
@@ -127,6 +128,8 @@ export class AdviceParagraphComponent {
             this.numbersDateValueArray$ = this.initStream<DateValueArray>();
         } else if (this.scoreFilter) {
             this.numberBallValuePercentageArray$ = this.initStream<BallValuePercentageArray>();
+        } else {
+            this.toastService.error('Wystąpił błąd inicjalizacji danych');
         }
     }
 
@@ -139,31 +142,49 @@ export class AdviceParagraphComponent {
             this.dateRangeControl.valueChanges,
             this.indexesControl.valueChanges,
         ).pipe(
-            filter(() => {
-                if (!this.indexesControl.value.length) {
-                    this.toastService.error('Przynajmniej jeden z indeksów musi być wybrany do obliczenia statystyk');
-                    this.indexesControl.patchValue(this.lastIndexesControlValue);
-                    return false;
-                } else {
-                    return true;
-                }
-            }),
+            filter(this.isIndexesControlHasValues),
             startWith([]),
-            tap(() => this.lastIndexesControlValue = this.indexesControl.value),
+            tap(this.setLastIndexesControlValue),
             switchMap(() => this.switchToExpressionOrFilter<T>()),
         );
     }
 
+    @Bind
+    private isIndexesControlHasValues(): boolean {
+        if (!this.indexesControl.value.length) {
+            this.toastService.error('Przynajmniej jeden z indeksów musi być wybrany do obliczenia statystyk');
+            this.indexesControl.patchValue(this.lastIndexesControlValue);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Bind
+    private setLastIndexesControlValue(): void {
+        this.lastIndexesControlValue = this.indexesControl.value;
+    }
+
     private switchToExpressionOrFilter<T>(): Observable<T> {
+        const [ startDate, endDate ] = this.dateRangeControl.value;
+
         return this.scoreService.scoreNumbersByQueryParams<T>({
             queryType: this.scoreQueryType,
-            byField: this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS,
-            startDate: this.dateRangeControl.value[0],
-            endDate: this.dateRangeControl.value[1],
-            indexes: this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value,
+            byField: this.byFieldConditionally,
+            startDate,
+            endDate,
+            indexes: this.indexesConditionally,
             filter: this.scoreFilter,
             expression: this.scoreExpression,
         });
+    }
+
+    private get byFieldConditionally(): QueryableScoreField {
+        return this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS;
+    }
+
+    private get indexesConditionally(): number[] {
+        return this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value;
     }
 }
 

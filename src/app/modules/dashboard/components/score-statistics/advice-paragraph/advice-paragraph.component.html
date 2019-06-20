@@ -38,13 +38,13 @@
                 </span>
             </span>
         </nav>
-        <div *ngIf="isNumbersViewType" class="ball-data-container">
+        <div *ngIf="isNumbersViewType && numberBallValuePercentageArray$" class="ball-data-container">
             <div *ngFor="let numberData of numberBallValuePercentageArray$ | async | numberDataArraySortBy:sortBy" class="ball-data">
                 <lm-lotto-ball [ballNumber]="numberData.ball" ballSize="medium"></lm-lotto-ball>
                 <span>{{ numberData.value }} ({{ numberData.percentage | toFixed:2 }}%)</span>
             </div>
         </div>
-        <lm-number-data-chart *ngIf="isChartViewType && !isGeneralAdvice"
+        <lm-number-data-chart *ngIf="isChartViewType && !isGeneralAdvice && numberBallValuePercentageArray$"
                               [chartDataType]="chartDataType"
                               [ballValuePercentageArray]="numberBallValuePercentageArray$ | async | numberDataArraySortBy:sortBy"
                               [sortBy]="sortBy">
