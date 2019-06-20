@@ -1,111 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ScoreNumbersFilter } from 'src/app/shared/enums';
+import { BonusNumberTitlesMap } from 'src/app/shared/constants';
+import { forEach } from 'lodash';
 
 @Component({
     selector: 'lm-bonus-numbers-statistics',
     templateUrl: './bonus-numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BonusNumbersStatisticsComponent {
+export class BonusNumbersStatisticsComponent implements OnInit {
 
-    public bonusNumberFrequency$: Observable<BallValuePercentageArray>;
-    public bonusNumberByDayOfTheWeek$: Observable<BallValuePercentageArray>;
-    public bonusNumberInActualMonthName$: Observable<BallValuePercentageArray>;
-    public bonusNumberByOddOrEvenDay$: Observable<BallValuePercentageArray>;
-    public bonusNumberByOddOrEvenMonth$: Observable<BallValuePercentageArray>;
-    public bonusNumberByYearQuarter$: Observable<BallValuePercentageArray>;
-    public bonusNumberByYearDayNumber$: Observable<BallValuePercentageArray>;
-    public bonusNumberByMonthDayNumber$: Observable<BallValuePercentageArray>;
-
-    /*
-    public get bonusNumberByDayOfTheWeekLabel(): string {
-        return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName}`;
-    }
-
-    public get bonusNumberInActualMonthNameLabel(): string {
-        return `Częstotliwość losowania liczb bonusowych w miesiącu ${this.todayMonthName}`;
-    }
-
-    public get bonusNumberByOddOrEvenDayLabel(): string {
-        return this.timeService.isOddDayToday ? `Częstotliwość losowania liczby bonusowej w dni nieparzyste` : `Częstotliwość losowania liczby bonusowej w dni parzyste`;
-    }
-
-    public get bonusNumberByOddOrEvenMonthLabel(): string {
-        return this.timeService.isOddMonthToday ? `Częstotliwość losowania liczby bonusowej w miesiące nieparzyste` : `Częstotliwość losowania liczby bonusowej w miesiące parzyste`;
-    }
-
-    public get bonusNumberByYearQuarterLabel(): string {
-        switch (this.timeService.todayYearQuarter) {
-            case 1: {
-                return `Częstotliwość losowania liczby bonusowej w pierwszym kwartale roku`;
-            }
-            case 2: {
-                return `Częstotliwość losowania liczby bonusowej w drugim kwartale roku`;
-            }
-            case 3: {
-                return `Częstotliwość losowania liczby bonusowej w trzecim kwartale roku`;
-            }
-            case 4: {
-                return `Częstotliwość losowania liczby bonusowej w czwartym kwartale roku`;
-            }
-        }
-    }
-
-    public get bonusNumberByYearDayNumberLabel(): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.todayYearDayNumber} dniu roku`;
-    }
-
-    public get bonusNumberByMonthDayNumberLabel(): string {
-        return `Częstoliwość losowania liczby bonusowej w ${this.todayMonthDayNumber} dniu miesiąca`;
-    }
+    public readonly scoresFilterArray: { title: string, scoreFilter: ScoreNumbersFilter }[] = [];
 
     public ngOnInit(): void {
-        this.calculate();
+        this.buildStatisticsList();
     }
 
-    public calculateBonusNumberFrequency([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberFrequency$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange ]));
+    protected buildStatisticsList(): void {
+        forEach(Object.values(ScoreNumbersFilter), (scoreFilter: ScoreNumbersFilter) => {
+            this.scoresFilterArray.push({ title: BonusNumberTitlesMap[scoreFilter], scoreFilter });
+        });
     }
-
-    public calculateBonusNumbersByDayOfTheWeek([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberByDayOfTheWeek$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_WEEK_DAY_AS_TODAY ]));
-    }
-
-    public calculateBonusNumberInActualMonthName([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberInActualMonthName$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_AS_TODAY ]));
-    }
-
-    public calculateBonusNumberByOddOrEvenDay([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberByOddOrEvenDay$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, this.oddOrEvenDayFilter ]));
-    }
-
-    public calculateBonusNumberByOddOrEvenMonth([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberByOddOrEvenMonth$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, this.oddOrEvenMonthFilter ]));
-    }
-
-    public calculateBonusNumberByYearQuarter([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberByYearQuarter$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_QUARTER ]));
-    }
-
-    public calculateBonusNumberByYearDayNumber([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberByYearDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_YEAR_DAY_NUMBER ]));
-    }
-
-    public calculateBonusNumberByMonthDayNumber([ dateRange ]: DateRangeFilterWithBallIndexesArray): void {
-        this.bonusNumberByMonthDayNumber$ = this.store.pipe(select(selectBonusNumberByFilter, [ dateRange, DateScoreFilter.SAME_MONTH_DAY_NUMBER ]));
-    }
-
-    private calculate(): void {
-        this.calculateBonusNumberFrequency(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumbersByDayOfTheWeek(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberByOddOrEvenDay(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-
-        this.calculateBonusNumberByOddOrEvenMonth(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberByYearQuarter(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberByMonthDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-
-        this.calculateBonusNumberByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-        this.calculateBonusNumberInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
-    }
-    */
 }

@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SortBy } from 'src/app/shared/enums';
 import { sortBallNumberAscending, sortValueDescending } from 'src/app/shared/utils';
+import { BallValuePercentageArray } from 'src/app/shared/types';
 
 @Pipe({
     name: 'numberDataArraySortBy',

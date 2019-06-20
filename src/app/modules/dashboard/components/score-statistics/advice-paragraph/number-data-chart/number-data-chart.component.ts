@@ -4,6 +4,7 @@ import * as R from 'ramda';
 import { mapNumberDataArrayToBallNumberArray, mapNumberDataArrayToPercentageArray, mapNumberDataArrayToValueArray } from 'src/app/shared/utils';
 import { ChartDataType, SortBy } from 'src/app/shared/enums';
 import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT_COLOR, BASE_FONT_SIZE } from 'src/app/shared/constants';
+import { BallValuePercentageArray } from 'src/app/shared/types';
 
 @Component({
     selector: 'lm-number-data-chart',
@@ -12,7 +13,7 @@ import { BASE_CHART_BAR_BACKGROUND_COLOR, BASE_CHART_BAR_BORDER_COLOR, BASE_FONT
 })
 export class NumberDataChartComponent {
 
-    @Input() public readonly numberDataArray: BallValuePercentageArray;
+    @Input() public readonly ballValuePercentageArray: BallValuePercentageArray;
     @Input() public readonly chartDataType: ChartDataType;
     @Input() public readonly sortBy: SortBy;
 
@@ -76,14 +77,14 @@ export class NumberDataChartComponent {
     }
 
     private get labels(): string[] {
-        return R.compose(values, mapNumberDataArrayToBallNumberArray)(this.numberDataArray);
+        return R.compose(values, mapNumberDataArrayToBallNumberArray)(this.ballValuePercentageArray);
     }
 
     private get valuesData(): number[] {
-        return R.compose(values, mapNumberDataArrayToValueArray)(this.numberDataArray);
+        return R.compose(values, mapNumberDataArrayToValueArray)(this.ballValuePercentageArray);
     }
 
     private get percentageData(): number[] {
-        return R.compose(values, mapNumberDataArrayToPercentageArray)(this.numberDataArray);
+        return R.compose(values, mapNumberDataArrayToPercentageArray)(this.ballValuePercentageArray);
     }
 }

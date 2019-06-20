@@ -9,4 +9,6 @@ export * from './sort-by.enum';
 export * from './data-view-type.enum';
 export * from './chart-data-type.enum';
 export * from './score-numbers-expression.enum';
-export * from './score-numbers.filters.enum';
+export * from 'src/app/shared/enums/score-numbers.filter.enum';
+export * from './queryable-score-field.enum';
+export * from './score-query-type.enum';

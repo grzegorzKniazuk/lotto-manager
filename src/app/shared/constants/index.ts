@@ -8,6 +8,6 @@ export * from './base-chart-bar-border-color';
 export * from './first-draw-date';
 export * from './one-day-in-milliseconds';
 export * from './score-numbers-indexes-array';
-export * from './score-query-params-expression-key';
 export * from './general-statistics-titles-map';
 export * from './numbers-statistics-titles-map';
+export * from './bonus-number-titles-map';

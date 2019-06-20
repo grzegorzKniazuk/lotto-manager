@@ -1,2 +1,4 @@
-<lm-advice-paragraph *ngIf="bonusNumberFrequency$ | async as bonusNumberFrequency"
-                     title="Częstotliwość losowania liczb bonusowych"></lm-advice-paragraph>
+<lm-advice-paragraph *ngFor="let scoresFilters of scoresFilterArray"
+                     [isBonusNumberAdvice]="true"
+                     [scoreFilter]="scoresFilters.scoreFilter"
+                     [title]="scoresFilters.title"></lm-advice-paragraph>

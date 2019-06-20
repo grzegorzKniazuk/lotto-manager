@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ChartDataType, DataViewType, ScoreNumbersExpression, ScoreNumbersFilters, SortBy } from 'src/app/shared/enums';
+import { ChartDataType, DataViewType, QueryableScoreField, ScoreNumbersExpression, ScoreNumbersFilter, ScoreQueryType, SortBy } from 'src/app/shared/enums';
 import { OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 import { ScoreService } from 'src/app/shared/services/score.service';
@@ -19,19 +19,25 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 })
 export class AdviceParagraphComponent {
     @Input() public readonly title: string;
+
+    @Input() public readonly isBonusNumberAdvice = false;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
 
     @Input() public readonly scoreExpression: ScoreNumbersExpression;
-    @Input() public readonly scoreFilter: ScoreNumbersFilters;
+    @Input() public readonly scoreFilter: ScoreNumbersFilter;
 
     public readonly dateIndexesFilterForm: FormGroup = this.buildFilterForm;
     public readonly numberIndexButtonConfig = this.numberIndexButtonOptions;
+
     public readonly dateRangeTypes: SelectItem[] = this.dateRangeSelectOptions;
+
     public sortBy: SortBy = SortBy.VALUE;
     public readonly sortTypesButtonConfig: SelectItem[] = this.sorTypesButtonOptions;
+
     public viewType: DataViewType = DataViewType.NUMBERS;
     public readonly viewTypesButtonConfig: SelectItem[] = this.viewTypesButtonOptions;
+
     public chartDataType: ChartDataType = ChartDataType.VALUES;
     public readonly chartTypesButtonConfig: SelectItem[] = this.chartTypesButtonOptions;
 
@@ -151,16 +157,22 @@ export class AdviceParagraphComponent {
 
     private switchToExpressionOrFilter<T>(): Observable<T> {
         if (this.scoreExpression) {
-            return this.scoreService.scoreNumbersDateValueArray<T>(this.scoreExpression, {
+            return this.scoreService.scoreNumbersByQueryParams<T>({
+                queryType: ScoreQueryType.DATE_VALUE,
+                byField: this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS,
                 startDate: this.dateRangeControl.value[0],
                 endDate: this.dateRangeControl.value[1],
-                indexes: this.indexesControl.value,
+                indexes: this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value,
+                expression: this.scoreExpression,
             });
-        } else {
-            return this.scoreService.scoreNumbersBallValuePercentageArray<T>(this.scoreFilter, {
+        } else if (this.scoreFilter) {
+            return this.scoreService.scoreNumbersByQueryParams<T>({
+                queryType: ScoreQueryType.BALL_VALUE_PERCENTAGE,
+                byField: this.isBonusNumberAdvice ? QueryableScoreField.BONUS_NUMBER : QueryableScoreField.NUMBERS,
                 startDate: this.dateRangeControl.value[0],
                 endDate: this.dateRangeControl.value[1],
-                indexes: this.indexesControl.value,
+                indexes: this.isBonusNumberAdvice ? [ 0 ] : this.indexesControl.value,
+                filter: this.scoreFilter,
             });
         }
     }
