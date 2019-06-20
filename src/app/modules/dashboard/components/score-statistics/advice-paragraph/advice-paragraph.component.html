@@ -1,15 +1,24 @@
 <p-accordion (onOpen)="onAccordionOpen()">
     <p-accordionTab [header]="title">
         <nav class="accordion-menu">
-            <span class="accordion-menu-item">
-                <span>
-                    <p-selectButton [(ngModel)]="dateRange" [options]="dateRangeTypes"></p-selectButton>
-                </span>
-                <span>
-                    <p-selectButton (onOptionClick)="onOptionClick($event)" *ngIf="isNumberIndexAdvice" [(ngModel)]="numberIndex" [options]="numberIndexButtonConfig"
-                                    multiple="multiple"></p-selectButton>
-                </span>
-            </span>
+            <div class="accordion-menu-item">
+                <form [formGroup]="dateIndexesFilterForm" class="date-index-inputs">
+                    <span>
+                        <p-calendar [(ngModel)]="dateRange" [showIcon]="true"></p-calendar>
+                    </span>
+                    <span>
+                        <p-selectButton formControlName="dateRange"
+                                        [options]="dateRangeTypes">
+                        </p-selectButton>
+                    </span>
+                    <span *ngIf="isNumberIndexAdvice">
+                        <p-selectButton formControlName="indexes"
+                                        [options]="numberIndexButtonConfig"
+                                        multiple="multiple">
+                        </p-selectButton>
+                    </span>
+                </form>
+            </div>
 
             <span *ngIf="!isGeneralAdvice" class="accordion-menu-item">
                 <span *ngIf="isChartViewType">

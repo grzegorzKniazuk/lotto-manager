@@ -10,6 +10,15 @@
     padding: $padding-l 0;
 
     .accordion-menu-item {
+        .date-index-inputs {
+            @include flex(flex, center, center, row);
+
+            span {
+                &:first-of-type {
+                    margin-right: $margin-m;
+                }
+            }
+        }
         span {
             &:not(:last-of-type) {
                 margin-right: $margin-m;

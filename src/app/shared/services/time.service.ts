@@ -37,6 +37,18 @@ export class TimeService {
         return moment().format(TimeService.baseTimeFormat);
     }
 
+    public get subtractYearFromNow(): string {
+        return moment().subtract('1', 'year').format(TimeService.baseDateFormat);
+    }
+
+    public get subtractMonthFromNow(): string {
+        return moment().subtract('1', 'month').format(TimeService.baseDateFormat);
+    }
+
+    public get subtractWeekFromNow(): string {
+        return moment().subtract('1', 'week').format(TimeService.baseDateFormat);
+    }
+
     public get timeToDrawLeft(): string {
         let drawTime = moment().locale(TimeService.locale).clone().hour(21).minute(40).second(0);
 

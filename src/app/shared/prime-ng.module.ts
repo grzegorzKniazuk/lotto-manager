@@ -10,6 +10,7 @@ import {
     PanelModule,
     SelectButtonModule,
     SpinnerModule,
+    SplitButtonModule,
     TooltipModule,
 } from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
@@ -27,6 +28,7 @@ const primeNGModules = [
     SelectButtonModule,
     PanelModule,
     AccordionModule,
+    SplitButtonModule,
 ];
 
 @NgModule({
