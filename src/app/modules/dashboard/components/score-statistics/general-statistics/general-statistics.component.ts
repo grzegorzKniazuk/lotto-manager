@@ -24,7 +24,7 @@ export class GeneralStatisticsComponent extends BaseStatisticsComponent implemen
         this.buildGeneralStatisticsList();
     }
 
-    private buildGeneralStatisticsList(): void {
+    protected buildGeneralStatisticsList(): void {
         forEach(Object.values(ScoreNumbersExpression), (scoreExpression: ScoreNumbersExpression) => {
             this.scoresExpressionArray.push({ title: GeneralStatisticsTitlesMap[scoreExpression], scoreExpression })
         });

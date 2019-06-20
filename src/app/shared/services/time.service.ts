@@ -29,6 +29,38 @@ export class TimeService {
         return moment().subtract('1', 'week').format(TimeService.baseDateFormat);
     }
 
+    public static get todayDayName(): string {
+        return moment(TimeService.currentDate).locale(TimeService.locale).format(TimeService.dayNameFormat);
+    }
+
+    public static get todayMonthName(): string {
+        return moment(this.currentDate).locale(TimeService.locale).format(TimeService.monthNameFormat);
+    }
+
+    public static get currentDate(): string {
+        return moment().format(TimeService.baseDateFormat);
+    }
+
+    public static get isOddDayToday(): boolean {
+        return +(moment(this.currentDate).format(TimeService.dayOfMonthFormat)) % 2 !== 0;
+    }
+
+    public static get isOddMonthToday(): boolean {
+        return +(moment(this.currentDate).format(TimeService.monthOfYearFormat)) % 2 !== 0;
+    }
+
+    public static get todayYearQuarter(): number {
+        return +moment(this.currentDate).format(TimeService.yearQuarterFormat);
+    }
+
+    public static get todayYearDayNumber(): number {
+        return +moment(this.currentDate).format(TimeService.dayNumberOfYearFormat);
+    }
+
+    public static get todayMonthDayNumber(): number {
+        return +moment(this.currentDate).format(TimeService.dayNumberOfMonthFormat);
+    }
+
     public get currentDate(): string {
         return moment().format(TimeService.baseDateFormat);
     }

@@ -13,3 +13,4 @@ export * from './score-numbers-indexes-array';
 export * from './default-date-range-filter-with-ball-indexes-array';
 export * from './score-query-params-expression-key';
 export * from './general-statistics-titles-map';
+export * from './numbers-statistics-titles-map';

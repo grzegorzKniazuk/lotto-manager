@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ChartDataType, DataViewType, ScoreNumbersExpression, SortBy } from 'src/app/shared/enums';
+import { ChartDataType, DataViewType, ScoreNumbersExpression, ScoreNumbersFilters, SortBy } from 'src/app/shared/enums';
 import { NumberBallValuePercentage, OptionClickEvent } from 'src/app/shared/interfaces';
 import { SelectItem } from 'primeng/api';
 import { ScoreService } from 'src/app/shared/services/score.service';
@@ -18,11 +18,13 @@ import { ToastService } from 'src/app/shared/services/toast.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdviceParagraphComponent {
-    @Input() public readonly numberDataArray: NumberBallValuePercentage[] = [];
+    public numberDataArray: NumberBallValuePercentage[] = [];
     @Input() public readonly title: string;
     @Input() public readonly isNumberIndexAdvice = false;
     @Input() public readonly isGeneralAdvice = false;
+
     @Input() public readonly scoreExpression: ScoreNumbersExpression;
+    @Input() public readonly scoreFilter: ScoreNumbersFilters;
 
     public readonly dateIndexesFilterForm: FormGroup = this.buildFilterForm;
     private lastIndexesControlValue: number[];

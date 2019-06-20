@@ -9,11 +9,6 @@ import { TimeService } from 'src/app/shared/services/time.service';
 })
 export class BaseStatisticsComponent {
 
-    protected readonly todayDayName: string = this.timeService.todayDayName;
-    protected readonly todayMonthName: string = this.timeService.todayMonthName;
-    protected readonly todayYearDayNumber: number = this.timeService.todayYearDayNumber;
-    protected readonly todayMonthDayNumber: number = this.timeService.todayMonthDayNumber;
-
     constructor(
         protected readonly timeService: TimeService,
     ) {

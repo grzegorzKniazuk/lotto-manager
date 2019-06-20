@@ -1,21 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NumberBallValuePercentage } from 'src/app/shared/interfaces';
-import { DateScoreFilter } from 'src/app/shared/enums';
-import { select, Store } from '@ngrx/store';
-import { selectBonusNumberByFilter } from 'src/app/modules/dashboard/store/selectors';
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { BaseStatisticsComponent } from 'src/app/modules/dashboard/components/score-statistics/base-statistics/base-statistics.component';
 import { TimeService } from 'src/app/shared/services/time.service';
-import { DateRangeFilterWithBallIndexesArray } from 'src/app/shared/types';
-import { DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY } from 'src/app/shared/constants';
 
 @Component({
     selector: 'lm-bonus-numbers-statistics',
     templateUrl: './bonus-numbers-statistics.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent implements OnInit {
+export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent {
 
     public bonusNumberFrequency$: Observable<NumberBallValuePercentage[]>;
     public bonusNumberByDayOfTheWeek$: Observable<NumberBallValuePercentage[]>;
@@ -33,6 +29,7 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent imp
         super(timeService);
     }
 
+    /*
     public get bonusNumberByDayOfTheWeekLabel(): string {
         return `Częstotliwość losowania liczb bonusowych w dniu tygodnia ${this.todayDayName}`;
     }
@@ -122,5 +119,5 @@ export class BonusNumbersStatisticsComponent extends BaseStatisticsComponent imp
         this.calculateBonusNumberByYearDayNumber(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
         this.calculateBonusNumberInActualMonthName(DEFAULT_DATE_RANGE_FILTER_AND_BALL_INDEXES_ARRAY);
     }
-
+    */
 }

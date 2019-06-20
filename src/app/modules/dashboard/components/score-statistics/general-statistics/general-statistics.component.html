@@ -1,5 +1,5 @@
-<lm-advice-paragraph *ngFor="let expression of scoresExpressionArray"
+<lm-advice-paragraph *ngFor="let scoresExpressionItem of scoresExpressionArray"
                      [isGeneralAdvice]="true"
                      [isNumberIndexAdvice]="true"
-                     [scoreExpression]="expression.scoreExpression"
-                     [title]="expression.title"></lm-advice-paragraph>
+                     [scoreExpression]="scoresExpressionItem.scoreExpression"
+                     [title]="scoresExpressionItem.title"></lm-advice-paragraph>

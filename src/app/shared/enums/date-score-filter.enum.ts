@@ -1,8 +1,4 @@
 export enum DateScoreFilter {
-    ENTIRE_RANGE,
-    LAST_YEAR,
-    LAST_MONTH,
-    LAST_WEEK,
     SAME_WEEK_DAY_AS_TODAY,
     SAME_MONTH_AS_TODAY,
     ODD_DAY,

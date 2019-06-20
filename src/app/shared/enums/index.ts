@@ -10,3 +10,4 @@ export * from './sort-by.enum';
 export * from './data-view-type.enum';
 export * from './chart-data-type.enum';
 export * from './score-numbers-expression.enum';
+export * from './score-numbers.filters.enum';
